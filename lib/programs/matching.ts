@@ -1,5 +1,11 @@
 import type { Program } from "./schema";
 import { ASSISTANCE_TYPE_LABELS } from "./schema";
+import { amiIncomeLimit, parseAmiPercent } from "./ami";
+
+/** Title-case a county name for display in reasons/caveats. */
+function titleCase(s: string): string {
+  return s.replace(/\b\w/g, (c) => c.toUpperCase());
+}
 
 /** Buyer inputs collected by the Module 2 questionnaire. */
 export interface BuyerProfile {
@@ -99,14 +105,34 @@ export function evaluateProgram(
     reasons.push("open to repeat buyers (not first-time only)");
   }
 
-  // Income — hard rule only when there's a clean dollar cap; AMI text → caveat.
+  // Income — a clean dollar cap is a hard rule; a "% AMI" limit becomes a hard
+  // rule too once we can resolve it against the buyer's county + household size
+  // (HUD AMI table); otherwise it stays a caveat to confirm.
   const incomeCap = parseMoney(el.incomeLimit);
+  const knownIncome = buyer.householdIncome > 0;
   if (typeof incomeCap === "number") {
-    if (buyer.householdIncome > incomeCap) return null;
+    if (knownIncome && buyer.householdIncome > incomeCap) return null;
     reasons.push(`your income is within the $${incomeCap.toLocaleString()} limit`);
     score += 2;
   } else if (typeof el.incomeLimit === "string" && el.incomeLimit !== "verify") {
-    caveats.push(`income limit: ${el.incomeLimit}`);
+    const amiPercent = parseAmiPercent(el.incomeLimit);
+    const amiCap =
+      amiPercent != null && buyer.county
+        ? amiIncomeLimit(buyer.county, buyer.householdSize, amiPercent)
+        : null;
+    if (amiPercent != null && amiCap != null) {
+      const where = `${amiPercent}% AMI (~$${amiCap.toLocaleString()} for ${buyer.householdSize} in ${titleCase(buyer.county!)})`;
+      if (knownIncome && buyer.householdIncome > amiCap) return null;
+      if (knownIncome) {
+        reasons.push(`your income is within the ${where}`);
+        score += 2;
+      } else {
+        caveats.push(`income must be at or below ${where}`);
+      }
+    } else {
+      // No clean AMI percent, or county not in the AMI table → confirm manually.
+      caveats.push(`income limit: ${el.incomeLimit}`);
+    }
   }
 
   // Credit — hard rule only when a numeric minimum is published.
