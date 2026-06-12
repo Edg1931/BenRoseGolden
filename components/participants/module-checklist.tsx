@@ -1,18 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { ProgressBar } from "@/components/ui/progress";
 import { MODULES, PHASES } from "@/lib/participants/curriculum";
+import { hasQuiz } from "@/lib/participants/quiz";
+import { HUD_PRE_PURCHASE_CERT, PRE_PURCHASE_MODULE_IDS } from "@/lib/participants/progress";
 import type {
   Certificate,
   ModuleProgress,
   ModuleStatus,
   Participant,
 } from "@/lib/participants/schema";
-
-const PRE_PURCHASE = MODULES.filter((m) => m.phase === "pre-purchase").map((m) => m.id);
 
 /** Editable curriculum checklist. Marking modules complete auto-issues the HUD
  *  pre-purchase certificate once that phase is finished. */
@@ -56,13 +57,13 @@ export function ModuleChecklist({ participant: p }: { participant: Participant }
       });
 
       // Auto-issue the HUD certificate when pre-purchase is fully complete.
-      const prePurchaseDone = PRE_PURCHASE.every((id) => progress[id] === "completed");
+      const prePurchaseDone = PRE_PURCHASE_MODULE_IDS.every((id) => progress[id] === "completed");
       const hasCert = p.certificates.some((c) => c.phase === "pre-purchase");
       const certificates: Certificate[] = [...p.certificates];
       const patch: Record<string, unknown> = { moduleProgress };
       if (prePurchaseDone && !hasCert) {
         certificates.push({
-          name: "HUD Pre-Purchase Homebuyer Education",
+          name: HUD_PRE_PURCHASE_CERT,
           issuedDate: today,
           phase: "pre-purchase",
         });
@@ -112,13 +113,23 @@ export function ModuleChecklist({ participant: p }: { participant: Participant }
               <ul className="mt-3 space-y-1">
                 {mods.map((m) => {
                   const st = progress[m.id];
+                  const mp = p.moduleProgress.find((x) => x.moduleId === m.id);
                   return (
-                    <li key={m.id}>
-                      <button onClick={() => cycle(m.id)} className="flex w-full items-center gap-2 rounded px-1 py-0.5 text-left text-sm hover:bg-muted/40">
+                    <li key={m.id} className="flex items-center gap-2">
+                      <button onClick={() => cycle(m.id)} className="flex flex-1 items-center gap-2 rounded px-1 py-0.5 text-left text-sm hover:bg-muted/40">
                         <span>{st === "completed" ? "✅" : st === "in-progress" ? "🟡" : "⬜"}</span>
                         <span className={st === "completed" ? "" : "text-muted-foreground"}>{m.name}</span>
+                        {mp?.score != null && <span className="text-xs text-muted-foreground">· {mp.score}%</span>}
                         <span className="ml-auto text-xs text-muted-foreground">{st === "not-started" ? "click to start" : st}</span>
                       </button>
+                      {hasQuiz(m.id) && (
+                        <Link
+                          href={`/contacts/${p.id}/module/${m.id}/quiz`}
+                          className="shrink-0 rounded border border-input px-2 py-0.5 text-xs text-muted-foreground hover:bg-muted"
+                        >
+                          📝 Test
+                        </Link>
+                      )}
                     </li>
                   );
                 })}
