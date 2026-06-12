@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getParticipant } from "@/lib/participants/repository";
 import { loadAllPrograms } from "@/lib/programs/sources";
+import { listContent } from "@/lib/content/store";
+import { rankContentForParticipant } from "@/lib/content/delivery";
 import { matchedPrograms, recommendations } from "@/lib/participants/eligibility";
 import {
   CONTENT_FORMAT_LABELS,
@@ -33,6 +35,7 @@ export default async function ProfilePage({
   const programs = await loadAllPrograms();
   const matches = matchedPrograms(p, programs);
   const recs = recommendations(p, programs);
+  const suggestedContent = rankContentForParticipant(p, listContent());
   const fullName = [p.firstName, p.lastName].filter(Boolean).join(" ");
 
   const recTone = { high: "rose", medium: "gold", low: "muted" } as const;
@@ -70,7 +73,7 @@ export default async function ProfilePage({
             </div>
           )}
         </div>
-        <ProfileActions participant={p} />
+        <ProfileActions participant={p} content={suggestedContent} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">

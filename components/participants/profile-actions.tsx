@@ -22,6 +22,7 @@ import {
   type Communication,
   type Participant,
 } from "@/lib/participants/schema";
+import type { RankedContent } from "@/lib/content/delivery";
 
 async function patch(id: string, body: unknown) {
   const res = await fetch(`/api/participants/${id}`, {
@@ -32,8 +33,14 @@ async function patch(id: string, body: unknown) {
   if (!res.ok) throw new Error((await res.json()).error ?? "Save failed");
 }
 
-export function ProfileActions({ participant: p }: { participant: Participant }) {
-  const [open, setOpen] = useState<"none" | "edit" | "log">("none");
+export function ProfileActions({
+  participant: p,
+  content = [],
+}: {
+  participant: Participant;
+  content?: RankedContent[];
+}) {
+  const [open, setOpen] = useState<"none" | "edit" | "log" | "send">("none");
   return (
     <div>
       <div className="flex gap-2">
@@ -44,6 +51,12 @@ export function ProfileActions({ participant: p }: { participant: Participant })
           ✏️ Edit details
         </button>
         <button
+          onClick={() => setOpen(open === "send" ? "none" : "send")}
+          className="rounded-md border border-input px-3 py-1.5 text-sm hover:bg-muted"
+        >
+          📤 Send content
+        </button>
+        <button
           onClick={() => setOpen(open === "log" ? "none" : "log")}
           className="rounded-md border border-input px-3 py-1.5 text-sm hover:bg-muted"
         >
@@ -51,8 +64,105 @@ export function ProfileActions({ participant: p }: { participant: Participant })
         </button>
       </div>
       {open === "edit" && <EditForm p={p} onClose={() => setOpen("none")} />}
+      {open === "send" && <SendContentForm p={p} content={content} onClose={() => setOpen("none")} />}
       {open === "log" && <LogForm p={p} onClose={() => setOpen("none")} />}
     </div>
+  );
+}
+
+function SendContentForm({
+  p,
+  content,
+  onClose,
+}: {
+  p: Participant;
+  content: RankedContent[];
+  onClose: () => void;
+}) {
+  const router = useRouter();
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
+  const [contentId, setContentId] = useState(content[0]?.item.id ?? "");
+  const channelOptions: Communication["channel"][] = ["email", "sms", "phone", "mail", "in-person"];
+  const defaultChannel: Communication["channel"] =
+    p.contactChannels.includes("email") && p.email ? "email" : p.contactChannels[0] ?? "email";
+  const [channel, setChannel] = useState<Communication["channel"]>(defaultChannel);
+
+  const selected = content.find((c) => c.item.id === contentId);
+
+  async function send() {
+    setBusy(true);
+    setErr(null);
+    setNote(null);
+    try {
+      const res = await fetch(`/api/participants/${p.id}/send-content`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contentId, channel }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Send failed");
+      if (data.emailed) {
+        setNote("Emailed and logged to their timeline.");
+      } else if (channel === "email") {
+        setNote("Logged to their timeline. Add RESEND_API_KEY to email automatically.");
+      } else {
+        setNote(`Logged as ${channel} to their timeline.`);
+      }
+      router.refresh();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Send failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const input = "w-full rounded-md border border-input bg-background px-2 py-1.5 text-sm";
+  const label = "text-xs font-medium text-muted-foreground";
+
+  return (
+    <Card className="mt-3 space-y-3 p-4">
+      <p className="text-sm text-muted-foreground">
+        Suggestions are ranked for {p.firstName}&apos;s preferred language and format.
+      </p>
+      <div>
+        <div className={label}>Content asset</div>
+        <select className={input} value={contentId} onChange={(e) => setContentId(e.target.value)}>
+          {content.map(({ item }) => (
+            <option key={item.id} value={item.id}>
+              {item.title}
+            </option>
+          ))}
+        </select>
+        {selected && selected.reasons.length > 0 && (
+          <p className="mt-1 text-xs text-emerald-700">Good fit: {selected.reasons.join(", ")}.</p>
+        )}
+      </div>
+      <div>
+        <div className={label}>Deliver via</div>
+        <select className={input} value={channel} onChange={(e) => setChannel(e.target.value as Communication["channel"])}>
+          {channelOptions.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
+        {channel === "email" && !p.email && (
+          <p className="mt-1 text-xs text-amber-700">No email on file — it will be logged, not sent.</p>
+        )}
+      </div>
+      {err && <p className="text-sm text-red-700">{err}</p>}
+      {note && <p className="text-sm text-emerald-700">{note}</p>}
+      <div className="flex gap-2">
+        <button
+          onClick={send}
+          disabled={busy || !contentId}
+          className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+        >
+          {busy ? "Sending…" : "Send content"}
+        </button>
+        <button onClick={onClose} className="rounded-md border border-input px-4 py-2 text-sm">Close</button>
+      </div>
+    </Card>
   );
 }
 
