@@ -6,7 +6,7 @@ import { listParticipants } from "@/lib/participants/repository";
 export async function GET() {
   const user = await getCurrentUser();
   const participants = await listParticipants(user);
-  const campaigns = listCampaigns().map((c) => ({
+  const campaigns = (await listCampaigns()).map((c) => ({
     ...c,
     reach: resolveAudience(c.audience, participants).total,
   }));
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   await getCurrentUser();
   try {
     const body = await request.json();
-    const campaign = createCampaign(body);
+    const campaign = await createCampaign(body);
     return NextResponse.json({ campaign }, { status: 201 });
   } catch (err) {
     return NextResponse.json(

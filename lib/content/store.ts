@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 import {
   campaignSchema,
   createCampaignSchema,
@@ -11,25 +12,41 @@ import type { Participant } from "@/lib/participants/schema";
 import type { Audience } from "./schema";
 
 /**
- * In-memory store for content + campaigns (seed-backed; swap to Supabase later).
- * Content items are static reference assets; campaigns are mutable.
+ * Content + campaigns store. Supabase-backed when configured (the `campaigns`
+ * table); in-memory seed otherwise so the marketing views work in dev. Content
+ * items are static reference assets shipped with the app.
  */
 
-const campaigns: Campaign[] = seedCampaigns.map((c) => ({ ...c }));
+const memory: Campaign[] = seedCampaigns.map((c) => ({ ...c }));
 
 export function listContent(): ContentItem[] {
   return seedContent;
 }
 
-export function listCampaigns(): Campaign[] {
-  return [...campaigns].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+export async function listCampaigns(): Promise<Campaign[]> {
+  const supabase = await getSupabaseServerClient();
+  if (supabase) {
+    const { data, error } = await supabase
+      .from("campaigns")
+      .select("*")
+      .order("updatedAt", { ascending: false });
+    if (error) throw error;
+    return (data ?? []).map((row) => campaignSchema.parse(row));
+  }
+  return [...memory].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 }
 
-export function getCampaign(id: string): Campaign | undefined {
-  return campaigns.find((c) => c.id === id);
+export async function getCampaign(id: string): Promise<Campaign | undefined> {
+  const supabase = await getSupabaseServerClient();
+  if (supabase) {
+    const { data, error } = await supabase.from("campaigns").select("*").eq("id", id).maybeSingle();
+    if (error) throw error;
+    return data ? campaignSchema.parse(data) : undefined;
+  }
+  return memory.find((c) => c.id === id);
 }
 
-export function createCampaign(input: CreateCampaignInput): Campaign {
+export async function createCampaign(input: CreateCampaignInput): Promise<Campaign> {
   const parsed = createCampaignSchema.parse(input);
   const now = new Date().toISOString();
   const campaign = campaignSchema.parse({
@@ -38,20 +55,35 @@ export function createCampaign(input: CreateCampaignInput): Campaign {
     createdAt: now,
     updatedAt: now,
   });
-  campaigns.unshift(campaign);
+
+  const supabase = await getSupabaseServerClient();
+  if (supabase) {
+    const { data, error } = await supabase.from("campaigns").insert(campaign).select("*").single();
+    if (error) throw error;
+    return campaignSchema.parse(data);
+  }
+  memory.unshift(campaign);
   return campaign;
 }
 
-export function updateCampaign(id: string, patch: Partial<Campaign>): Campaign {
-  const idx = campaigns.findIndex((c) => c.id === id);
-  if (idx < 0) throw new Error("Campaign not found");
+export async function updateCampaign(id: string, patch: Partial<Campaign>): Promise<Campaign> {
+  const existing = await getCampaign(id);
+  if (!existing) throw new Error("Campaign not found");
   const next = campaignSchema.parse({
-    ...campaigns[idx],
+    ...existing,
     ...patch,
     id,
     updatedAt: new Date().toISOString(),
   });
-  campaigns[idx] = next;
+
+  const supabase = await getSupabaseServerClient();
+  if (supabase) {
+    const { data, error } = await supabase.from("campaigns").update(next).eq("id", id).select("*").single();
+    if (error) throw error;
+    return campaignSchema.parse(data);
+  }
+  const idx = memory.findIndex((c) => c.id === id);
+  memory[idx] = next;
   return next;
 }
 

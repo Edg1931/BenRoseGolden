@@ -49,9 +49,15 @@ export async function POST(request: Request) {
 
   const supabase = await getSupabaseServerClient();
   if (supabase) {
-    const { error } = await supabase
-      .from("programs")
-      .upsert(programs, { onConflict: "id" });
+    // requiresHomebuyerEd / mustUseApprovedLender are tri-state (bool | "verify")
+    // and stored as text columns — stringify before upsert.
+    const rows = programs.map((p) => ({
+      ...p,
+      requiresHomebuyerEd: String(p.requiresHomebuyerEd),
+      mustUseApprovedLender:
+        p.mustUseApprovedLender == null ? null : String(p.mustUseApprovedLender),
+    }));
+    const { error } = await supabase.from("programs").upsert(rows, { onConflict: "id" });
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }

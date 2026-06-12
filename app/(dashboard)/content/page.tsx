@@ -12,11 +12,10 @@ export default async function ContentPage() {
   const user = await getCurrentUser();
   const participants = await listParticipants(user);
   const content = listContent();
-  const campaigns = listCampaigns().map((c) => ({
-    ...c,
-    reach: resolveAudience(c.audience, participants).total,
-    emailable: resolveAudience(c.audience, participants).emailable,
-  }));
+  const campaigns = (await listCampaigns()).map((c) => {
+    const resolved = resolveAudience(c.audience, participants);
+    return { ...c, reach: resolved.total, emailable: resolved.emailable };
+  });
 
   return (
     <div className="space-y-8">

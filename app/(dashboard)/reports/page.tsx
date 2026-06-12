@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export default async function ReportsPage() {
   const user = await getCurrentUser();
   const participants = await listParticipants(user);
-  const report = computeReports(participants, listCampaigns());
+  const report = computeReports(participants, await listCampaigns());
   const csv = moduleCompletionCsv(report);
 
   return (
