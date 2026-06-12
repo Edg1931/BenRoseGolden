@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
 
 export const metadata = {
@@ -44,6 +45,14 @@ export default function WelcomePage() {
               <span className="rounded-full bg-white/15 px-3 py-1">✓ Free classes</span>
               <span className="rounded-full bg-white/15 px-3 py-1">✓ Unlock down-payment help</span>
               <span className="rounded-full bg-white/15 px-3 py-1">✓ One-on-one counseling</span>
+            </div>
+            <div className="mt-6">
+              <Link
+                href="/learn"
+                className="inline-block rounded-md bg-white px-6 py-3 text-sm font-semibold text-brand-rose shadow-sm hover:bg-white/90"
+              >
+                Start free classes →
+              </Link>
             </div>
           </div>
           <div className="lg:pl-8">
@@ -116,7 +125,7 @@ export default function WelcomePage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-foreground text-white">
+      <section id="assistance" className="bg-foreground text-white">
         <div className="mx-auto max-w-3xl px-6 py-14 text-center">
           <h2 className="text-2xl font-bold">Ready to take the first step?</h2>
           <p className="mt-2 text-white/80">Join our newsletter for class schedules, tips, and the assistance you may qualify for.</p>
