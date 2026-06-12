@@ -1,0 +1,69 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  CONTENT_FORMATS,
+  CONTENT_FORMAT_LABELS,
+  LANGUAGE_LABELS,
+  LANGUAGES,
+  type ContentFormat,
+  type LanguageCode,
+} from "@/lib/participants/curriculum";
+import type { ContentItem } from "@/lib/content/schema";
+
+export function ContentLibrary({ items }: { items: ContentItem[] }) {
+  const [format, setFormat] = useState<string>("");
+  const [language, setLanguage] = useState<string>("");
+  const [q, setQ] = useState("");
+
+  const filtered = useMemo(() => {
+    const needle = q.toLowerCase().trim();
+    return items.filter(
+      (it) =>
+        (!format || it.format === (format as ContentFormat)) &&
+        (!language || it.language === (language as LanguageCode)) &&
+        (!needle || it.title.toLowerCase().includes(needle) || it.summary.toLowerCase().includes(needle)),
+    );
+  }, [items, format, language, q]);
+
+  const select = "rounded-md border border-input bg-background px-2 py-2 text-sm";
+
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search content…" className="min-w-[14rem] flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm" />
+        <select className={select} value={format} onChange={(e) => setFormat(e.target.value)}>
+          <option value="">All formats</option>
+          {CONTENT_FORMATS.map((f) => <option key={f} value={f}>{CONTENT_FORMAT_LABELS[f]}</option>)}
+        </select>
+        <select className={select} value={language} onChange={(e) => setLanguage(e.target.value)}>
+          <option value="">All languages</option>
+          {LANGUAGES.map((l) => <option key={l} value={l}>{LANGUAGE_LABELS[l]}</option>)}
+        </select>
+        <span className="text-sm text-muted-foreground">{filtered.length} items</span>
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((it) => (
+          <Card key={it.id} className="space-y-2 p-4">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="font-medium leading-tight">{it.title}</h3>
+              <Badge variant="gold">{CONTENT_FORMAT_LABELS[it.format]}</Badge>
+            </div>
+            <p className="text-sm text-muted-foreground">{it.summary}</p>
+            <div className="flex flex-wrap items-center gap-1 text-xs">
+              <Badge variant="muted">{LANGUAGE_LABELS[it.language]}</Badge>
+              {it.durationMin && <Badge variant="muted">{it.durationMin} min</Badge>}
+              {it.tags.map((t) => <span key={t} className="text-muted-foreground">#{t}</span>)}
+            </div>
+          </Card>
+        ))}
+        {filtered.length === 0 && (
+          <p className="text-sm text-muted-foreground">No content matches.</p>
+        )}
+      </div>
+    </div>
+  );
+}
