@@ -3,25 +3,20 @@ import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getParticipant } from "@/lib/participants/repository";
 import { loadAllPrograms } from "@/lib/programs/sources";
-import {
-  matchedPrograms,
-  phaseProgress,
-  recommendations,
-} from "@/lib/participants/eligibility";
+import { matchedPrograms, recommendations } from "@/lib/participants/eligibility";
 import {
   CONTENT_FORMAT_LABELS,
   LANGUAGE_LABELS,
-  MODULES,
   TRACK_LABELS,
-  getModule,
 } from "@/lib/participants/curriculum";
 import { CREDIT_BAND_LABELS, STAGE_LABELS } from "@/lib/participants/schema";
 import { assistanceTypeLabel } from "@/lib/programs/matching";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { ProgressBar } from "@/components/ui/progress";
 import { formatDate } from "@/lib/utils";
+import { ProfileActions } from "@/components/participants/profile-actions";
+import { ModuleChecklist } from "@/components/participants/module-checklist";
 
 export const dynamic = "force-dynamic";
 
@@ -36,11 +31,9 @@ export default async function ProfilePage({
   if (!p) notFound();
 
   const programs = await loadAllPrograms();
-  const phases = phaseProgress(p);
   const matches = matchedPrograms(p, programs);
   const recs = recommendations(p, programs);
   const fullName = [p.firstName, p.lastName].filter(Boolean).join(" ");
-  const completedById = new Map(p.moduleProgress.map((m) => [m.moduleId, m]));
 
   const recTone = { high: "rose", medium: "gold", low: "muted" } as const;
 
@@ -77,6 +70,7 @@ export default async function ProfilePage({
             </div>
           )}
         </div>
+        <ProfileActions participant={p} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -102,50 +96,8 @@ export default async function ProfilePage({
             </section>
           )}
 
-          {/* Curriculum progress */}
-          <section>
-            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-              Program progress
-            </h2>
-            <div className="space-y-3">
-              {phases.map((phase) => {
-                const mods = MODULES.filter((m) => m.phase === phase.phaseId);
-                return (
-                  <Card key={phase.phaseId} className="p-4">
-                    <div className="mb-2 flex items-center justify-between">
-                      <div className="font-medium">{phase.name}</div>
-                      <span className="text-xs text-muted-foreground">
-                        {phase.completed}/{phase.total} modules
-                      </span>
-                    </div>
-                    <ProgressBar
-                      value={phase.percent}
-                      tone={phase.percent === 100 ? "emerald" : "gold"}
-                    />
-                    <ul className="mt-3 space-y-1">
-                      {mods.map((m) => {
-                        const mp = completedById.get(m.id);
-                        const done = mp?.status === "completed";
-                        const inProg = mp?.status === "in-progress";
-                        return (
-                          <li key={m.id} className="flex items-center justify-between text-sm">
-                            <span className="flex items-center gap-2">
-                              <span>{done ? "✅" : inProg ? "🟡" : "⬜"}</span>
-                              <span className={done ? "" : "text-muted-foreground"}>{m.name}</span>
-                            </span>
-                            <span className="text-xs text-muted-foreground">
-                              {mp?.score != null && <span className="mr-2">Score {mp.score}</span>}
-                              {mp?.completedDate && formatDate(mp.completedDate)}
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </Card>
-                );
-              })}
-            </div>
-          </section>
+          {/* Curriculum progress (editable) */}
+          <ModuleChecklist participant={p} />
 
           {/* Communications */}
           <section>
