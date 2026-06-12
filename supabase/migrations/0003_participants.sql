@@ -24,6 +24,7 @@ create table participants (
 
   stage text not null default 'lead'
     check (stage in ('lead','enrolled','in-progress','graduated','referred','inactive')),
+  "stageSince" text,
   "assignedCounselor" text,
 
   "moduleProgress" jsonb not null default '[]',

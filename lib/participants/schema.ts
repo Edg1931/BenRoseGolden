@@ -117,6 +117,8 @@ export const participantSchema = z.object({
   tracks: z.array(z.enum(TRACKS)).default([]),
 
   stage: z.enum(PARTICIPANT_STAGES).default("lead"),
+  /** When the participant entered their CURRENT stage (drives time-in-phase). */
+  stageSince: z.string().optional(),
   assignedCounselor: z.string().optional(),
 
   moduleProgress: z.array(moduleProgressSchema).default([]),

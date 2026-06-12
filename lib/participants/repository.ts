@@ -67,6 +67,7 @@ function buildParticipant(input: CreateParticipantInput): Participant {
     ...parsed,
     id: randomUUID(),
     dateAdded: parsed.dateAdded ?? now,
+    stageSince: parsed.stageSince ?? parsed.dateAdded ?? now,
     lastUpdated: now,
   });
 }
@@ -101,12 +102,16 @@ export async function updateParticipant(
   if (!existing) throw new Error("Participant not found");
 
   const patch = updateParticipantSchema.parse(input);
+  const now = new Date().toISOString();
+  const stageChanged = patch.stage != null && patch.stage !== existing.stage;
   const next = participantSchema.parse({
     ...existing,
     ...patch,
     id: existing.id,
     dateAdded: existing.dateAdded,
-    lastUpdated: new Date().toISOString(),
+    // Reset the time-in-phase clock only when the stage actually changes.
+    stageSince: stageChanged ? now : existing.stageSince ?? existing.dateAdded,
+    lastUpdated: now,
   });
 
   const supabase = await getSupabaseServerClient();

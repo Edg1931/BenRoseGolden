@@ -17,6 +17,7 @@ export const seedParticipants: Participant[] = [
     household: { size: 3, annualIncome: 52000, amiPercent: 72, creditBand: "640-699", firstTimeBuyer: true, targetPurchasePrice: 180000 },
     tracks: ["first-time-buyer"],
     stage: "graduated",
+    stageSince: "2026-02-13",
     assignedCounselor: "Counselor Rivera",
     moduleProgress: [
       { moduleId: "budgeting", status: "completed", completedDate: "2026-01-15", format: "in-person" },
@@ -53,6 +54,7 @@ export const seedParticipants: Participant[] = [
     household: { size: 1, annualIncome: 38000, creditBand: "below-580", firstTimeBuyer: true },
     tracks: ["credit-repair", "first-time-buyer"],
     stage: "in-progress",
+    stageSince: "2026-03-06",
     moduleProgress: [
       { moduleId: "budgeting", status: "completed", completedDate: "2026-03-05", format: "podcast" },
       { moduleId: "credit-basics", status: "in-progress" },
@@ -84,6 +86,7 @@ export const seedParticipants: Participant[] = [
     household: { size: 4, annualIncome: 61000, creditBand: "640-699" },
     tracks: ["foreclosure-prevention"],
     stage: "enrolled",
+    stageSince: "2026-04-03",
     assignedCounselor: "Counselor Pratt",
     moduleProgress: [
       { moduleId: "default-basics", status: "completed", completedDate: "2026-04-03", format: "in-person" },
@@ -114,6 +117,7 @@ export const seedParticipants: Participant[] = [
     household: { size: 2, annualIncome: 47000, amiPercent: 64, creditBand: "700-749", firstTimeBuyer: true, targetPurchasePrice: 165000 },
     tracks: ["first-time-buyer"],
     stage: "referred",
+    stageSince: "2025-12-03",
     assignedCounselor: "Counselor Rivera",
     moduleProgress: [
       { moduleId: "budgeting", status: "completed", completedDate: "2025-11-10", format: "slideshow" },

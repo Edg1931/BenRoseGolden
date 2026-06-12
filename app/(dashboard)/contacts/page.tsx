@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { listParticipants } from "@/lib/participants/repository";
 import { computeCrmMetrics, formatPct } from "@/lib/participants/metrics";
 import { Card } from "@/components/ui/card";
-import { CrmTable } from "@/components/participants/crm-table";
+import { ClientsWorkspace } from "@/components/participants/clients-workspace";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +38,7 @@ export default async function ContactsPage() {
         <Stat label="Need credit" value={metrics.needsCredit} />
       </div>
 
-      <CrmTable participants={participants} />
+      <ClientsWorkspace participants={participants} />
     </div>
   );
 }
