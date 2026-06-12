@@ -25,7 +25,7 @@ export default async function DashboardLayout({
       <header className="border-b border-border bg-background">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
           <div className="flex items-center gap-6">
-            <Link href="/referrals" className="flex items-center gap-2">
+            <Link href="/dashboard" className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-brand-rose" />
               <span className="h-3 w-3 -ml-1.5 rounded-full bg-brand-gold" />
               <span className="ml-1 font-semibold tracking-tight">
@@ -34,8 +34,10 @@ export default async function DashboardLayout({
               </span>
             </Link>
             <nav className="flex items-center gap-1 text-sm">
-              <NavLink href="/referrals">Referral Tracker</NavLink>
-              <NavLink href="/dpa-finder">DPA &amp; Grant Finder</NavLink>
+              <NavLink href="/dashboard">Dashboard</NavLink>
+              <NavLink href="/contacts">Clients</NavLink>
+              <NavLink href="/referrals">Referrals</NavLink>
+              <NavLink href="/dpa-finder">Assistance</NavLink>
             </nav>
           </div>
           <div className="flex items-center gap-3 text-sm">
