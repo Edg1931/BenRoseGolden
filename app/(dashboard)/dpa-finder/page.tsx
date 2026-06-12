@@ -44,11 +44,14 @@ export default async function DpaFinderPage() {
               <Badge variant="gold">
                 {ASSISTANCE_TYPE_LABELS[p.assistanceType]}
               </Badge>
-              {p.requiresHomebuyerEd && (
+              {p.requiresHomebuyerEd === true && (
                 <Badge variant="success">🎓 Education unlocks</Badge>
               )}
+              {p.requiresHomebuyerEd === "verify" && (
+                <Badge variant="muted">🎓 Education (verify)</Badge>
+              )}
             </div>
-            <p className="text-sm">{p.benefit.description}</p>
+            <p className="text-sm">{p.amount}</p>
             <p className="text-xs text-muted-foreground">
               {p.geography.statewide
                 ? "Statewide"

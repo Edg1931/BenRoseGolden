@@ -30,16 +30,44 @@ export interface MatchResult {
   link: string;
 }
 
+/**
+ * Pull a dollar amount out of a number or a string like "$313,500".
+ * Returns undefined for AMI/percent text ("80% AMI", "Varies by county",
+ * "verify") — we require 4+ digits so "80" or "3 years" never read as a cap.
+ */
+function parseMoney(value: unknown): number | undefined {
+  if (typeof value === "number") return value;
+  if (typeof value !== "string") return undefined;
+  const match = value.replace(/,/g, "").match(/\$?\s*(\d{4,})(?:\.\d+)?/);
+  return match ? Number(match[1]) : undefined;
+}
+
+/** Normalize an occupation restriction to a list of tokens, or null for "all". */
+function occupationRestriction(program: Program): string[] | null {
+  const occ = program.eligibility.occupation;
+  if (!occ || occ === "all") return null;
+  const tokens = Array.isArray(occ) ? occ : [occ];
+  const detail = program.eligibility.occupationDetail;
+  return typeof detail === "string" ? [...tokens, detail] : tokens;
+}
+
 function servesLocation(program: Program, buyer: BuyerProfile): boolean {
   const geo = program.geography;
-  if (geo.statewide) return true;
   const county = buyer.county?.toLowerCase();
   const city = buyer.city?.toLowerCase();
+
+  // Explicit carve-outs win — e.g. the county program that excludes Cleveland.
+  const excludes = (geo.excludes ?? []).map((s) => s.toLowerCase());
+  if (city && excludes.includes(city)) return false;
+
+  if (geo.statewide) return true;
+
   const countyMatch =
     !!county && (geo.counties ?? []).some((c) => c.toLowerCase() === county);
   const cityMatch =
     !!city && (geo.cities ?? []).some((c) => c.toLowerCase() === city);
-  // If a program scopes geography but the buyer gave no matching location, exclude.
+
+  // Scoped program but the buyer's location doesn't match → not served.
   if ((geo.counties?.length || geo.cities?.length) && !countyMatch && !cityMatch) {
     return false;
   }
@@ -47,8 +75,9 @@ function servesLocation(program: Program, buyer: BuyerProfile): boolean {
 }
 
 /**
- * Score a single program against the buyer. Returns null when the buyer is
- * clearly ineligible on a hard rule (location, first-time, income, credit).
+ * Score a single program against the buyer. Returns null only on a hard,
+ * machine-verifiable ineligibility (location, first-time, numeric income/credit,
+ * numeric price cap). Soft/textual limits become caveats to confirm.
  */
 export function evaluateProgram(
   program: Program,
@@ -61,60 +90,73 @@ export function evaluateProgram(
   const caveats: string[] = [];
   let score = 0;
 
-  // First-time buyer (hard rule when required).
-  if (el.firstTimeBuyer) {
+  // First-time buyer (hard rule only when the program explicitly requires it).
+  if (el.firstTimeBuyer === true) {
     if (!buyer.firstTimeBuyer) return null;
     reasons.push("you're a first-time homebuyer");
     score += 1;
+  } else if (el.firstTimeBuyer === false) {
+    reasons.push("open to repeat buyers (not first-time only)");
   }
 
-  // Income (hard rule when a cap exists).
-  if (typeof el.incomeLimit === "number") {
-    if (buyer.householdIncome > el.incomeLimit) return null;
-    reasons.push(
-      `your household income is within the $${el.incomeLimit.toLocaleString()} limit`,
-    );
+  // Income — hard rule only when there's a clean dollar cap; AMI text → caveat.
+  const incomeCap = parseMoney(el.incomeLimit);
+  if (typeof incomeCap === "number") {
+    if (buyer.householdIncome > incomeCap) return null;
+    reasons.push(`your income is within the $${incomeCap.toLocaleString()} limit`);
     score += 2;
+  } else if (typeof el.incomeLimit === "string" && el.incomeLimit !== "verify") {
+    caveats.push(`income limit: ${el.incomeLimit}`);
   }
 
-  // Credit (hard rule when a minimum exists).
+  // Credit — hard rule only when a numeric minimum is published.
   if (typeof el.creditMin === "number") {
     if (buyer.estimatedCredit < el.creditMin) return null;
     reasons.push(`your estimated credit meets the ${el.creditMin}+ minimum`);
     score += 1;
   }
 
-  // Purchase price limit (caveat unless the buyer gave a target above the cap).
-  if (typeof el.purchasePriceLimit === "number") {
+  // Purchase-price limit.
+  const priceCap = parseMoney(el.purchasePriceLimit);
+  if (typeof priceCap === "number") {
     if (
       typeof buyer.targetPurchasePrice === "number" &&
-      buyer.targetPurchasePrice > el.purchasePriceLimit
+      buyer.targetPurchasePrice > priceCap
     ) {
       return null;
     }
-    caveats.push(
-      `home price must be at or below $${el.purchasePriceLimit.toLocaleString()}`,
-    );
+    caveats.push(`home price must be at or below $${priceCap.toLocaleString()}`);
+  } else if (
+    typeof el.purchasePriceLimit === "string" &&
+    el.purchasePriceLimit !== "verify"
+  ) {
+    caveats.push(`purchase-price limit: ${el.purchasePriceLimit}`);
   }
 
-  // Occupation (caveat — buyer may still qualify, confirm with provider).
-  if (el.occupation && el.occupation.length > 0) {
-    const occ = buyer.occupation?.toLowerCase();
-    const occMatch = occ && el.occupation.some((o) => o.toLowerCase() === occ);
-    if (occMatch) {
+  // Occupation restriction.
+  const restriction = occupationRestriction(program);
+  if (restriction) {
+    const occ = buyer.occupation?.toLowerCase().trim();
+    const matched =
+      !!occ &&
+      restriction.some((r) => {
+        const t = r.toLowerCase();
+        return t.includes(occ) || occ.includes(t.split(/[ ,;]/)[0]);
+      });
+    if (matched) {
       reasons.push(`your occupation (${buyer.occupation}) qualifies`);
       score += 2;
     } else {
-      caveats.push(`limited to: ${el.occupation.join(", ")}`);
+      caveats.push(`limited to: ${restriction[0]}`);
     }
   }
 
-  // Geography precision boost — local programs rank above statewide for a match.
+  // Local programs rank above statewide ones for the same buyer.
   if (!program.geography.statewide) score += 1;
 
   // Homebuyer education + certificate unlock.
   let unlockedByCertificate = false;
-  if (program.requiresHomebuyerEd) {
+  if (program.requiresHomebuyerEd === true) {
     if (buyer.completedHomebuyerEd) {
       unlockedByCertificate = true;
       reasons.push("your HUD homebuyer-education certificate is on file");
@@ -122,13 +164,20 @@ export function evaluateProgram(
     } else {
       caveats.push("requires completing HUD homebuyer education first");
     }
+  } else if (program.requiresHomebuyerEd === "verify") {
+    caveats.push("may require homebuyer education — confirm with the program");
   }
 
-  if (program.mustUseApprovedLender) {
+  if (program.mustUseApprovedLender === true) {
     caveats.push("must use an approved participating lender");
+  } else if (program.mustUseApprovedLender === "verify") {
+    caveats.push("may require an approved lender — confirm");
   }
 
-  const nextStep = buildNextStep(program, buyer, unlockedByCertificate);
+  // Surface funding-round programs (grants are often first-come/closed between rounds).
+  if (/funding round|first-come|exhausted|closed between/i.test(program.notes ?? "")) {
+    caveats.push("availability is limited to open funding rounds — check current status");
+  }
 
   return {
     program,
@@ -136,20 +185,16 @@ export function evaluateProgram(
     reasons,
     caveats,
     unlockedByCertificate,
-    nextStep,
+    nextStep: buildNextStep(program, buyer),
     link: program.sourceUrl,
   };
 }
 
-function buildNextStep(
-  program: Program,
-  buyer: BuyerProfile,
-  unlocked: boolean,
-): string {
-  if (program.requiresHomebuyerEd && !buyer.completedHomebuyerEd) {
+function buildNextStep(program: Program, buyer: BuyerProfile): string {
+  if (program.requiresHomebuyerEd === true && !buyer.completedHomebuyerEd) {
     return "Complete HUD-approved homebuyer education, then apply.";
   }
-  if (program.mustUseApprovedLender && program.participatingLenders?.length) {
+  if (program.mustUseApprovedLender === true && program.participatingLenders?.length) {
     return `Contact an approved lender (${program.participatingLenders
       .slice(0, 2)
       .join(", ")}) to apply.`;
@@ -166,7 +211,6 @@ export function matchPrograms(
     .map((p) => evaluateProgram(p, buyer))
     .filter((r): r is MatchResult => r !== null)
     .sort((a, b) => {
-      // Unlocked-by-certificate first, then by score, then by benefit size.
       if (a.unlockedByCertificate !== b.unlockedByCertificate) {
         return a.unlockedByCertificate ? -1 : 1;
       }
@@ -175,8 +219,17 @@ export function matchPrograms(
     });
 }
 
+/** Rough benefit size for ranking tiebreaks, from the structured amount. */
 function benefitWeight(program: Program): number {
-  return program.benefit.amount ?? program.benefit.percent ?? 0;
+  const s = program.amountStructured as Record<string, unknown> | undefined;
+  if (!s) return 0;
+  if (typeof s.maxDollar === "number") return s.maxDollar;
+  if (typeof s.veteranMaxDollar === "number") return s.veteranMaxDollar;
+  if (typeof s.percent === "number") return s.percent * 1000;
+  if (Array.isArray(s.range) && typeof s.range[1] === "number") {
+    return s.range[1] * 1000;
+  }
+  return 0;
 }
 
 export function assistanceTypeLabel(program: Program): string {

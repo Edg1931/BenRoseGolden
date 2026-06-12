@@ -226,10 +226,15 @@ function CandidateRow({
             <Badge variant={c.confidence === "high" ? "success" : "muted"}>
               {c.confidence} confidence
             </Badge>
-            {c.requiresHomebuyerEd && <Badge variant="rose">🎓 requires education</Badge>}
+            {c.requiresHomebuyerEd === true && (
+              <Badge variant="rose">🎓 requires education</Badge>
+            )}
+            {c.requiresHomebuyerEd === "verify" && (
+              <Badge variant="muted">🎓 education (verify)</Badge>
+            )}
           </div>
           <p className="text-xs text-muted-foreground">{c.provider}</p>
-          {c.benefit.description && <p className="text-sm">{c.benefit.description}</p>}
+          {c.amount && <p className="text-sm">{c.amount}</p>}
           {diffed.status === "changed" && diffed.changedFields.length > 0 && (
             <p className="text-xs text-amber-700">
               Changed vs current: {diffed.changedFields.join(", ")}

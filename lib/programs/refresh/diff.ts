@@ -37,7 +37,7 @@ function changedFieldsBetween(
     if (JSON.stringify(a ?? null) !== JSON.stringify(b ?? null)) changed.push(label);
   };
   cmp("assistanceType", candidate.assistanceType, existing.assistanceType);
-  cmp("benefit", candidate.benefit, existing.benefit);
+  cmp("amount", candidate.amount, existing.amount);
   cmp("eligibility.incomeLimit", candidate.eligibility.incomeLimit, existing.eligibility.incomeLimit);
   cmp("eligibility.creditMin", candidate.eligibility.creditMin, existing.eligibility.creditMin);
   cmp("requiresHomebuyerEd", candidate.requiresHomebuyerEd, existing.requiresHomebuyerEd);
@@ -71,6 +71,15 @@ export function diffCandidates(
   });
 }
 
+/** Drop null/undefined so optional fields stay absent rather than null. */
+function clean<T extends Record<string, unknown>>(obj: T): T {
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(obj)) {
+    if (v !== null && v !== undefined) out[k] = v;
+  }
+  return out as T;
+}
+
 /** Turn an approved candidate into a curated Program record. */
 export function candidateToProgram(candidate: CandidateProgram): Program {
   return {
@@ -78,28 +87,27 @@ export function candidateToProgram(candidate: CandidateProgram): Program {
     name: candidate.name,
     provider: candidate.provider,
     level: candidate.level,
-    geography: {
+    geography: clean({
       statewide: candidate.geography.statewide,
       counties: candidate.geography.counties ?? undefined,
       cities: candidate.geography.cities ?? undefined,
-    },
+      excludes: candidate.geography.excludes ?? undefined,
+    }),
     assistanceType: candidate.assistanceType,
-    benefit: {
-      amount: candidate.benefit.amount ?? undefined,
-      percent: candidate.benefit.percent ?? undefined,
-      description: candidate.benefit.description ?? undefined,
-    },
-    eligibility: {
+    amount: candidate.amount,
+    amountStructured: candidate.amountStructured ?? undefined,
+    eligibility: clean({
       firstTimeBuyer: candidate.eligibility.firstTimeBuyer ?? undefined,
       incomeLimit: candidate.eligibility.incomeLimit ?? undefined,
       occupation: candidate.eligibility.occupation ?? undefined,
       creditMin: candidate.eligibility.creditMin ?? undefined,
       propertyType: candidate.eligibility.propertyType ?? undefined,
       purchasePriceLimit: candidate.eligibility.purchasePriceLimit ?? undefined,
-    },
+    }),
     requiresHomebuyerEd: candidate.requiresHomebuyerEd,
-    mustUseApprovedLender: candidate.mustUseApprovedLender,
+    mustUseApprovedLender: candidate.mustUseApprovedLender ?? undefined,
     participatingLenders: candidate.participatingLenders ?? undefined,
+    repayment: candidate.repayment ?? undefined,
     howToApply: candidate.howToApply,
     sourceUrl: candidate.sourceUrl,
     lastVerified: candidate.lastVerified,

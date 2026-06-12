@@ -35,6 +35,8 @@ Critical rules — this data is used by vulnerable first-time buyers, so accurac
 - Flag requiresHomebuyerEd accurately — many DPA programs require a HUD-approved homebuyer-education certificate.
 - Set a confidence level per program and add a short reviewerNote pointing to where you found it and anything a human should double-check.
 - Do NOT scrape or enumerate individual lenders. participatingLenders should only list lenders the official program page names.
+- Put the benefit in the human-readable "amount" field (e.g. "Up to 10% of price, max $20,900"); add amountStructured only when you can cleanly machine-encode it.
+- Use the closest assistanceType: grant, forgivable_loan, deferred_loan, second_mortgage, rate_discount, tax_credit, or match.
 
 When you have researched thoroughly, call the submit_programs tool exactly once with all the programs you found.`;
 
@@ -44,7 +46,6 @@ const submitProgramsTool: Anthropic.Tool = {
     "Submit the final list of researched Ohio homebuyer assistance programs for human review.",
   input_schema: {
     type: "object",
-    additionalProperties: false,
     properties: {
       programs: {
         type: "array",
@@ -54,41 +55,65 @@ const submitProgramsTool: Anthropic.Tool = {
           properties: {
             name: { type: "string" },
             provider: { type: "string", description: "Agency/org that runs it." },
-            level: { type: "string", enum: ["state", "county", "city", "nonprofit"] },
+            level: {
+              type: "string",
+              enum: ["state", "regional", "county", "city", "nonprofit"],
+            },
             geography: {
               type: "object",
+              description:
+                "statewide flag, plus counties/cities served and any excluded cities.",
               properties: {
                 statewide: { type: "boolean" },
                 counties: { type: "array", items: { type: "string" } },
                 cities: { type: "array", items: { type: "string" } },
+                excludes: { type: "array", items: { type: "string" } },
               },
             },
             assistanceType: {
               type: "string",
-              enum: ["grant", "forgivable-loan", "deferred-second", "mcc-tax-credit"],
+              enum: [
+                "grant",
+                "forgivable_loan",
+                "deferred_loan",
+                "second_mortgage",
+                "rate_discount",
+                "tax_credit",
+                "match",
+              ],
             },
-            benefit: {
+            amount: {
+              type: "string",
+              description:
+                "Human-readable benefit, e.g. 'Up to 10% of price, max $20,900'. This is the source of truth.",
+            },
+            amountStructured: {
               type: "object",
-              properties: {
-                amount: { type: ["number", "null"] },
-                percent: { type: ["number", "null"] },
-                description: { type: "string" },
-              },
+              description:
+                "Optional machine-readable form, e.g. {percent: 10, maxDollar: 20900}. Use null for amounts the source doesn't state.",
             },
             eligibility: {
               type: "object",
+              description:
+                "Use numbers when the source gives a clean cap; otherwise the source's own text (e.g. 'At or below 80% AMI') or 'verify'.",
               properties: {
                 firstTimeBuyer: { type: ["boolean", "null"] },
-                incomeLimit: { type: ["number", "null"] },
-                occupation: { type: "array", items: { type: "string" } },
+                incomeLimit: { type: ["string", "number", "null"] },
+                occupation: { type: "string" },
                 creditMin: { type: ["number", "null"] },
-                propertyType: { type: "array", items: { type: "string" } },
-                purchasePriceLimit: { type: ["number", "null"] },
+                propertyType: { type: "string" },
+                purchasePriceLimit: { type: ["string", "number", "null"] },
               },
             },
-            requiresHomebuyerEd: { type: "boolean" },
-            mustUseApprovedLender: { type: "boolean" },
+            requiresHomebuyerEd: {
+              description: "true, false, or 'verify' if unconfirmed.",
+              anyOf: [{ type: "boolean" }, { type: "string", enum: ["verify"] }],
+            },
+            mustUseApprovedLender: {
+              anyOf: [{ type: "boolean" }, { type: "string", enum: ["verify"] }],
+            },
             participatingLenders: { type: "array", items: { type: "string" } },
+            repayment: { type: "string" },
             howToApply: { type: "string" },
             sourceUrl: { type: "string", description: "Official source URL." },
             lastVerified: { type: "string", description: "ISO date (today)." },
@@ -101,10 +126,9 @@ const submitProgramsTool: Anthropic.Tool = {
             "level",
             "geography",
             "assistanceType",
-            "benefit",
+            "amount",
             "eligibility",
             "requiresHomebuyerEd",
-            "mustUseApprovedLender",
             "howToApply",
             "sourceUrl",
             "lastVerified",

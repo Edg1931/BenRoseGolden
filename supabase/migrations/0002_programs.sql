@@ -1,23 +1,33 @@
 -- Module 2 — curated Ohio program database (and the AI-refresh target table).
 -- Programs are public, read-only reference data for the matching engine; only
 -- Golden Group / admins may write them (mirrors the API-layer check).
+--
+-- Mirrors lib/programs/schema.ts: `amount` is human-readable text, structured
+-- fields are jsonb, and requiresHomebuyerEd / mustUseApprovedLender are text so
+-- they can hold the tri-state value 'true' | 'false' | 'verify'.
 
 create table programs (
   id text primary key,
   name text not null,
   provider text not null,
-  level text not null check (level in ('state', 'county', 'city', 'nonprofit')),
+  level text not null check (level in ('state', 'regional', 'county', 'city', 'nonprofit')),
   geography jsonb not null,
   "assistanceType" text not null
-    check ("assistanceType" in ('grant', 'forgivable-loan', 'deferred-second', 'mcc-tax-credit')),
-  benefit jsonb not null,
+    check ("assistanceType" in (
+      'grant', 'forgivable_loan', 'deferred_loan', 'second_mortgage',
+      'rate_discount', 'tax_credit', 'match'
+    )),
+  amount text not null,
+  "amountStructured" jsonb,
   eligibility jsonb not null,
-  "requiresHomebuyerEd" boolean not null default false,
-  "mustUseApprovedLender" boolean not null default false,
+  "requiresHomebuyerEd" text not null,
+  "mustUseApprovedLender" text,
   "participatingLenders" jsonb,
+  repayment text,
   "howToApply" text not null,
   "sourceUrl" text not null,
   "lastVerified" text not null,
+  notes text,
   "dataSource" text not null default 'curated' check ("dataSource" in ('curated', 'dpr')),
   updated_at timestamptz not null default now()
 );
