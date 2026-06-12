@@ -1,0 +1,84 @@
+{
+  "version": "0.1.0-sample",
+  "state": "OH",
+  "programs": [
+    {
+      "id": "ohfa-your-choice-dpa",
+      "name": "OHFA Your Choice! Down Payment Assistance",
+      "provider": "Ohio Housing Finance Agency",
+      "level": "state",
+      "geography": { "statewide": true },
+      "assistanceType": "forgivable-loan",
+      "benefit": {
+        "percent": 5,
+        "description": "2.5% or 5% of the purchase price, forgiven after 7 years."
+      },
+      "eligibility": {
+        "firstTimeBuyer": false,
+        "incomeLimit": 138000,
+        "creditMin": 640,
+        "propertyType": ["single-family", "condo", "townhome", "2-4-unit"],
+        "purchasePriceLimit": 488000
+      },
+      "requiresHomebuyerEd": true,
+      "mustUseApprovedLender": true,
+      "participatingLenders": ["Third Federal", "Huntington", "Union Home Mortgage"],
+      "howToApply": "Apply through an OHFA-approved participating lender alongside an OHFA first mortgage.",
+      "sourceUrl": "https://www.ohiohome.org/homebuyer/dpa.aspx",
+      "lastVerified": "2026-05-15",
+      "dataSource": "curated"
+    },
+    {
+      "id": "cuyahoga-afford-a-home",
+      "name": "Cuyahoga County Down Payment Assistance",
+      "provider": "Cuyahoga County Department of Development",
+      "level": "county",
+      "geography": { "statewide": false, "counties": ["Cuyahoga"] },
+      "assistanceType": "deferred-second",
+      "benefit": {
+        "amount": 14900,
+        "description": "Up to 17% of purchase price as a deferred, 0% second mortgage."
+      },
+      "eligibility": {
+        "firstTimeBuyer": true,
+        "incomeLimit": 78000,
+        "creditMin": 620,
+        "propertyType": ["single-family", "condo", "2-4-unit"],
+        "purchasePriceLimit": 280000
+      },
+      "requiresHomebuyerEd": true,
+      "mustUseApprovedLender": false,
+      "participatingLenders": [],
+      "howToApply": "Complete HUD-approved homebuyer education, then apply through a county-partner housing agency before signing a purchase contract.",
+      "sourceUrl": "https://cuyahogalandbank.org",
+      "lastVerified": "2026-04-28",
+      "dataSource": "curated"
+    },
+    {
+      "id": "columbus-american-dream",
+      "name": "City of Columbus American Dream Downpayment Initiative",
+      "provider": "City of Columbus Department of Development",
+      "level": "city",
+      "geography": { "statewide": false, "cities": ["Columbus"] },
+      "assistanceType": "grant",
+      "benefit": {
+        "amount": 12500,
+        "description": "Grant of up to $12,500 toward down payment and closing costs."
+      },
+      "eligibility": {
+        "firstTimeBuyer": true,
+        "incomeLimit": 64000,
+        "creditMin": 640,
+        "propertyType": ["single-family", "condo", "townhome"],
+        "purchasePriceLimit": 250000
+      },
+      "requiresHomebuyerEd": true,
+      "mustUseApprovedLender": true,
+      "participatingLenders": ["Huntington", "Fifth Third Bank"],
+      "howToApply": "Attend a city-sponsored homebuyer education course and apply through an approved lender.",
+      "sourceUrl": "https://www.columbus.gov/development",
+      "lastVerified": "2026-05-02",
+      "dataSource": "curated"
+    }
+  ]
+}
