@@ -5,6 +5,8 @@ import { listParticipants } from "@/lib/participants/repository";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ContentLibrary } from "@/components/content/content-library";
+import { SendCampaign } from "@/components/content/send-campaign";
+import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -49,6 +51,16 @@ export default async function ContentPage() {
                 {c.emailable > 0 && <Badge variant="muted">{c.emailable} emailable</Badge>}
               </div>
               {c.subject && <p className="text-xs text-muted-foreground">{c.subject}</p>}
+              {c.status === "sent" ? (
+                <p className="text-xs text-emerald-700">
+                  ✅ Sent{c.sentCount != null ? ` to ${c.sentCount}` : ""}
+                  {c.sentAt ? ` · ${formatDate(c.sentAt)}` : ""}
+                </p>
+              ) : (
+                c.type === "newsletter" && (
+                  <SendCampaign campaignId={c.id} emailable={c.emailable} />
+                )
+              )}
             </Card>
           ))}
           {campaigns.length === 0 && (

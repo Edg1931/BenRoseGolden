@@ -51,6 +51,10 @@ export const campaignSchema = z.object({
   status: z.enum(CAMPAIGN_STATUSES).default("draft"),
   /** Provenance: which model drafted it, if AI-assisted. */
   draftedBy: z.string().optional(),
+  /** Set when the newsletter was actually emailed. */
+  sentAt: z.string().optional(),
+  /** How many recipients it reached on send. */
+  sentCount: z.number().optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
