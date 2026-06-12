@@ -86,4 +86,23 @@ to switch the app off seed data and onto the live database.
 - The **Down Payment Resource API** integration point is `lib/programs/sources/dpr.ts`.
   Implement `load()` and set `DPR_API_BASE_URL` + `DPR_API_KEY`; it merges
   automatically via `loadAllPrograms()` — no engine or UI changes.
+
+## Keeping programs up to date with AI (Module 2)
+
+The DPA finder has a **"Refresh with AI"** button (Golden Group / admin only)
+that uses Claude with web search to find current Ohio DPA/grant programs.
+
+- **Review-gated, never auto-applied.** This data drives decisions for
+  vulnerable buyers, so the agent returns *candidates*. Each is diffed against
+  the current database (New / Changed / Unchanged) and approved per-item before
+  anything is saved.
+- `lib/programs/refresh/agent.ts` — Claude (Opus 4.8) + `web_search`; the model
+  returns a structured list via a `submit_programs` tool, validated with Zod.
+  Set `ANTHROPIC_API_KEY` to enable; the button is disabled without it.
+- `POST /api/programs/refresh` runs the agent and returns diffed candidates.
+  `POST /api/programs/apply` persists approved ones (Supabase `programs` table
+  when configured, else returns JSON to commit into the seed file).
+- The agent never invents figures (uses `null` when a source omits them),
+  requires an official `sourceUrl` per program, and attaches a confidence level
+  + reviewer note. It does **not** scrape lenders — it researches programs.
 ```

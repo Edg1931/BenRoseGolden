@@ -2,6 +2,9 @@ import { loadAllPrograms } from "@/lib/programs/sources";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ASSISTANCE_TYPE_LABELS } from "@/lib/programs/schema";
+import { getCurrentUser } from "@/lib/auth/session";
+import { isGoldenSide } from "@/lib/auth/roles";
+import { RefreshPanel } from "@/components/programs/refresh-panel";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +15,8 @@ export const dynamic = "force-dynamic";
  * ranked "you qualify because…" results are the next milestone.
  */
 export default async function DpaFinderPage() {
-  const programs = await loadAllPrograms();
+  const [programs, user] = await Promise.all([loadAllPrograms(), getCurrentUser()]);
+  const canManage = isGoldenSide(user);
 
   return (
     <div className="space-y-6">
@@ -25,6 +29,8 @@ export default async function DpaFinderPage() {
           Buyer questionnaire and ranked matches are the next milestone.
         </p>
       </div>
+
+      {canManage && <RefreshPanel />}
 
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
         {programs.map((p) => (
