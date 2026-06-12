@@ -45,6 +45,8 @@ function fullName(p: Participant): string {
 export function ParticipantBoard({ participants }: { participants: Participant[] }) {
   const [items, setItems] = useState(participants);
   const [pendingId, setPendingId] = useState<string | null>(null);
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [overStage, setOverStage] = useState<ParticipantStage | null>(null);
   const [, startTransition] = useTransition();
 
   async function move(id: string, stage: ParticipantStage) {
@@ -69,7 +71,21 @@ export function ParticipantBoard({ participants }: { participants: Participant[]
     }
   }
 
+  function onDrop(stage: ParticipantStage) {
+    const id = draggingId;
+    setOverStage(null);
+    setDraggingId(null);
+    if (id) {
+      const current = items.find((p) => p.id === id);
+      if (current && current.stage !== stage) move(id, stage);
+    }
+  }
+
   return (
+    <>
+    <p className="mb-2 text-xs text-muted-foreground">
+      Drag a card to another column to move a client between phases — or use the dropdown on each card.
+    </p>
     <div className="flex gap-3 overflow-x-auto pb-4">
       {PARTICIPANT_STAGES.map((stage) => {
         const column = items.filter((p) => p.stage === stage);
@@ -90,15 +106,34 @@ export function ParticipantBoard({ participants }: { participants: Participant[]
                 avg {durationLabel(avg)} in stage
               </div>
             )}
-            <div className="space-y-2 rounded-lg bg-muted/50 p-2">
+            <div
+              onDragOver={(e) => { e.preventDefault(); setOverStage(stage); }}
+              onDragLeave={() => setOverStage((s) => (s === stage ? null : s))}
+              onDrop={() => onDrop(stage)}
+              className={
+                "min-h-[5rem] space-y-2 rounded-lg p-2 transition-colors " +
+                (overStage === stage ? "bg-brand-rose/10 ring-2 ring-brand-rose/30" : "bg-muted/50")
+              }
+            >
               {column.length === 0 ? (
-                <p className="px-1 py-6 text-center text-xs text-muted-foreground">None</p>
+                <p className="px-1 py-6 text-center text-xs text-muted-foreground">
+                  {overStage === stage ? "Drop here" : "None"}
+                </p>
               ) : (
                 column.map((p) => {
                   const days = daysInStage(p);
                   const stale = days >= 60;
                   return (
-                    <div key={p.id} className="space-y-2 rounded-lg border border-border bg-background p-3 shadow-sm">
+                    <div
+                      key={p.id}
+                      draggable
+                      onDragStart={(e) => { setDraggingId(p.id); e.dataTransfer.effectAllowed = "move"; }}
+                      onDragEnd={() => { setDraggingId(null); setOverStage(null); }}
+                      className={
+                        "space-y-2 rounded-lg border border-border bg-background p-3 shadow-sm transition-opacity " +
+                        (draggingId === p.id ? "cursor-grabbing opacity-40" : "cursor-grab hover:border-brand-rose/40")
+                      }
+                    >
                       <div className="flex items-center gap-2">
                         <Avatar name={fullName(p)} size="sm" />
                         <Link href={`/contacts/${p.id}`} className="min-w-0 flex-1">
@@ -145,5 +180,6 @@ export function ParticipantBoard({ participants }: { participants: Participant[]
         );
       })}
     </div>
+    </>
   );
 }

@@ -36,6 +36,7 @@ export default async function ReportsPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <BarList title="Outcomes funnel" bars={report.funnel} showRate tone="rose" />
+        <BarList title="Avg days in each phase" bars={report.timeInStage} tone="gold" />
         <BarList title="Phase completion" bars={report.phaseCompletion} showRate tone="emerald" />
         <BarList title="Module completion" bars={report.moduleCompletion} showRate />
         <BarList title="How content is consumed (format)" bars={report.formatUsage} tone="gold" />

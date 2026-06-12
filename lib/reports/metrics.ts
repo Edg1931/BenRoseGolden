@@ -6,8 +6,20 @@ import {
   TRACK_LABELS,
   type ContentFormat,
 } from "@/lib/participants/curriculum";
-import type { Participant } from "@/lib/participants/schema";
+import {
+  PARTICIPANT_STAGES,
+  STAGE_LABELS,
+  type Participant,
+} from "@/lib/participants/schema";
 import type { Campaign } from "@/lib/content/schema";
+
+const DAY = 1000 * 60 * 60 * 24;
+
+function daysInStage(p: Participant): number {
+  const t = new Date(p.stageSince ?? p.dateAdded).getTime();
+  if (Number.isNaN(t)) return 0;
+  return Math.max(0, Math.floor((Date.now() - t) / DAY));
+}
 
 export interface Bar {
   key: string;
@@ -25,6 +37,7 @@ export interface ReportData {
   languageReach: Bar[];
   needs: Bar[];
   funnel: Bar[]; // enrolled -> graduated -> referred
+  timeInStage: Bar[]; // avg days currently spent in each stage
   feedback: { avgScore: number | null; scored: number };
   campaigns: { total: number; byStatus: Record<string, number>; byType: Record<string, number> };
 }
@@ -97,6 +110,15 @@ export function computeReports(participants: Participant[], campaigns: Campaign[
     { key: "referred", label: "Referred", value: referred, total },
   ];
 
+  // Average days currently spent in each stage (the time-in-phase view).
+  const timeInStage: Bar[] = PARTICIPANT_STAGES.map((stage) => {
+    const inStage = participants.filter((p) => p.stage === stage);
+    const avg = inStage.length
+      ? Math.round(inStage.reduce((s, p) => s + daysInStage(p), 0) / inStage.length)
+      : 0;
+    return { key: stage, label: STAGE_LABELS[stage], value: avg };
+  });
+
   const byStatus: Record<string, number> = {};
   const byType: Record<string, number> = {};
   for (const c of campaigns) {
@@ -112,6 +134,7 @@ export function computeReports(participants: Participant[], campaigns: Campaign[
     languageReach,
     needs,
     funnel,
+    timeInStage,
     feedback: { avgScore: scored ? Math.round(scoreSum / scored) : null, scored },
     campaigns: { total: campaigns.length, byStatus, byType },
   };
