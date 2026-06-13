@@ -6,16 +6,21 @@ import { Card } from "@/components/ui/card";
 import { CoachPanel } from "@/components/learn/coach-panel";
 import { PodcastPlayer } from "@/components/learn/podcast-player";
 import { BudgetCalculator } from "@/components/learn/budget-calculator";
+import { AffordabilityCalculator } from "@/components/learn/affordability-calculator";
+import { KnowledgeCheck } from "@/components/learn/knowledge-check";
+import { StepSorter } from "@/components/learn/step-sorter";
 import {
-  DAY1_LESSONS,
-  DAY1_SECTIONS,
   LEARN_LANGS,
   LEARN_LANG_LABELS,
   dirFor,
   type LearnLang,
+  type Lesson,
+  type Localized,
 } from "@/lib/learn/content";
+import { DAY_TITLES } from "@/lib/learn/course";
 import { UI, fill } from "@/lib/learn/strings";
-import { DAY1_QUIZ_I18N } from "@/lib/learn/quiz";
+import { QUIZ_I18N } from "@/lib/learn/quiz-i18n";
+import { addXp, loadProgress, markPassed, markViewed } from "@/lib/learn/progress-store";
 import type { PublicQuizQuestion } from "@/lib/participants/quiz";
 
 type Tab = "lessons" | "podcast" | "coach";
@@ -28,8 +33,9 @@ interface Outcome {
 
 const SPEECH_LANG: Record<LearnLang, string> = { en: "en-US", es: "es-ES", ar: "ar-SA" };
 
-/** A small illustrative icon per lesson, for visual interest. */
+/** Small illustrative icon per lesson, for visual scanning. */
 const LESSON_ICON: Record<string, string> = {
+  // Day 1
   "budgeting-spending-plan": "📋",
   "budgeting-know-expenses": "🧾",
   "budgeting-good-habits": "🌱",
@@ -38,9 +44,34 @@ const LESSON_ICON: Record<string, string> = {
   "credit-whats-in-report": "🔍",
   "credit-score-factors": "📊",
   "credit-build-protect": "🛡️",
+  // Day 2
+  "mortgage-what-is": "🏦",
+  "mortgage-types-pmi": "📈",
+  "mortgage-affordability": "🧮",
+  "process-steps-team": "🗺️",
+  "rights-documents": "⚖️",
+  // Day 3
+  "shopping-needs-wants": "📝",
+  "shopping-offer-escrow": "🤝",
+  "inspection-what-it-covers": "🔍",
+  // Day 4
+  "insurance-basics": "☂️",
+  "insurance-choosing": "🧾",
+  "maintenance-cycle": "🔄",
+  "maintenance-protect-investment": "💎",
 };
 
-export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] }) {
+export function CoursePlayer({
+  daySlug,
+  sections,
+  lessons,
+  questions,
+}: {
+  daySlug: string;
+  sections: Record<string, Localized>;
+  lessons: Lesson[];
+  questions: PublicQuizQuestion[];
+}) {
   const [lang, setLang] = useState<LearnLang>("en");
   const [tab, setTab] = useState<Tab>("lessons");
   const [phase, setPhase] = useState<Phase>("lessons");
@@ -51,13 +82,17 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
   const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [name, setName] = useState("");
   const [speaking, setSpeaking] = useState(false);
-  const [viewed, setViewed] = useState<Set<string>>(new Set());
+  const [xp, setXp] = useState(0);
 
   const dir = dirFor(lang);
   const t = (key: string) => UI[key]?.[lang] ?? UI[key]?.en ?? key;
-
-  const lessons = DAY1_LESSONS;
   const lesson = lessons[index];
+  const dayTitle = DAY_TITLES[daySlug];
+
+  // Hydrate persisted XP after mount (localStorage isn't available during SSR).
+  useEffect(() => {
+    setXp(loadProgress().xp);
+  }, []);
 
   const stopAudio = () => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
@@ -68,14 +103,12 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
   useEffect(() => stopAudio(), [lang, index, phase, tab]);
   useEffect(() => () => stopAudio(), []);
 
-  // Track read lessons for XP.
+  // Record viewed lessons (10 XP first time each).
   useEffect(() => {
     if (tab === "lessons" && phase === "lessons" && lesson) {
-      setViewed((v) => (v.has(lesson.id) ? v : new Set(v).add(lesson.id)));
+      setXp(markViewed(daySlug, lesson.id).xp);
     }
-  }, [tab, phase, lesson]);
-
-  const xp = viewed.size * 10 + (outcome?.result.passed ? 50 : 0);
+  }, [tab, phase, lesson, daySlug]);
 
   const speechSupported = typeof window !== "undefined" && "speechSynthesis" in window;
 
@@ -108,12 +141,22 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
       const res = await fetch("/api/learn/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers }),
+        body: JSON.stringify({ answers, day: daySlug }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Could not submit test");
-      setOutcome(data as Outcome);
+      const out = data as Outcome;
+      setOutcome(out);
       setPhase("done");
+      if (out.result.passed) {
+        setXp(
+          markPassed(daySlug, {
+            score: out.result.score,
+            certificateId: out.certificateId,
+            date: new Date().toISOString(),
+          }).xp,
+        );
+      }
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Could not submit test");
     } finally {
@@ -142,7 +185,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
   return (
     <div dir={dir} className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
       {/* Top bar: back + XP + language switcher */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 print:hidden">
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-3 print:hidden">
         <Link href="/learn" className="text-sm text-muted-foreground hover:text-foreground">
           ← {t("continueLater")}
         </Link>
@@ -165,6 +208,11 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
           </div>
         </div>
       </div>
+      {dayTitle && (
+        <p className="mb-4 font-serif text-sm font-semibold text-brand-plum print:hidden">
+          {dayTitle[lang]}
+        </p>
+      )}
 
       {/* Tab bar */}
       <div className="mb-6 flex gap-1 rounded-lg bg-muted p-1 print:hidden">
@@ -182,24 +230,22 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
         ))}
       </div>
 
-      {/* ── PODCAST TAB ─────────────────────────────────────────────────── */}
-      {tab === "podcast" && <PodcastPlayer lang={lang} onAsk={() => setTab("coach")} />}
-
-      {/* ── COACH TAB ───────────────────────────────────────────────────── */}
+      {tab === "podcast" && (
+        <PodcastPlayer daySlug={daySlug} lang={lang} onAsk={() => setTab("coach")} />
+      )}
       {tab === "coach" && <CoachPanel lang={lang} />}
 
-      {/* ── LESSONS TAB ─────────────────────────────────────────────────── */}
       {tab === "lessons" && (
         <>
           {phase === "lessons" && lesson && (
             <div>
               <Progress current={index + 1} total={lessons.length} />
               <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-brand-rose">
-                {DAY1_SECTIONS[lesson.section][lang]}
+                {sections[lesson.section]?.[lang]}
               </p>
               <div className="mt-1 flex items-start justify-between gap-3">
                 <h1 className="text-2xl font-bold">
-                  <span className="me-2">{LESSON_ICON[lesson.id]}</span>
+                  <span className="me-2">{LESSON_ICON[lesson.id] ?? "📘"}</span>
                   {lesson.title[lang]}
                 </h1>
                 {speechSupported && (
@@ -235,8 +281,19 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
                 </Card>
               )}
 
-              {/* Interactive block: budget calculator on the budgeting wrap-up lesson */}
-              {lesson.id === "budgeting-money-tight" && <BudgetCalculator lang={lang} />}
+              {/* Interactive blocks */}
+              {lesson.calculator === "budget" && <BudgetCalculator lang={lang} />}
+              {lesson.calculator === "affordability" && <AffordabilityCalculator lang={lang} />}
+              {lesson.check && (
+                <KnowledgeCheck
+                  check={lesson.check}
+                  lang={lang}
+                  onCorrect={() => setXp(addXp(10).xp)}
+                />
+              )}
+              {lesson.sorter && (
+                <StepSorter sorter={lesson.sorter} lang={lang} onSolved={() => setXp(addXp(15).xp)} />
+              )}
 
               <div className="mt-4 rounded-lg border-s-4 border-brand-gold bg-brand-gold/5 p-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-brand-gold">
@@ -293,7 +350,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
                 </button>
                 <button
                   onClick={() => setTab("coach")}
-                  className="rounded-md border border-brand-rose px-4 py-2 text-sm font-medium text-brand-rose hover:bg-brand-rose/10"
+                  className="rounded-md border border-brand-rose px-4 py-2 text-sm font-medium text-brand-rose hover:bg-brand-blush"
                 >
                   🤖 {t("tabCoach")}
                 </button>
@@ -311,7 +368,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
             <div className="space-y-4">
               <h1 className="text-2xl font-bold">{t("testTitle")}</h1>
               {questions.map((q, qi) => {
-                const tr = DAY1_QUIZ_I18N[q.id];
+                const tr = QUIZ_I18N[q.id];
                 const qText = tr ? tr.question[lang] : q.text;
                 return (
                   <Card key={q.id} className="space-y-3 p-4">
@@ -327,7 +384,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
                             key={oi}
                             className={`flex cursor-pointer items-center gap-2 rounded-md border px-3 py-2 text-sm ${
                               checked
-                                ? "border-brand-rose bg-brand-rose/10"
+                                ? "border-brand-rose bg-brand-blush"
                                 : "border-input hover:bg-muted/50"
                             }`}
                           >
@@ -385,6 +442,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
 
                   <Certificate
                     name={name || t("certNamePlaceholder")}
+                    completedLine={`${t("certCompleted")} ${dayTitle?.[lang] ?? daySlug}`}
                     date={todayStr}
                     certId={outcome.certificateId ?? "—"}
                     lang={lang}
@@ -400,15 +458,23 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
                     </button>
                   </div>
 
-                  <Card className="space-y-3 bg-gradient-to-br from-brand-rose/10 to-brand-gold/10 p-6 print:hidden">
+                  <Card className="space-y-3 bg-gradient-to-br from-brand-blush to-brand-gold/10 p-6 print:hidden">
                     <h2 className="text-lg font-bold">{t("nextStepTitle")}</h2>
                     <p className="text-sm text-muted-foreground">{t("nextStepBody")}</p>
-                    <Link
-                      href="/welcome#assistance"
-                      className="inline-block rounded-md bg-brand-rose px-5 py-2.5 text-sm font-medium text-white"
-                    >
-                      {t("findAssistance")} →
-                    </Link>
+                    <div className="flex flex-wrap gap-2">
+                      <Link
+                        href="/assistance"
+                        className="inline-block rounded-md bg-brand-rose px-5 py-2.5 text-sm font-medium text-white"
+                      >
+                        {t("findAssistance")} →
+                      </Link>
+                      <Link
+                        href="/learn"
+                        className="inline-block rounded-md border border-brand-rose px-5 py-2.5 text-sm font-medium text-brand-rose"
+                      >
+                        {t("continueLater")} →
+                      </Link>
+                    </div>
                   </Card>
                 </>
               ) : (
@@ -436,7 +502,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
                     </button>
                     <button
                       onClick={() => setTab("coach")}
-                      className="rounded-md border border-brand-rose px-4 py-2 text-sm font-medium text-brand-rose hover:bg-brand-rose/10"
+                      className="rounded-md border border-brand-rose px-4 py-2 text-sm font-medium text-brand-rose hover:bg-brand-blush"
                     >
                       🤖 {t("tabCoach")}
                     </button>
@@ -468,12 +534,14 @@ function Progress({ current, total }: { current: number; total: number }) {
 
 function Certificate({
   name,
+  completedLine,
   date,
   certId,
   lang,
   dir,
 }: {
   name: string;
+  completedLine: string;
   date: string;
   certId: string;
   lang: LearnLang;
@@ -493,8 +561,8 @@ function Certificate({
         {t("certHeading")}
       </p>
       <p className="mt-6 text-sm text-muted-foreground">{t("certPresentedTo")}</p>
-      <p className="mt-1 text-3xl font-bold">{name}</p>
-      <p className="mx-auto mt-3 max-w-md text-muted-foreground">{t("certCompleted")}</p>
+      <p className="mt-1 font-serif text-3xl font-bold text-brand-plum">{name}</p>
+      <p className="mx-auto mt-3 max-w-md text-muted-foreground">{completedLine}</p>
       <p className="mt-6 text-sm font-medium">{t("certProgram")}</p>
       <div className="mt-6 flex items-center justify-center gap-8 text-xs text-muted-foreground">
         <span>

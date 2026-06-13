@@ -33,18 +33,39 @@ export interface KeyTerm {
   def: Localized;
 }
 
+/** Inline, ungraded knowledge check with instant feedback (Rise/Genially-style).
+ *  Low-stakes by design, so shipping the answer to the client is fine — the
+ *  graded day test stays server-scored. */
+export interface InlineCheck {
+  question: Localized;
+  options: Localized[];
+  correctIndex: number;
+  explain: Localized;
+}
+
+/** Put-the-steps-in-order activity; `steps` are authored in the correct order
+ *  and shuffled for play. */
+export interface SorterBlock {
+  title: Localized;
+  steps: Localized[];
+}
+
 export interface Lesson {
   id: string;
-  /** Which Day 1 curriculum module this lesson belongs to. */
-  section: "budgeting" | "credit-basics";
+  /** Section id within the day (drives the kicker label + podcast mapping). */
+  section: string;
   title: Localized;
   /** Teaching paragraphs, in order. */
   body: Localized[];
   keyTerms: KeyTerm[];
   whyItMatters: Localized;
+  /** Optional interactive blocks rendered inside the lesson. */
+  check?: InlineCheck;
+  sorter?: SorterBlock;
+  calculator?: "budget" | "affordability";
 }
 
-export const DAY1_SECTIONS: Record<Lesson["section"], Localized> = {
+export const DAY1_SECTIONS: Record<string, Localized> = {
   budgeting: {
     en: "Money Management & Budgeting",
     es: "Manejo del dinero y presupuesto",
@@ -213,6 +234,7 @@ export const DAY1_LESSONS: Lesson[] = [
   {
     id: "budgeting-money-tight",
     section: "budgeting",
+    calculator: "budget",
     title: {
       en: "When Money Is Tight",
       es: "Cuando el dinero escasea",

@@ -37,7 +37,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             <p className="font-semibold uppercase tracking-wide text-white/60">Programs</p>
             <ul className="mt-2 space-y-1.5">
               <li><Link href="/learn" className="hover:text-white">Homebuyer education</Link></li>
-              <li><Link href="/welcome#assistance" className="hover:text-white">Down-payment assistance</Link></li>
+              <li><Link href="/assistance" className="hover:text-white">Down-payment assistance</Link></li>
               <li><Link href="/welcome" className="hover:text-white">Foreclosure prevention</Link></li>
               <li><Link href="/welcome" className="hover:text-white">Credit &amp; financial coaching</Link></li>
             </ul>

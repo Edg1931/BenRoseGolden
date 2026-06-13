@@ -1,13 +1,22 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { DAY1_LESSONS, DAY1_SECTIONS, LEARN_LANG_LABELS } from "./content";
-import type { LearnLang } from "./content";
+import { LEARN_LANG_LABELS } from "./content";
+import type { LearnLang, Lesson } from "./content";
+import { COURSE_DAYS } from "./course";
 
 /**
- * "Ask AI Coach" for the Day 1 course — a friendly tutor grounded ONLY in the
- * Day 1 lesson material, to help learners understand concepts and prepare for
- * the quiz. Mirrors lib/content/agent.ts: uses Claude when ANTHROPIC_API_KEY is
- * set, and falls back to a local retrieval answer so the feature always works.
+ * "Ask AI Coach" for the learner course — a friendly tutor grounded ONLY in the
+ * 4-day course material, to help learners understand concepts and prepare for
+ * the day tests. Mirrors lib/content/agent.ts: uses Claude when
+ * ANTHROPIC_API_KEY is set, and falls back to a local retrieval answer so the
+ * feature always works.
  */
+
+const ALL_LESSONS: { lesson: Lesson; sectionTitle: string }[] = COURSE_DAYS.flatMap((d) =>
+  d.lessons.map((lesson) => ({
+    lesson,
+    sectionTitle: d.sections[lesson.section]?.en ?? d.title,
+  })),
+);
 
 const MODEL = "claude-sonnet-4-6";
 
@@ -25,12 +34,12 @@ export interface CoachReply {
   source: "ai" | "local";
 }
 
-/** Plain-text knowledge base built from the Day 1 lessons (English source). */
+/** Plain-text knowledge base built from all course lessons (English source). */
 function knowledgeBase(): string {
-  return DAY1_LESSONS.map((l) => {
+  return ALL_LESSONS.map(({ lesson: l, sectionTitle }) => {
     const terms = l.keyTerms.map((k) => `${k.term.en}: ${k.def.en}`).join("; ");
     return [
-      `## ${DAY1_SECTIONS[l.section].en} — ${l.title.en}`,
+      `## ${sectionTitle} — ${l.title.en}`,
       l.body.map((p) => p.en).join(" "),
       terms ? `Key terms: ${terms}` : "",
       `Why it matters: ${l.whyItMatters.en}`,
@@ -42,10 +51,10 @@ function knowledgeBase(): string {
 
 function systemPrompt(lang: LearnLang): string {
   const langName = LEARN_LANG_LABELS[lang];
-  return `You are "Coach," a warm, patient tutor for Benjamin Rose's free HUD-approved homebuyer education course. You are helping a learner understand Day 1: Money Management & Understanding Credit, and prepare for the short quiz.
+  return `You are "Coach," a warm, patient tutor for Benjamin Rose's free HUD-approved homebuyer education course. You help learners understand the 4-day curriculum (money management & credit; mortgages & rights; shopping & inspection; insurance & maintenance) and prepare for the day tests.
 
 Rules:
-- Answer ONLY using the Day 1 course material below. If a question falls outside it (e.g., specific legal, tax, or personal financial advice, or later topics like mortgages and closing), gently say it's beyond Day 1 and point them to a Benjamin Rose counselor or the relevant upcoming class.
+- Answer ONLY using the course material below. If a question falls outside it (e.g., specific legal, tax, or personal financial advice), gently say it's beyond the class and point them to a Benjamin Rose counselor.
 - Use plain, encouraging language. Short paragraphs. Many learners are first-time buyers or reading in a second language.
 - Do NOT give away quiz answers verbatim or tell them exactly which option to pick. Instead, teach the underlying concept so they can answer confidently themselves.
 - Reply in ${langName}.
@@ -87,15 +96,15 @@ export async function askCoach(
 }
 
 /**
- * Local fallback: pick the most relevant Day 1 lesson by keyword overlap and
+ * Local fallback: pick the most relevant course lesson by keyword overlap and
  * answer from it. Not as fluid as the AI, but always grounded and on-topic.
  */
 function localAnswer(question: string, lang: LearnLang): string {
   const q = question.toLowerCase();
   const words = new Set(q.match(/[a-z]{4,}/g) ?? []);
-  let best = DAY1_LESSONS[0];
+  let best = ALL_LESSONS[0].lesson;
   let bestScore = -1;
-  for (const lesson of DAY1_LESSONS) {
+  for (const { lesson } of ALL_LESSONS) {
     const hay = (
       lesson.title.en +
       " " +
@@ -112,9 +121,9 @@ function localAnswer(question: string, lang: LearnLang): string {
   }
   const body = best.body.map((p) => p[lang]).join(" ");
   const prefix: Record<LearnLang, string> = {
-    en: `Here's what Day 1 covers on "${best.title.en}":`,
-    es: `Esto es lo que el Día 1 explica sobre "${best.title.es}":`,
-    ar: `إليك ما يشرحه اليوم الأول حول «${best.title.ar}»:`,
+    en: `Here's what the course covers on "${best.title.en}":`,
+    es: `Esto es lo que el curso explica sobre "${best.title.es}":`,
+    ar: `إليك ما يشرحه الكورس حول «${best.title.ar}»:`,
   };
   const suffix: Record<LearnLang, string> = {
     en: "\n\n(Add an ANTHROPIC_API_KEY to enable the full AI Coach for personalized answers.)",

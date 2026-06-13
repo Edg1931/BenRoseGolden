@@ -47,9 +47,9 @@ export const UI: Record<string, Localized> = {
 
   // Quiz
   testTitle: {
-    en: "Day 1 Test",
-    es: "Prueba del Día 1",
-    ar: "اختبار اليوم الأول",
+    en: "Class Test",
+    es: "Prueba de la clase",
+    ar: "اختبار الدرس",
   },
   testIntro: {
     en: "Answer these questions to check what you learned. You need 70% to pass — you can retake it as many times as you need.",
@@ -98,9 +98,9 @@ export const UI: Record<string, Localized> = {
 
   // Certificate
   certEarnedTitle: {
-    en: "Day 1 complete — certificate earned!",
-    es: "¡Día 1 completado: certificado obtenido!",
-    ar: "اكتمل اليوم الأول - حصلت على الشهادة!",
+    en: "Class complete — certificate earned!",
+    es: "¡Clase completada: certificado obtenido!",
+    ar: "اكتمل الدرس - حصلت على الشهادة!",
   },
   certNamePrompt: {
     en: "Enter your full name as it should appear on your certificate:",
@@ -123,9 +123,9 @@ export const UI: Record<string, Localized> = {
     ar: "تشهد هذه الوثيقة بأن",
   },
   certCompleted: {
-    en: "has completed Day 1 — Money Management & Understanding Credit",
-    es: "ha completado el Día 1: Manejo del dinero y entender el crédito",
-    ar: "قد أتمّ اليوم الأول - إدارة المال وفهم الائتمان",
+    en: "has successfully completed",
+    es: "ha completado con éxito",
+    ar: "قد أتمّ بنجاح",
   },
   certProgram: {
     en: "Benjamin Rose Housing • HUD-Approved Homebuyer Education",
@@ -135,9 +135,9 @@ export const UI: Record<string, Localized> = {
   certDate: { en: "Date", es: "Fecha", ar: "التاريخ" },
   certId: { en: "Certificate ID", es: "ID del certificado", ar: "معرّف الشهادة" },
   certFootnote: {
-    en: "Day 1 of 4. Complete all four days to earn your full HUD Homebuyer Education certificate, which can unlock down-payment assistance.",
-    es: "Día 1 de 4. Completa los cuatro días para obtener tu certificado completo de Educación para Compradores de HUD, que puede desbloquear ayuda para el pago inicial.",
-    ar: "اليوم الأول من 4. أكمل الأيام الأربعة جميعها للحصول على شهادتك الكاملة لتعليم مشتري المنازل المعتمدة من HUD، والتي يمكن أن تفتح لك المساعدة في الدفعة الأولى.",
+    en: "Complete all four days to earn your full HUD Homebuyer Education certificate, which can unlock down-payment assistance.",
+    es: "Completa los cuatro días para obtener tu certificado completo de Educación para Compradores de HUD, que puede desbloquear ayuda para el pago inicial.",
+    ar: "أكمل الأيام الأربعة جميعها للحصول على شهادتك الكاملة لتعليم مشتري المنازل المعتمدة من HUD، والتي يمكن أن تفتح لك المساعدة في الدفعة الأولى.",
   },
   print: {
     en: "Print / Save as PDF",
@@ -200,9 +200,9 @@ export const UI: Record<string, Localized> = {
   // Coach
   coachTitle: { en: "Ask the AI Coach", es: "Pregúntale al Coach de IA", ar: "اسأل مدرّب الذكاء الاصطناعي" },
   coachIntro: {
-    en: "Stuck on something? Ask anything about Day 1 — budgeting or credit — and I'll help you get ready for the quiz.",
-    es: "¿Tienes una duda? Pregunta lo que quieras sobre el Día 1 —presupuesto o crédito— y te ayudo a prepararte para la prueba.",
-    ar: "هل توقّفت عند نقطة ما؟ اسأل أي شيء عن اليوم الأول - الميزانية أو الائتمان - وسأساعدك على الاستعداد للاختبار.",
+    en: "Stuck on something? Ask anything about the course — budgeting, credit, mortgages, inspections, or insurance — and I'll help you get ready for the test.",
+    es: "¿Tienes una duda? Pregunta lo que quieras sobre el curso —presupuesto, crédito, hipotecas, inspecciones o seguros— y te ayudo a prepararte para la prueba.",
+    ar: "هل توقّفت عند نقطة ما؟ اسأل أي شيء عن الكورس - الميزانية أو الائتمان أو الرهن أو الفحص أو التأمين - وسأساعدك على الاستعداد للاختبار.",
   },
   coachPlaceholder: {
     en: "Type your question…",
@@ -212,9 +212,9 @@ export const UI: Record<string, Localized> = {
   send: { en: "Send", es: "Enviar", ar: "إرسال" },
   coachThinking: { en: "Coach is thinking…", es: "El Coach está pensando…", ar: "المدرّب يفكّر…" },
   coachDisclaimer: {
-    en: "Coach explains Day 1 concepts and won't reveal exact quiz answers. For personal advice, talk to a Benjamin Rose counselor.",
-    es: "El Coach explica los conceptos del Día 1 y no revela las respuestas exactas de la prueba. Para consejo personal, habla con un asesor de Benjamin Rose.",
-    ar: "يشرح المدرّب مفاهيم اليوم الأول ولا يكشف إجابات الاختبار الدقيقة. للحصول على نصيحة شخصية، تحدّث مع مستشار من Benjamin Rose.",
+    en: "Coach explains course concepts and won't reveal exact test answers. For personal advice, talk to a Benjamin Rose counselor.",
+    es: "El Coach explica los conceptos del curso y no revela las respuestas exactas de la prueba. Para consejo personal, habla con un asesor de Benjamin Rose.",
+    ar: "يشرح المدرّب مفاهيم الكورس ولا يكشف إجابات الاختبار الدقيقة. للحصول على نصيحة شخصية، تحدّث مع مستشار من Benjamin Rose.",
   },
   suggested: { en: "Try asking:", es: "Prueba a preguntar:", ar: "جرّب أن تسأل:" },
 

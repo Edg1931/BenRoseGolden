@@ -92,7 +92,7 @@ export default function WelcomePage() {
                 Start the free classes →
               </Link>
               <Link
-                href="#assistance"
+                href="/assistance"
                 className="rounded-md border border-white/40 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
               >
                 See assistance programs
