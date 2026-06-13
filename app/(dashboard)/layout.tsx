@@ -40,6 +40,7 @@ export default async function DashboardLayout({
               <NavLink href="/referrals">Referrals</NavLink>
               <NavLink href="/dpa-finder">Assistance</NavLink>
               <NavLink href="/reports">Reports</NavLink>
+              <NavLink href="/learn">Classes ↗</NavLink>
             </nav>
           </div>
           <div className="flex items-center gap-3 text-sm">

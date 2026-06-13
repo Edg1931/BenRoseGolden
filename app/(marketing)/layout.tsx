@@ -11,9 +11,17 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             <span className="h-3 w-3 -ml-1.5 rounded-full bg-brand-gold" />
             <span className="ml-1 font-semibold tracking-tight">Benjamin Rose Housing</span>
           </Link>
-          <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground">
-            Staff sign in →
-          </Link>
+          <nav className="flex items-center gap-4 text-sm">
+            <Link
+              href="/learn"
+              className="rounded-md bg-brand-rose px-4 py-1.5 font-medium text-white hover:bg-brand-rose/90"
+            >
+              Take the classes
+            </Link>
+            <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">
+              Staff sign in →
+            </Link>
+          </nav>
         </div>
       </header>
       {children}
