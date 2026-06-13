@@ -9,19 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Partnership palette: Benjamin Rose (rose) + The Golden Group (gold).
-        border: "hsl(214 32% 91%)",
-        input: "hsl(214 32% 91%)",
-        ring: "hsl(221 83% 53%)",
+        // Partnership palette, keyed to the Benjamin Rose brand (benrose.org):
+        // warm berry plum + rose on cream, with The Golden Group's gold as the
+        // partner accent. Tuned to the public brand's rose motif — when the
+        // official style-guide hexes are available, update these tokens and the
+        // whole app retunes.
+        border: "hsl(30 25% 88%)",
+        input: "hsl(30 25% 88%)",
+        ring: "hsl(338 65% 46%)",
         background: "hsl(0 0% 100%)",
-        foreground: "hsl(222 47% 11%)",
+        foreground: "hsl(331 35% 16%)",
         muted: {
-          DEFAULT: "hsl(210 40% 96%)",
-          foreground: "hsl(215 16% 47%)",
+          DEFAULT: "hsl(33 40% 95%)",
+          foreground: "hsl(331 12% 42%)",
         },
         brand: {
-          rose: "hsl(347 77% 50%)",
-          gold: "hsl(43 96% 46%)",
+          plum: "hsl(331 48% 24%)",
+          rose: "hsl(338 65% 46%)",
+          blush: "hsl(340 60% 96%)",
+          gold: "hsl(42 80% 42%)",
+          cream: "hsl(36 50% 97%)",
         },
       },
       borderRadius: {

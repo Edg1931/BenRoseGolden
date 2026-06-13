@@ -147,7 +147,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
           ← {t("continueLater")}
         </Link>
         <div className="flex items-center gap-2">
-          <span className="rounded-full bg-brand-gold/15 px-2.5 py-1 text-xs font-semibold text-amber-700">
+          <span className="rounded-full bg-brand-gold/15 px-2.5 py-1 text-xs font-semibold text-brand-gold">
             ⭐ {xp} {t("xp")}
           </span>
           <div className="flex items-center gap-1.5">
@@ -239,7 +239,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
               {lesson.id === "budgeting-money-tight" && <BudgetCalculator lang={lang} />}
 
               <div className="mt-4 rounded-lg border-s-4 border-brand-gold bg-brand-gold/5 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+                <p className="text-xs font-semibold uppercase tracking-wide text-brand-gold">
                   {t("whyItMatters")}
                 </p>
                 <p className="mt-1">{lesson.whyItMatters[lang]}</p>
@@ -414,7 +414,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
               ) : (
                 <Card className="space-y-3 p-6 text-center">
                   <div className="text-4xl">📚</div>
-                  <h1 className="text-2xl font-bold text-amber-700">{t("notPassed")}</h1>
+                  <h1 className="text-2xl font-bold text-brand-gold">{t("notPassed")}</h1>
                   <p className="text-sm text-muted-foreground">
                     {fill(UI.correctOf[lang], {
                       correct: outcome.result.correct,

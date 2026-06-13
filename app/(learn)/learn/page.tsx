@@ -57,7 +57,7 @@ export default function LearnHome() {
         <span className="rounded-full bg-brand-rose/10 px-3 py-1 text-brand-rose">English</span>
         <span className="rounded-full bg-brand-rose/10 px-3 py-1 text-brand-rose">Español</span>
         <span className="rounded-full bg-brand-rose/10 px-3 py-1 text-brand-rose">العربية</span>
-        <span className="rounded-full bg-brand-gold/10 px-3 py-1 text-amber-700">🔊 Audio</span>
+        <span className="rounded-full bg-brand-gold/10 px-3 py-1 text-brand-gold">🔊 Audio</span>
       </div>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">

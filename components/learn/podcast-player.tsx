@@ -185,7 +185,7 @@ export function PodcastPlayer({ lang, onAsk }: { lang: LearnLang; onAsk: () => v
                   i === line ? "bg-brand-gold/20 font-medium" : "hover:bg-white/60"
                 }`}
               >
-                <span className={ln.speaker === "maya" ? "text-brand-rose" : "text-amber-700"}>
+                <span className={ln.speaker === "maya" ? "text-brand-rose" : "text-brand-gold"}>
                   {HOST_LABELS[ln.speaker]}:
                 </span>{" "}
                 {ln.text}
