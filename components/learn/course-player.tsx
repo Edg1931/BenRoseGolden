@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { CoachPanel } from "@/components/learn/coach-panel";
+import { PodcastPlayer } from "@/components/learn/podcast-player";
+import { BudgetCalculator } from "@/components/learn/budget-calculator";
 import {
   DAY1_LESSONS,
   DAY1_SECTIONS,
@@ -15,6 +18,7 @@ import { UI, fill } from "@/lib/learn/strings";
 import { DAY1_QUIZ_I18N } from "@/lib/learn/quiz";
 import type { PublicQuizQuestion } from "@/lib/participants/quiz";
 
+type Tab = "lessons" | "podcast" | "coach";
 type Phase = "lessons" | "testIntro" | "test" | "done";
 
 interface Outcome {
@@ -22,15 +26,23 @@ interface Outcome {
   certificateId: string | null;
 }
 
-/** BCP-47 voice tags for the browser speech synthesizer. */
-const SPEECH_LANG: Record<LearnLang, string> = {
-  en: "en-US",
-  es: "es-ES",
-  ar: "ar-SA",
+const SPEECH_LANG: Record<LearnLang, string> = { en: "en-US", es: "es-ES", ar: "ar-SA" };
+
+/** A small illustrative icon per lesson, for visual interest. */
+const LESSON_ICON: Record<string, string> = {
+  "budgeting-spending-plan": "📋",
+  "budgeting-know-expenses": "🧾",
+  "budgeting-good-habits": "🌱",
+  "budgeting-money-tight": "⚖️",
+  "credit-what-is-report": "📄",
+  "credit-whats-in-report": "🔍",
+  "credit-score-factors": "📊",
+  "credit-build-protect": "🛡️",
 };
 
 export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] }) {
   const [lang, setLang] = useState<LearnLang>("en");
+  const [tab, setTab] = useState<Tab>("lessons");
   const [phase, setPhase] = useState<Phase>("lessons");
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -39,6 +51,7 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
   const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [name, setName] = useState("");
   const [speaking, setSpeaking] = useState(false);
+  const [viewed, setViewed] = useState<Set<string>>(new Set());
 
   const dir = dirFor(lang);
   const t = (key: string) => UI[key]?.[lang] ?? UI[key]?.en ?? key;
@@ -46,18 +59,25 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
   const lessons = DAY1_LESSONS;
   const lesson = lessons[index];
 
-  // Stop any narration when language, lesson, or phase changes.
   const stopAudio = () => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
     setSpeaking(false);
   };
-  useEffect(() => stopAudio(), [lang, index, phase]);
+  useEffect(() => stopAudio(), [lang, index, phase, tab]);
   useEffect(() => () => stopAudio(), []);
 
-  const speechSupported =
-    typeof window !== "undefined" && "speechSynthesis" in window;
+  // Track read lessons for XP.
+  useEffect(() => {
+    if (tab === "lessons" && phase === "lessons" && lesson) {
+      setViewed((v) => (v.has(lesson.id) ? v : new Set(v).add(lesson.id)));
+    }
+  }, [tab, phase, lesson]);
+
+  const xp = viewed.size * 10 + (outcome?.result.passed ? 50 : 0);
+
+  const speechSupported = typeof window !== "undefined" && "speechSynthesis" in window;
 
   function toggleAudio() {
     if (!speechSupported || !lesson) return;
@@ -113,281 +133,325 @@ export function CoursePlayer({ questions }: { questions: PublicQuizQuestion[] })
     [],
   );
 
+  const TABS: { id: Tab; label: string; icon: string }[] = [
+    { id: "lessons", label: t("tabLessons"), icon: "📖" },
+    { id: "podcast", label: t("tabPodcast"), icon: "🎙️" },
+    { id: "coach", label: t("tabCoach"), icon: "🤖" },
+  ];
+
   return (
     <div dir={dir} className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
-      {/* Top bar: title + language switcher */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
+      {/* Top bar: back + XP + language switcher */}
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 print:hidden">
         <Link href="/learn" className="text-sm text-muted-foreground hover:text-foreground">
           ← {t("continueLater")}
         </Link>
-        <div className="flex items-center gap-1.5">
-          <span className="me-1 text-xs uppercase tracking-wide text-muted-foreground">
-            {t("language")}
+        <div className="flex items-center gap-2">
+          <span className="rounded-full bg-brand-gold/15 px-2.5 py-1 text-xs font-semibold text-amber-700">
+            ⭐ {xp} {t("xp")}
           </span>
-          {LEARN_LANGS.map((l) => (
-            <button
-              key={l}
-              onClick={() => setLang(l)}
-              className={`rounded-md px-2.5 py-1 text-sm ${
-                l === lang
-                  ? "bg-brand-rose text-white"
-                  : "border border-input hover:bg-muted"
-              }`}
-            >
-              {LEARN_LANG_LABELS[l]}
-            </button>
-          ))}
+          <div className="flex items-center gap-1.5">
+            {LEARN_LANGS.map((l) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                className={`rounded-md px-2.5 py-1 text-sm ${
+                  l === lang ? "bg-brand-rose text-white" : "border border-input hover:bg-muted"
+                }`}
+              >
+                {LEARN_LANG_LABELS[l]}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* ── Lessons ─────────────────────────────────────────────────────── */}
-      {phase === "lessons" && lesson && (
-        <div>
-          <Progress current={index + 1} total={lessons.length} />
-          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-brand-rose">
-            {DAY1_SECTIONS[lesson.section][lang]}
-          </p>
-          <div className="mt-1 flex items-start justify-between gap-3">
-            <h1 className="text-2xl font-bold">{lesson.title[lang]}</h1>
-            {speechSupported && (
-              <button
-                onClick={toggleAudio}
-                className="shrink-0 rounded-full border border-input px-3 py-1.5 text-sm hover:bg-muted"
-                aria-pressed={speaking}
-              >
-                {speaking ? `⏹ ${t("stop")}` : `🔊 ${t("listen")}`}
-              </button>
-            )}
-          </div>
-
-          <div className="mt-4 space-y-4 text-[17px] leading-relaxed">
-            {lesson.body.map((p, i) => (
-              <p key={i}>{p[lang]}</p>
-            ))}
-          </div>
-
-          {lesson.keyTerms.length > 0 && (
-            <Card className="mt-6 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                {t("keyTerms")}
-              </p>
-              <dl className="mt-2 space-y-2">
-                {lesson.keyTerms.map((kt, i) => (
-                  <div key={i}>
-                    <dt className="font-semibold">{kt.term[lang]}</dt>
-                    <dd className="text-sm text-muted-foreground">{kt.def[lang]}</dd>
-                  </div>
-                ))}
-              </dl>
-            </Card>
-          )}
-
-          <div className="mt-4 rounded-lg border-s-4 border-brand-gold bg-brand-gold/5 p-4">
-            <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
-              {t("whyItMatters")}
-            </p>
-            <p className="mt-1">{lesson.whyItMatters[lang]}</p>
-          </div>
-
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            {fill(UI.lessonProgress[lang], { n: index + 1, total: lessons.length })}
-          </p>
-
-          <div className="mt-3 flex items-center justify-between gap-3">
-            <button
-              onClick={() => setIndex((i) => Math.max(0, i - 1))}
-              disabled={index === 0}
-              className="rounded-md border border-input px-4 py-2 text-sm hover:bg-muted disabled:opacity-40"
-            >
-              ← {t("back")}
-            </button>
-            {index < lessons.length - 1 ? (
-              <button
-                onClick={() => setIndex((i) => i + 1)}
-                className="rounded-md bg-foreground px-5 py-2 text-sm font-medium text-white"
-              >
-                {t("next")} →
-              </button>
-            ) : (
-              <button
-                onClick={() => setPhase("testIntro")}
-                className="rounded-md bg-brand-rose px-5 py-2 text-sm font-medium text-white"
-              >
-                {t("startTest")} →
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* ── Test intro ──────────────────────────────────────────────────── */}
-      {phase === "testIntro" && (
-        <Card className="space-y-4 p-6 text-center">
-          <div className="text-4xl">📝</div>
-          <h1 className="text-2xl font-bold">{t("testTitle")}</h1>
-          <p className="mx-auto max-w-md text-muted-foreground">{t("testIntro")}</p>
-          <div className="flex justify-center gap-2 pt-1">
-            <button
-              onClick={() => {
-                setPhase("lessons");
-                setIndex(0);
-              }}
-              className="rounded-md border border-input px-4 py-2 text-sm hover:bg-muted"
-            >
-              {t("reviewLessons")}
-            </button>
-            <button
-              onClick={() => setPhase("test")}
-              className="rounded-md bg-brand-rose px-5 py-2 text-sm font-medium text-white"
-            >
-              {t("startTest")} →
-            </button>
-          </div>
-        </Card>
-      )}
-
-      {/* ── Test ────────────────────────────────────────────────────────── */}
-      {phase === "test" && (
-        <div className="space-y-4">
-          <h1 className="text-2xl font-bold">{t("testTitle")}</h1>
-          {questions.map((q, qi) => {
-            const tr = DAY1_QUIZ_I18N[q.id];
-            const qText = tr ? tr.question[lang] : q.text;
-            return (
-              <Card key={q.id} className="space-y-3 p-4">
-                <div className="font-medium">
-                  {qi + 1}. {qText}
-                </div>
-                <div className="space-y-1.5">
-                  {q.options.map((opt, oi) => {
-                    const label = tr ? tr.options[oi]?.[lang] ?? opt : opt;
-                    const checked = answers[q.id] === oi;
-                    return (
-                      <label
-                        key={oi}
-                        className={`flex cursor-pointer items-center gap-2 rounded-md border px-3 py-2 text-sm ${
-                          checked
-                            ? "border-brand-rose bg-brand-rose/10"
-                            : "border-input hover:bg-muted/50"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name={q.id}
-                          checked={checked}
-                          onChange={() => setAnswers((a) => ({ ...a, [q.id]: oi }))}
-                        />
-                        <span>{label}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </Card>
-            );
-          })}
-
-          {err && <p className="text-sm text-red-700">{err}</p>}
-
+      {/* Tab bar */}
+      <div className="mb-6 flex gap-1 rounded-lg bg-muted p-1 print:hidden">
+        {TABS.map((tb) => (
           <button
-            onClick={submitTest}
-            disabled={!allAnswered || busy}
-            className="w-full rounded-md bg-foreground px-5 py-3 text-sm font-medium text-white disabled:opacity-50"
+            key={tb.id}
+            onClick={() => setTab(tb.id)}
+            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${
+              tab === tb.id ? "bg-white shadow-sm" : "text-muted-foreground hover:text-foreground"
+            }`}
           >
-            {busy ? t("scoring") : allAnswered ? t("submitTest") : t("answerAll")}
+            <span className="me-1">{tb.icon}</span>
+            {tb.label}
           </button>
-        </div>
-      )}
+        ))}
+      </div>
 
-      {/* ── Result / certificate ────────────────────────────────────────── */}
-      {phase === "done" && outcome && (
-        <div className="space-y-6">
-          {outcome.result.passed ? (
-            <>
-              {/* Name input (hidden when printing) */}
-              <Card className="space-y-3 p-6 text-center print:hidden">
-                <div className="text-4xl">🎓</div>
-                <h1 className="text-2xl font-bold text-emerald-700">{t("passed")}</h1>
-                <p className="text-sm text-muted-foreground">
-                  {fill(UI.correctOf[lang], {
-                    correct: outcome.result.correct,
-                    total: outcome.result.total,
-                  })}{" "}
-                  · {outcome.result.score}%
-                </p>
-                <label className="mx-auto block max-w-sm text-start">
-                  <span className="text-sm font-medium">{t("certNamePrompt")}</span>
-                  <input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder={t("certNamePlaceholder")}
-                    className="mt-1 w-full rounded-md border border-input px-3 py-2 text-sm"
-                  />
-                </label>
-              </Card>
+      {/* ── PODCAST TAB ─────────────────────────────────────────────────── */}
+      {tab === "podcast" && <PodcastPlayer lang={lang} onAsk={() => setTab("coach")} />}
 
-              {/* The certificate itself (the only thing that prints) */}
-              <Certificate
-                name={name || t("certNamePlaceholder")}
-                date={todayStr}
-                certId={outcome.certificateId ?? "—"}
-                lang={lang}
-                dir={dir}
-              />
+      {/* ── COACH TAB ───────────────────────────────────────────────────── */}
+      {tab === "coach" && <CoachPanel lang={lang} />}
 
-              <div className="flex flex-wrap justify-center gap-2 print:hidden">
-                <button
-                  onClick={() => window.print()}
-                  className="rounded-md bg-foreground px-5 py-2.5 text-sm font-medium text-white"
-                >
-                  🖨 {t("print")}
-                </button>
+      {/* ── LESSONS TAB ─────────────────────────────────────────────────── */}
+      {tab === "lessons" && (
+        <>
+          {phase === "lessons" && lesson && (
+            <div>
+              <Progress current={index + 1} total={lessons.length} />
+              <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-brand-rose">
+                {DAY1_SECTIONS[lesson.section][lang]}
+              </p>
+              <div className="mt-1 flex items-start justify-between gap-3">
+                <h1 className="text-2xl font-bold">
+                  <span className="me-2">{LESSON_ICON[lesson.id]}</span>
+                  {lesson.title[lang]}
+                </h1>
+                {speechSupported && (
+                  <button
+                    onClick={toggleAudio}
+                    className="shrink-0 rounded-full border border-input px-3 py-1.5 text-sm hover:bg-muted"
+                    aria-pressed={speaking}
+                  >
+                    {speaking ? `⏹ ${t("stop")}` : `🔊 ${t("listen")}`}
+                  </button>
+                )}
               </div>
 
-              {/* Down-payment-assistance handoff */}
-              <Card className="space-y-3 bg-gradient-to-br from-brand-rose/10 to-brand-gold/10 p-6 print:hidden">
-                <h2 className="text-lg font-bold">{t("nextStepTitle")}</h2>
-                <p className="text-sm text-muted-foreground">{t("nextStepBody")}</p>
-                <Link
-                  href="/welcome#assistance"
-                  className="inline-block rounded-md bg-brand-rose px-5 py-2.5 text-sm font-medium text-white"
-                >
-                  {t("findAssistance")} →
-                </Link>
-              </Card>
-            </>
-          ) : (
-            <Card className="space-y-3 p-6 text-center">
-              <div className="text-4xl">📚</div>
-              <h1 className="text-2xl font-bold text-amber-700">{t("notPassed")}</h1>
-              <p className="text-sm text-muted-foreground">
-                {fill(UI.correctOf[lang], {
-                  correct: outcome.result.correct,
-                  total: outcome.result.total,
-                })}{" "}
-                · {outcome.result.score}%
+              <div className="mt-4 space-y-4 text-[17px] leading-relaxed">
+                {lesson.body.map((p, i) => (
+                  <p key={i}>{p[lang]}</p>
+                ))}
+              </div>
+
+              {lesson.keyTerms.length > 0 && (
+                <Card className="mt-6 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    {t("keyTerms")}
+                  </p>
+                  <dl className="mt-2 space-y-2">
+                    {lesson.keyTerms.map((kt, i) => (
+                      <div key={i}>
+                        <dt className="font-semibold">{kt.term[lang]}</dt>
+                        <dd className="text-sm text-muted-foreground">{kt.def[lang]}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </Card>
+              )}
+
+              {/* Interactive block: budget calculator on the budgeting wrap-up lesson */}
+              {lesson.id === "budgeting-money-tight" && <BudgetCalculator lang={lang} />}
+
+              <div className="mt-4 rounded-lg border-s-4 border-brand-gold bg-brand-gold/5 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+                  {t("whyItMatters")}
+                </p>
+                <p className="mt-1">{lesson.whyItMatters[lang]}</p>
+              </div>
+
+              <p className="mt-6 text-center text-sm text-muted-foreground">
+                {fill(UI.lessonProgress[lang], { n: index + 1, total: lessons.length })}
               </p>
-              <p className="mx-auto max-w-md text-sm">{t("notPassedHelp")}</p>
-              <div className="flex justify-center gap-2 pt-1">
+
+              <div className="mt-3 flex items-center justify-between gap-3">
+                <button
+                  onClick={() => setIndex((i) => Math.max(0, i - 1))}
+                  disabled={index === 0}
+                  className="rounded-md border border-input px-4 py-2 text-sm hover:bg-muted disabled:opacity-40"
+                >
+                  ← {t("back")}
+                </button>
+                {index < lessons.length - 1 ? (
+                  <button
+                    onClick={() => setIndex((i) => i + 1)}
+                    className="rounded-md bg-foreground px-5 py-2 text-sm font-medium text-white"
+                  >
+                    {t("next")} →
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setPhase("testIntro")}
+                    className="rounded-md bg-brand-rose px-5 py-2 text-sm font-medium text-white"
+                  >
+                    {t("startTest")} →
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
+          {phase === "testIntro" && (
+            <Card className="space-y-4 p-6 text-center">
+              <div className="text-4xl">📝</div>
+              <h1 className="text-2xl font-bold">{t("testTitle")}</h1>
+              <p className="mx-auto max-w-md text-muted-foreground">{t("testIntro")}</p>
+              <div className="flex flex-wrap justify-center gap-2 pt-1">
                 <button
                   onClick={() => {
                     setPhase("lessons");
                     setIndex(0);
-                    setOutcome(null);
                   }}
                   className="rounded-md border border-input px-4 py-2 text-sm hover:bg-muted"
                 >
                   {t("reviewLessons")}
                 </button>
                 <button
-                  onClick={retake}
+                  onClick={() => setTab("coach")}
+                  className="rounded-md border border-brand-rose px-4 py-2 text-sm font-medium text-brand-rose hover:bg-brand-rose/10"
+                >
+                  🤖 {t("tabCoach")}
+                </button>
+                <button
+                  onClick={() => setPhase("test")}
                   className="rounded-md bg-brand-rose px-5 py-2 text-sm font-medium text-white"
                 >
-                  {t("retake")}
+                  {t("startTest")} →
                 </button>
               </div>
             </Card>
           )}
-        </div>
+
+          {phase === "test" && (
+            <div className="space-y-4">
+              <h1 className="text-2xl font-bold">{t("testTitle")}</h1>
+              {questions.map((q, qi) => {
+                const tr = DAY1_QUIZ_I18N[q.id];
+                const qText = tr ? tr.question[lang] : q.text;
+                return (
+                  <Card key={q.id} className="space-y-3 p-4">
+                    <div className="font-medium">
+                      {qi + 1}. {qText}
+                    </div>
+                    <div className="space-y-1.5">
+                      {q.options.map((opt, oi) => {
+                        const label = tr ? tr.options[oi]?.[lang] ?? opt : opt;
+                        const checked = answers[q.id] === oi;
+                        return (
+                          <label
+                            key={oi}
+                            className={`flex cursor-pointer items-center gap-2 rounded-md border px-3 py-2 text-sm ${
+                              checked
+                                ? "border-brand-rose bg-brand-rose/10"
+                                : "border-input hover:bg-muted/50"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name={q.id}
+                              checked={checked}
+                              onChange={() => setAnswers((a) => ({ ...a, [q.id]: oi }))}
+                            />
+                            <span>{label}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </Card>
+                );
+              })}
+
+              {err && <p className="text-sm text-red-700">{err}</p>}
+
+              <button
+                onClick={submitTest}
+                disabled={!allAnswered || busy}
+                className="w-full rounded-md bg-foreground px-5 py-3 text-sm font-medium text-white disabled:opacity-50"
+              >
+                {busy ? t("scoring") : allAnswered ? t("submitTest") : t("answerAll")}
+              </button>
+            </div>
+          )}
+
+          {phase === "done" && outcome && (
+            <div className="space-y-6">
+              {outcome.result.passed ? (
+                <>
+                  <Card className="space-y-3 p-6 text-center print:hidden">
+                    <div className="text-4xl">🎓</div>
+                    <h1 className="text-2xl font-bold text-emerald-700">{t("passed")}</h1>
+                    <p className="text-sm text-muted-foreground">
+                      {fill(UI.correctOf[lang], {
+                        correct: outcome.result.correct,
+                        total: outcome.result.total,
+                      })}{" "}
+                      · {outcome.result.score}% · ⭐ +50 {t("xp")}
+                    </p>
+                    <label className="mx-auto block max-w-sm text-start">
+                      <span className="text-sm font-medium">{t("certNamePrompt")}</span>
+                      <input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder={t("certNamePlaceholder")}
+                        className="mt-1 w-full rounded-md border border-input px-3 py-2 text-sm"
+                      />
+                    </label>
+                  </Card>
+
+                  <Certificate
+                    name={name || t("certNamePlaceholder")}
+                    date={todayStr}
+                    certId={outcome.certificateId ?? "—"}
+                    lang={lang}
+                    dir={dir}
+                  />
+
+                  <div className="flex flex-wrap justify-center gap-2 print:hidden">
+                    <button
+                      onClick={() => window.print()}
+                      className="rounded-md bg-foreground px-5 py-2.5 text-sm font-medium text-white"
+                    >
+                      🖨 {t("print")}
+                    </button>
+                  </div>
+
+                  <Card className="space-y-3 bg-gradient-to-br from-brand-rose/10 to-brand-gold/10 p-6 print:hidden">
+                    <h2 className="text-lg font-bold">{t("nextStepTitle")}</h2>
+                    <p className="text-sm text-muted-foreground">{t("nextStepBody")}</p>
+                    <Link
+                      href="/welcome#assistance"
+                      className="inline-block rounded-md bg-brand-rose px-5 py-2.5 text-sm font-medium text-white"
+                    >
+                      {t("findAssistance")} →
+                    </Link>
+                  </Card>
+                </>
+              ) : (
+                <Card className="space-y-3 p-6 text-center">
+                  <div className="text-4xl">📚</div>
+                  <h1 className="text-2xl font-bold text-amber-700">{t("notPassed")}</h1>
+                  <p className="text-sm text-muted-foreground">
+                    {fill(UI.correctOf[lang], {
+                      correct: outcome.result.correct,
+                      total: outcome.result.total,
+                    })}{" "}
+                    · {outcome.result.score}%
+                  </p>
+                  <p className="mx-auto max-w-md text-sm">{t("notPassedHelp")}</p>
+                  <div className="flex flex-wrap justify-center gap-2 pt-1">
+                    <button
+                      onClick={() => {
+                        setPhase("lessons");
+                        setIndex(0);
+                        setOutcome(null);
+                      }}
+                      className="rounded-md border border-input px-4 py-2 text-sm hover:bg-muted"
+                    >
+                      {t("reviewLessons")}
+                    </button>
+                    <button
+                      onClick={() => setTab("coach")}
+                      className="rounded-md border border-brand-rose px-4 py-2 text-sm font-medium text-brand-rose hover:bg-brand-rose/10"
+                    >
+                      🤖 {t("tabCoach")}
+                    </button>
+                    <button
+                      onClick={retake}
+                      className="rounded-md bg-brand-rose px-5 py-2 text-sm font-medium text-white"
+                    >
+                      {t("retake")}
+                    </button>
+                  </div>
+                </Card>
+              )}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

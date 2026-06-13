@@ -166,6 +166,86 @@ export const UI: Record<string, Localized> = {
     es: "Volver a todas las clases",
     ar: "العودة إلى جميع الدروس",
   },
+
+  // Tabs
+  tabLessons: { en: "Lessons", es: "Lecciones", ar: "الدروس" },
+  tabPodcast: { en: "Podcast", es: "Pódcast", ar: "بودكاست" },
+  tabCoach: { en: "Ask AI", es: "Pregunta a la IA", ar: "اسأل الذكاء الاصطناعي" },
+
+  // Podcast
+  podcastTitle: {
+    en: "Interactive Podcast",
+    es: "Pódcast interactivo",
+    ar: "بودكاست تفاعلي",
+  },
+  podcastIntro: {
+    en: "Two hosts walk you through the module. Pause anytime to ask the AI Coach a question — then keep listening.",
+    es: "Dos presentadores te explican el módulo. Pausa cuando quieras para preguntarle al Coach de IA y luego sigue escuchando.",
+    ar: "يشرح لك مُقدّمان الوحدة. أوقِف مؤقتاً في أي وقت لتسأل مدرّب الذكاء الاصطناعي، ثم تابِع الاستماع.",
+  },
+  podcastEnglishNote: {
+    en: "Podcast audio is in English; the lessons and quiz are available in all languages.",
+    es: "El audio del pódcast está en inglés; las lecciones y la prueba están en todos los idiomas.",
+    ar: "صوت البودكاست بالإنجليزية؛ أما الدروس والاختبار فمتوفّرة بجميع اللغات.",
+  },
+  play: { en: "Play", es: "Reproducir", ar: "تشغيل" },
+  pause: { en: "Pause", es: "Pausa", ar: "إيقاف مؤقت" },
+  restart: { en: "Restart", es: "Reiniciar", ar: "إعادة التشغيل" },
+  askCoachBtn: {
+    en: "Pause & ask a question",
+    es: "Pausar y hacer una pregunta",
+    ar: "إيقاف وطرح سؤال",
+  },
+
+  // Coach
+  coachTitle: { en: "Ask the AI Coach", es: "Pregúntale al Coach de IA", ar: "اسأل مدرّب الذكاء الاصطناعي" },
+  coachIntro: {
+    en: "Stuck on something? Ask anything about Day 1 — budgeting or credit — and I'll help you get ready for the quiz.",
+    es: "¿Tienes una duda? Pregunta lo que quieras sobre el Día 1 —presupuesto o crédito— y te ayudo a prepararte para la prueba.",
+    ar: "هل توقّفت عند نقطة ما؟ اسأل أي شيء عن اليوم الأول - الميزانية أو الائتمان - وسأساعدك على الاستعداد للاختبار.",
+  },
+  coachPlaceholder: {
+    en: "Type your question…",
+    es: "Escribe tu pregunta…",
+    ar: "اكتب سؤالك…",
+  },
+  send: { en: "Send", es: "Enviar", ar: "إرسال" },
+  coachThinking: { en: "Coach is thinking…", es: "El Coach está pensando…", ar: "المدرّب يفكّر…" },
+  coachDisclaimer: {
+    en: "Coach explains Day 1 concepts and won't reveal exact quiz answers. For personal advice, talk to a Benjamin Rose counselor.",
+    es: "El Coach explica los conceptos del Día 1 y no revela las respuestas exactas de la prueba. Para consejo personal, habla con un asesor de Benjamin Rose.",
+    ar: "يشرح المدرّب مفاهيم اليوم الأول ولا يكشف إجابات الاختبار الدقيقة. للحصول على نصيحة شخصية، تحدّث مع مستشار من Benjamin Rose.",
+  },
+  suggested: { en: "Try asking:", es: "Prueba a preguntar:", ar: "جرّب أن تسأل:" },
+
+  // Budget calculator
+  calcTitle: {
+    en: "Try it: Budget calculator",
+    es: "Pruébalo: Calculadora de presupuesto",
+    ar: "جرّبها: حاسبة الميزانية",
+  },
+  calcIncome: {
+    en: "Your gross monthly income",
+    es: "Tu ingreso mensual bruto",
+    ar: "دخلك الشهري الإجمالي",
+  },
+  calcHousing: {
+    en: "Suggested max for housing (30%)",
+    es: "Máximo sugerido para vivienda (30%)",
+    ar: "الحد الأقصى المقترح للسكن (30%)",
+  },
+  calcNeeds: { en: "Needs (50%)", es: "Necesidades (50%)", ar: "الاحتياجات (50%)" },
+  calcWants: { en: "Wants (30%)", es: "Gustos (30%)", ar: "الرغبات (30%)" },
+  calcSavings: { en: "Savings & debt (20%)", es: "Ahorro y deudas (20%)", ar: "الادخار والديون (20%)" },
+  calcHint: {
+    en: "A common starting point is the 50/30/20 plan. Adjust your income to see the targets.",
+    es: "Un buen punto de partida es el plan 50/30/20. Ajusta tu ingreso para ver las metas.",
+    ar: "نقطة انطلاق شائعة هي خطة 50/30/20. عدّل دخلك لترى الأهداف.",
+  },
+
+  // Progress / gamification
+  xp: { en: "XP", es: "XP", ar: "نقاط" },
+  lessonsDone: { en: "lessons read", es: "lecciones leídas", ar: "دروس مقروءة" },
 };
 
 /** Fill simple {token} placeholders in a localized string. */
