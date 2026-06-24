@@ -6,6 +6,8 @@ import { ASSISTANCE_TYPE_LABELS } from "@/lib/programs/schema";
 import { getCurrentUser } from "@/lib/auth/session";
 import { isGoldenSide } from "@/lib/auth/roles";
 import { RefreshPanel } from "@/components/programs/refresh-panel";
+import { AssistanceFinder } from "@/components/learn/assistance-finder";
+import { amiSupportedCounties } from "@/lib/programs/ami";
 import { datasetFreshness, isStale, STALE_AFTER_DAYS } from "@/lib/programs/freshness";
 import { latestPendingRun } from "@/lib/programs/refresh/store";
 import { formatDate } from "@/lib/utils";
@@ -22,6 +24,7 @@ export default async function DpaFinderPage() {
   const canManage = isGoldenSide(user);
   const freshness = datasetFreshness(programs);
   const pendingRun = canManage ? await latestPendingRun() : null;
+  const counties = amiSupportedCounties().sort();
 
   return (
     <div className="space-y-6">
@@ -49,6 +52,19 @@ export default async function DpaFinderPage() {
           <span className="text-xs text-muted-foreground">Run “Refresh with AI” below to review &amp; approve.</span>
         </Card>
       )}
+
+      {/* Run a client's scenario with the same questionnaire clients use */}
+      <details className="rounded-lg border border-border bg-background shadow-sm">
+        <summary className="cursor-pointer px-4 py-3 font-medium">
+          🧮 Run a client&apos;s scenario
+          <span className="ml-2 text-sm font-normal text-muted-foreground">
+            — see what a specific buyer would match
+          </span>
+        </summary>
+        <div className="border-t border-border p-4">
+          <AssistanceFinder counties={counties} />
+        </div>
+      </details>
 
       {canManage && <RefreshPanel />}
 
