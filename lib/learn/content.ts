@@ -69,14 +69,17 @@ export interface Lesson {
     | "credit-simulator"
     | "savings-goal"
     | "debt-payoff"
-    | "mortgage";
+    | "mortgage"
+    | "credit-utilization"
+    | "rent-vs-buy";
   /** Named hands-on activity widget rendered inside the lesson. */
   activity?:
     | "expense-classifier"
     | "sample-credit-report"
     | "loan-estimate"
     | "inspection-checklist"
-    | "maintenance-planner";
+    | "maintenance-planner"
+    | "loan-matcher";
 }
 
 export const DAY1_SECTIONS: Record<string, Localized> = {
@@ -662,6 +665,7 @@ export const DAY1_LESSONS: Lesson[] = [
   {
     id: "credit-build-protect",
     section: "credit-basics",
+    calculator: "credit-utilization",
     title: {
       en: "Building and Protecting Your Credit",
       es: "Construir y proteger tu crédito",

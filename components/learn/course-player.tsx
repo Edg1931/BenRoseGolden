@@ -16,6 +16,9 @@ import { SampleCreditReport } from "@/components/learn/sample-credit-report";
 import { MortgageCalculator } from "@/components/learn/mortgage-calculator";
 import { LoanEstimateExhibit } from "@/components/learn/loan-estimate-exhibit";
 import { InspectionChecklist, MaintenancePlanner } from "@/components/learn/interactive-checklist";
+import { CreditUtilizationCalculator } from "@/components/learn/credit-utilization-calculator";
+import { RentVsBuy } from "@/components/learn/rent-vs-buy";
+import { LoanTypeMatcher } from "@/components/learn/loan-type-matcher";
 import { KnowledgeCheck } from "@/components/learn/knowledge-check";
 import { StepSorter } from "@/components/learn/step-sorter";
 import {
@@ -332,11 +335,14 @@ export function CoursePlayer({
               {lesson.calculator === "savings-goal" && <SavingsGoalPlanner lang={lang} />}
               {lesson.calculator === "debt-payoff" && <DebtPayoffCalculator lang={lang} />}
               {lesson.calculator === "mortgage" && <MortgageCalculator lang={lang} />}
+              {lesson.calculator === "credit-utilization" && <CreditUtilizationCalculator lang={lang} />}
+              {lesson.calculator === "rent-vs-buy" && <RentVsBuy lang={lang} />}
               {lesson.activity === "expense-classifier" && <ExpenseClassifier lang={lang} />}
               {lesson.activity === "sample-credit-report" && <SampleCreditReport lang={lang} />}
               {lesson.activity === "loan-estimate" && <LoanEstimateExhibit lang={lang} />}
               {lesson.activity === "inspection-checklist" && <InspectionChecklist lang={lang} />}
               {lesson.activity === "maintenance-planner" && <MaintenancePlanner lang={lang} />}
+              {lesson.activity === "loan-matcher" && <LoanTypeMatcher lang={lang} />}
               {lesson.check && (
                 <KnowledgeCheck
                   check={lesson.check}

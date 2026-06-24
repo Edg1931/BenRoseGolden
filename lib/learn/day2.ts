@@ -381,6 +381,7 @@ export const DAY2_LESSONS: Lesson[] = [
   {
     id: "loan-types",
     section: "mortgages",
+    activity: "loan-matcher",
     title: {
       en: "Types of Loans: FHA, VA, USDA & Conventional",
       es: "Tipos de préstamos: FHA, VA, USDA y convencional",
@@ -656,6 +657,7 @@ export const DAY2_LESSONS: Lesson[] = [
   {
     id: "process-true-cost",
     section: "process",
+    calculator: "rent-vs-buy",
     title: {
       en: "The True Cost of Owning a Home",
       es: "El costo real de tener casa",
