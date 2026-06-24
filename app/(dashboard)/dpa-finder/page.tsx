@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { loadAllPrograms } from "@/lib/programs/sources";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -53,33 +54,36 @@ export default async function DpaFinderPage() {
 
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
         {programs.map((p) => (
-          <Card key={p.id} className="space-y-2 p-4">
-            <div className="flex items-start justify-between gap-2">
-              <h3 className="font-medium leading-tight">{p.name}</h3>
-              <Badge variant="muted">{p.level}</Badge>
-            </div>
-            <p className="text-xs text-muted-foreground">{p.provider}</p>
-            <div className="flex flex-wrap gap-1">
-              <Badge variant="gold">
-                {ASSISTANCE_TYPE_LABELS[p.assistanceType]}
-              </Badge>
-              {p.requiresHomebuyerEd === true && (
-                <Badge variant="success">🎓 Education unlocks</Badge>
-              )}
-              {p.requiresHomebuyerEd === "verify" && (
-                <Badge variant="muted">🎓 Education (verify)</Badge>
-              )}
-              {isStale(p) && <Badge variant="warning">⏳ Re-verify</Badge>}
-            </div>
-            <p className="text-sm">{p.amount}</p>
-            <p className="text-xs text-muted-foreground">
-              {p.geography.statewide
-                ? "Statewide"
-                : [...(p.geography.counties ?? []), ...(p.geography.cities ?? [])].join(
-                    ", ",
-                  )}
-            </p>
-          </Card>
+          <Link key={p.id} href={`/assistance/${p.id}`} className="block">
+            <Card className="h-full space-y-2 p-4 transition hover:border-brand-rose hover:shadow-md">
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="font-medium leading-tight">{p.name}</h3>
+                <Badge variant="muted">{p.level}</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground">{p.provider}</p>
+              <div className="flex flex-wrap gap-1">
+                <Badge variant="gold">
+                  {ASSISTANCE_TYPE_LABELS[p.assistanceType]}
+                </Badge>
+                {p.requiresHomebuyerEd === true && (
+                  <Badge variant="success">🎓 Education unlocks</Badge>
+                )}
+                {p.requiresHomebuyerEd === "verify" && (
+                  <Badge variant="muted">🎓 Education (verify)</Badge>
+                )}
+                {isStale(p) && <Badge variant="warning">⏳ Re-verify</Badge>}
+              </div>
+              <p className="text-sm">{p.amount}</p>
+              <p className="text-xs text-muted-foreground">
+                {p.geography.statewide
+                  ? "Statewide"
+                  : [...(p.geography.counties ?? []), ...(p.geography.cities ?? [])].join(
+                      ", ",
+                    )}
+              </p>
+              <p className="pt-1 text-xs font-medium text-brand-rose">View details →</p>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>
