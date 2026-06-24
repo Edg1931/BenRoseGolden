@@ -62,7 +62,13 @@ export interface Lesson {
   /** Optional interactive blocks rendered inside the lesson. */
   check?: InlineCheck;
   sorter?: SorterBlock;
-  calculator?: "budget" | "affordability" | "budget-planner" | "credit-simulator";
+  calculator?:
+    | "budget"
+    | "affordability"
+    | "budget-planner"
+    | "credit-simulator"
+    | "savings-goal"
+    | "debt-payoff";
   /** Named hands-on activity widget rendered inside the lesson. */
   activity?: "expense-classifier";
 }
@@ -375,6 +381,57 @@ export const DAY1_LESSONS: Lesson[] = [
     },
   },
 
+  {
+    id: "budgeting-saving-goal",
+    section: "budgeting",
+    calculator: "savings-goal",
+    title: {
+      en: "Saving for Your Home",
+      es: "Ahorrar para tu casa",
+      ar: "الادّخار لمنزلك",
+    },
+    body: [
+      {
+        en: "Buying a home has upfront costs worth planning for: a down payment (usually 3.5%–20% of the price), closing costs (about 1%–6% — appraisal, title, recording, loan fees), and earnest money (1%–3%, a deposit that shows you're serious and counts toward your purchase).",
+        es: "Comprar casa tiene costos iniciales que conviene planear: el pago inicial (normalmente 3.5%–20% del precio), los costos de cierre (cerca de 1%–6%: avalúo, título, registro, comisiones del préstamo) y el depósito de buena fe (1%–3%, que muestra seriedad y cuenta para tu compra).",
+        ar: "لشراء منزل تكاليف أولية تستحق التخطيط: دفعة أولى (عادةً 3.5%–20% من السعر)، وتكاليف إتمام (نحو 1%–6%: التقييم، الملكية، التسجيل، رسوم القرض)، والعربون (1%–3%، وديعة تُظهر جدّيتك وتُحتسب من ثمن شرائك).",
+      },
+      {
+        en: "Build your savings in the right order. First, a small emergency fund — even $1,000 — so a surprise doesn't wipe out your progress or your new home. Then aim for three to six months of expenses, and pour the rest into your down-payment goal.",
+        es: "Ahorra en el orden correcto. Primero, un pequeño fondo de emergencia —aunque sea $1,000— para que una sorpresa no borre tu progreso ni tu nueva casa. Luego apunta a tres a seis meses de gastos y vuelca el resto a tu meta de pago inicial.",
+        ar: "ابنِ مدّخراتك بالترتيب الصحيح. أولاً، صندوق طوارئ صغير - حتى 1,000 دولار - حتى لا تمحو مفاجأةٌ تقدّمك أو منزلك الجديد. ثم استهدف نفقات ثلاثة إلى ستة أشهر، ووجّه الباقي إلى هدف دفعتك الأولى.",
+      },
+      {
+        en: "Make your goal concrete and you're far likelier to hit it. Pick a target number, a monthly amount, and a date — then automate it. The planner below does the math; remember down-payment assistance can shrink the number you actually need.",
+        es: "Haz tu meta concreta y será mucho más probable lograrla. Elige un número objetivo, un monto mensual y una fecha, y luego automatízalo. La calculadora de abajo hace las cuentas; recuerda que la ayuda puede reducir lo que realmente necesitas.",
+        ar: "اجعل هدفك ملموساً وستزيد فرصتك في تحقيقه كثيراً. اختر رقماً مستهدفاً ومبلغاً شهرياً وتاريخاً، ثم أتمته. الحاسبة أدناه تتولّى الحساب؛ وتذكّر أن الدعم قد يُقلّل المبلغ الذي تحتاجه فعلاً.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Closing costs", es: "Costos de cierre", ar: "تكاليف الإتمام" },
+        def: {
+          en: "Fees to finalize the purchase — about 1%–6% of the price, on top of the down payment.",
+          es: "Cargos para finalizar la compra: cerca de 1%–6% del precio, además del pago inicial.",
+          ar: "رسوم إنهاء الشراء - نحو 1%–6% من السعر، إضافةً إلى الدفعة الأولى.",
+        },
+      },
+      {
+        term: { en: "Emergency fund", es: "Fondo de emergencia", ar: "صندوق الطوارئ" },
+        def: {
+          en: "Savings set aside for surprises, so an emergency doesn't become debt.",
+          es: "Ahorro apartado para imprevistos, para que una emergencia no se vuelva deuda.",
+          ar: "مدّخرات مخصّصة للمفاجآت، حتى لا تتحوّل الطارئة إلى دين.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "A clear, automated savings goal — with an emergency cushion first — is what turns 'someday' into a closing date.",
+      es: "Una meta de ahorro clara y automática —con un colchón de emergencia primero— convierte el 'algún día' en una fecha de cierre.",
+      ar: "هدف ادّخار واضح ومؤتمت - مع وسادة طوارئ أولاً - هو ما يحوّل «يوماً ما» إلى موعد إتمام.",
+    },
+  },
+
   // ── Understanding Credit ──────────────────────────────────────────────────
   {
     id: "credit-what-is-report",
@@ -445,9 +502,9 @@ export const DAY1_LESSONS: Lesson[] = [
         ar: "كما يُدرج الاستعلامات (عندما يطّلع أحدهم على ائتمانك) والسجلّات العامة مثل ديون التحصيل. وقد تظهر هنا أخطاء، ولهذا تكون مراجعته مهمة.",
       },
       {
-        en: "Your report does NOT include your income, race, or religion — and those cannot be used to judge your credit. Lenders look only at how you handle credit.",
-        es: "Tu informe NO incluye tus ingresos, raza ni religión, y eso no se puede usar para juzgar tu crédito. Los prestamistas solo ven cómo manejas el crédito.",
-        ar: "لا يتضمن تقريرك دخلك أو عِرقك أو دينك - ولا يجوز استخدام ذلك للحكم على ائتمانك. ينظر المُقرضون فقط إلى كيفية إدارتك للائتمان.",
+        en: "Just as important is what's NOT in it: your criminal background, medical information, day-to-day buying habits or transaction data, and your bank account balances are not included. Neither are your income, race, or religion — and none of those can be used to judge your credit.",
+        es: "Igual de importante es lo que NO contiene: tu antecedente penal, información médica, hábitos de compra diarios o datos de transacciones, y los saldos de tu cuenta bancaria no se incluyen. Tampoco tus ingresos, raza o religión, y nada de eso puede usarse para juzgar tu crédito.",
+        ar: "لا يقلّ أهمية ما لا يتضمّنه: سجلّك الجنائي، ومعلوماتك الطبية، وعاداتك الشرائية اليومية أو بيانات معاملاتك، وأرصدة حسابك البنكي ليست مُدرَجة. وكذلك دخلك أو عِرقك أو دينك - ولا يجوز استخدام أيٍّ من ذلك للحكم على ائتمانك.",
       },
     ],
     keyTerms: [
@@ -642,6 +699,135 @@ export const DAY1_LESSONS: Lesson[] = [
       en: "Many down-payment-assistance programs require a score around 620–640 — steady habits get you there.",
       es: "Muchos programas de ayuda para el pago inicial requieren un puntaje cercano a 620–640; los hábitos constantes te llevan ahí.",
       ar: "تتطلّب كثير من برامج المساعدة في الدفعة الأولى درجة قرابة 620–640 - والعادات الثابتة توصلك إلى هناك.",
+    },
+  },
+  {
+    id: "credit-fix-disputes",
+    section: "credit-basics",
+    title: {
+      en: "Fixing Errors & Building Credit",
+      es: "Corregir errores y construir crédito",
+      ar: "تصحيح الأخطاء وبناء الائتمان",
+    },
+    body: [
+      {
+        en: "Credit reports have mistakes more often than people think — a wrong balance, an account that isn't yours, a paid debt still showing as owed. The Fair Credit Reporting Act gives you the right to dispute them, and fixing an error can raise your score quickly.",
+        es: "Los informes de crédito tienen errores más seguido de lo que la gente cree: un saldo equivocado, una cuenta que no es tuya, una deuda pagada que aún aparece. La Ley de Informe Justo de Crédito te da derecho a disputarlos, y corregir un error puede subir tu puntaje rápido.",
+        ar: "تحتوي تقارير الائتمان على أخطاء أكثر مما يظن الناس - رصيد خاطئ، أو حساب ليس لك، أو دَين مسدَّد لا يزال يظهر مستحقاً. ويمنحك قانون التقارير الائتمانية العادلة الحق في الاعتراض عليها، وتصحيح خطأ قد يرفع درجتك بسرعة.",
+      },
+      {
+        en: "To dispute, get your free report at AnnualCreditReport.com, circle anything wrong, and file the dispute online with each bureau (Equifax, Experian, TransUnion). They generally must investigate within about 30 days. Keep copies of everything you send.",
+        es: "Para disputar, obtén tu informe gratis en AnnualCreditReport.com, marca lo que esté mal y presenta la disputa en línea con cada agencia (Equifax, Experian, TransUnion). Por lo general deben investigar en unos 30 días. Guarda copias de todo lo que envíes.",
+        ar: "للاعتراض، احصل على تقريرك المجاني من AnnualCreditReport.com، وضع دائرة حول أي خطأ، وقدّم الاعتراض إلكترونياً لدى كل وكالة (إكويفاكس، إكسبيريان، ترانس يونيون). وعليها عادةً التحقيق خلال نحو 30 يوماً. واحتفظ بنسخ من كل ما ترسله.",
+      },
+      {
+        en: "No credit yet? You can build it. A secured credit card (backed by a small deposit), becoming an authorized user on a trusted family member's card, or a credit-builder loan all create a positive history. Use a little, pay it in full and on time, every month.",
+        es: "¿Sin crédito aún? Puedes construirlo. Una tarjeta asegurada (respaldada por un pequeño depósito), ser usuario autorizado en la tarjeta de un familiar de confianza, o un préstamo para construir crédito crean un historial positivo. Usa poco, paga el total y a tiempo, cada mes.",
+        ar: "لا ائتمان بعد؟ يمكنك بناؤه. بطاقة مضمونة (مدعومة بوديعة صغيرة)، أو أن تصبح مستخدماً مُصرّحاً على بطاقة فرد موثوق من العائلة، أو قرض بناء ائتمان - كلها تُنشئ سجلاً إيجابياً. استخدم القليل، وسدّد بالكامل وفي الموعد، كل شهر.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Dispute", es: "Disputa", ar: "اعتراض" },
+        def: {
+          en: "A formal request asking a bureau to correct or remove a reporting error.",
+          es: "Una solicitud formal pidiendo a una agencia corregir o quitar un error.",
+          ar: "طلب رسمي يطلب من الوكالة تصحيح خطأ في التقرير أو إزالته.",
+        },
+      },
+      {
+        term: { en: "Secured credit card", es: "Tarjeta asegurada", ar: "بطاقة ائتمان مضمونة" },
+        def: {
+          en: "A starter card backed by a refundable deposit, used to build credit safely.",
+          es: "Una tarjeta inicial respaldada por un depósito reembolsable, para construir crédito con seguridad.",
+          ar: "بطاقة مبتدئة مدعومة بوديعة قابلة للاسترداد، تُستخدم لبناء الائتمان بأمان.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Whether you're cleaning up errors or starting from zero, you have more control over your score than you think.",
+      es: "Ya sea corrigiendo errores o empezando de cero, tienes más control sobre tu puntaje del que crees.",
+      ar: "سواء كنت تصحّح أخطاءً أو تبدأ من الصفر، لديك تحكّم في درجتك أكثر مما تظن.",
+    },
+    check: {
+      question: {
+        en: "Quick check: a good first card for someone with no credit history is…",
+        es: "Repaso rápido: una buena primera tarjeta para alguien sin historial es…",
+        ar: "مراجعة سريعة: بطاقة أولى جيدة لمن لا تاريخ ائتماني له هي…",
+      },
+      options: [
+        {
+          en: "A secured credit card",
+          es: "Una tarjeta de crédito asegurada",
+          ar: "بطاقة ائتمان مضمونة",
+        },
+        {
+          en: "A high-limit store card",
+          es: "Una tarjeta de tienda de límite alto",
+          ar: "بطاقة متجر بحدّ مرتفع",
+        },
+        {
+          en: "A payday loan",
+          es: "Un préstamo de día de pago",
+          ar: "قرض حتى يوم الراتب",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Yes — a secured card builds history safely with a small refundable deposit.",
+        es: "Sí: una tarjeta asegurada construye historial con seguridad usando un pequeño depósito reembolsable.",
+        ar: "نعم - البطاقة المضمونة تبني السجلّ بأمان بوديعة صغيرة قابلة للاسترداد.",
+      },
+    },
+  },
+  {
+    id: "credit-debt-payoff",
+    section: "credit-basics",
+    calculator: "debt-payoff",
+    title: {
+      en: "Tackling Debt Before You Buy",
+      es: "Atacar la deuda antes de comprar",
+      ar: "معالجة الديون قبل الشراء",
+    },
+    body: [
+      {
+        en: "Paying down debt does double duty: it lowers your credit utilization (helping your score) and your debt-to-income ratio (helping you qualify). Lenders add up your monthly debts against your income — the less you owe, the more home you can afford.",
+        es: "Pagar deudas hace doble trabajo: baja tu utilización de crédito (ayuda a tu puntaje) y tu relación deuda-ingreso (ayuda a calificar). Los prestamistas suman tus deudas mensuales contra tu ingreso: cuanto menos debes, más casa puedes pagar.",
+        ar: "سداد الديون يؤدي مهمتين: يخفّض معدّل استخدامك للائتمان (يُفيد درجتك) ونسبة دينك إلى دخلك (يساعدك على التأهّل). يجمع المُقرضون ديونك الشهرية مقابل دخلك - وكلما قلّ ما تدين به، زاد المنزل الذي تتحمّله.",
+      },
+      {
+        en: "Two proven strategies. The avalanche method attacks the highest-interest debt first — mathematically the cheapest. The snowball method clears the smallest balance first — the quick win keeps you motivated. Pick the one you'll actually stick with.",
+        es: "Dos estrategias probadas. El método avalancha ataca primero la deuda de mayor interés —lo más barato en matemáticas—. El método bola de nieve liquida primero el saldo más pequeño —la victoria rápida te mantiene motivado—. Elige el que de verdad mantendrás.",
+        ar: "استراتيجيتان مُثبتتان. طريقة الانهيار الجليدي تهاجم أعلى الديون فائدةً أولاً - وهي الأرخص حسابياً. وطريقة كرة الثلج تُصفّي أصغر رصيد أولاً - والانتصار السريع يُبقيك متحمساً. اختر ما ستلتزم به فعلاً.",
+      },
+      {
+        en: "Use the calculator below to see how long your debt takes to clear — and how adding even $25 a month shrinks both the time and the interest. Then aim to avoid new debt while you're saving for your home.",
+        es: "Usa la calculadora de abajo para ver cuánto tarda en saldarse tu deuda, y cómo agregar aunque sea $25 al mes reduce el tiempo y el interés. Luego evita nuevas deudas mientras ahorras para tu casa.",
+        ar: "استخدم الحاسبة أدناه لترى كم يستغرق سداد دينك - وكيف تُقلّص إضافة 25 دولاراً شهرياً الوقت والفائدة معاً. ثم احرص على تجنّب ديون جديدة بينما تدّخر لمنزلك.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Avalanche vs. snowball", es: "Avalancha vs. bola de nieve", ar: "الانهيار مقابل كرة الثلج" },
+        def: {
+          en: "Two payoff orders: highest-interest first (cheapest), or smallest balance first (most motivating).",
+          es: "Dos órdenes de pago: mayor interés primero (más barato) o saldo más pequeño primero (más motivador).",
+          ar: "ترتيبان للسداد: الأعلى فائدةً أولاً (الأرخص)، أو الأصغر رصيداً أولاً (الأكثر تحفيزاً).",
+        },
+      },
+      {
+        term: { en: "Debt-to-income (DTI)", es: "Deuda-ingreso (DTI)", ar: "الدين إلى الدخل" },
+        def: {
+          en: "Your monthly debt payments divided by income — lenders want it low to approve a mortgage.",
+          es: "Tus pagos mensuales de deudas divididos por tu ingreso; los prestamistas lo quieren bajo.",
+          ar: "أقساط ديونك الشهرية مقسومة على دخلك - يريده المُقرضون منخفضاً للموافقة على الرهن.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Every dollar of debt you clear before applying makes your mortgage easier to get and cheaper to carry.",
+      es: "Cada dólar de deuda que liquidas antes de solicitar hace tu hipoteca más fácil de obtener y más barata.",
+      ar: "كل دولار من الدين تسدّده قبل التقديم يجعل رهنك أسهل في الحصول عليه وأرخص في تحمّله.",
     },
   },
 ];

@@ -27,7 +27,7 @@ export default async function DashboardLayout({
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
           <div className="flex items-center justify-between gap-3">
             <Link href="/dashboard" className="shrink-0">
-              <Logo suffix="× Golden Group" markClassName="h-7 w-7" />
+              <Logo suffix="× Golden Group" imgClassName="h-9" />
             </Link>
             <div className="flex min-w-0 items-center gap-2 text-sm">
               <Badge variant={user.role === "benjamin-rose" ? "rose" : "gold"}>
