@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
 
@@ -57,6 +58,7 @@ const OCCUPATIONS = [
  * education link straight to the free classes.
  */
 export function AssistanceFinder({ counties }: { counties: string[] }) {
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({
     county: "",
@@ -327,7 +329,11 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
           )}
 
           {results.matches.map((m, i) => (
-            <Card key={m.id} className={`p-5 ${m.unlockedByCertificate ? "ring-2 ring-brand-gold" : ""}`}>
+            <Card
+              key={m.id}
+              onClick={() => router.push(`/assistance/${m.id}`)}
+              className={`cursor-pointer p-5 transition hover:border-brand-rose hover:shadow-md ${m.unlockedByCertificate ? "ring-2 ring-brand-gold" : ""}`}
+            >
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
@@ -345,9 +351,7 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
                       </span>
                     )}
                   </div>
-                  <Link href={`/assistance/${m.id}`} className="mt-1.5 block font-semibold hover:text-brand-rose hover:underline">
-                    {m.name}
-                  </Link>
+                  <p className="mt-1.5 font-semibold text-brand-plum">{m.name}</p>
                   <p className="text-xs text-muted-foreground">{m.provider}</p>
                 </div>
                 <div className="text-end">
@@ -399,6 +403,7 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
                   href={m.link}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
                   className="rounded-md border border-input px-4 py-2 text-sm font-medium hover:bg-muted"
                 >
                   Official page ↗
@@ -406,6 +411,7 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
                 {m.requiresHomebuyerEd && !m.unlockedByCertificate && (
                   <Link
                     href="/learn"
+                    onClick={(e) => e.stopPropagation()}
                     className="rounded-md border border-brand-rose px-4 py-2 text-sm font-medium text-brand-rose hover:bg-brand-blush"
                   >
                     Take the free classes to unlock →
