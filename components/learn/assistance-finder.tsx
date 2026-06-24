@@ -351,7 +351,13 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
                       </span>
                     )}
                   </div>
-                  <p className="mt-1.5 font-semibold text-brand-plum">{m.name}</p>
+                  <Link
+                    href={`/assistance/${m.id}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="mt-1.5 block font-semibold text-brand-plum hover:text-brand-rose hover:underline"
+                  >
+                    {m.name}
+                  </Link>
                   <p className="text-xs text-muted-foreground">{m.provider}</p>
                 </div>
                 <div className="text-end">
