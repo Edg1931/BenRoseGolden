@@ -301,6 +301,7 @@ export const DAY2_LESSONS: Lesson[] = [
   {
     id: "rights-documents",
     section: "rights",
+    activity: "loan-estimate",
     title: {
       en: "Your Documents and Your Rights",
       es: "Tus documentos y tus derechos",
@@ -374,6 +375,202 @@ export const DAY2_LESSONS: Lesson[] = [
         en: "Yes — the 3-business-day rule gives you time to review every final number before you sign.",
         es: "Sí: la regla de 3 días hábiles te da tiempo para revisar cada cifra final antes de firmar.",
         ar: "نعم - قاعدة أيام العمل الثلاثة تمنحك وقتاً لمراجعة كل رقم نهائي قبل التوقيع.",
+      },
+    },
+  },
+  {
+    id: "loan-types",
+    section: "mortgages",
+    title: {
+      en: "Types of Loans: FHA, VA, USDA & Conventional",
+      es: "Tipos de préstamos: FHA, VA, USDA y convencional",
+      ar: "أنواع القروض: FHA وVA وUSDA والتقليدي",
+    },
+    body: [
+      {
+        en: "There's more than one kind of mortgage, and the right one depends on you. A conventional loan isn't government-backed; it often wants slightly stronger credit but can allow as little as 3% down and lets you drop PMI once you reach 20% equity.",
+        es: "Hay más de un tipo de hipoteca, y la correcta depende de ti. Un préstamo convencional no está respaldado por el gobierno; suele pedir un crédito un poco más fuerte, pero puede permitir tan poco como 3% de inicial y dejar el PMI al llegar al 20% de plusvalía.",
+        ar: "هناك أكثر من نوع للرهن، والمناسب يعتمد عليك. القرض التقليدي ليس مدعوماً من الحكومة؛ وغالباً يطلب ائتماناً أقوى قليلاً لكنه قد يسمح بدفعة أولى لا تتجاوز 3% ويتيح إلغاء تأمين PMI عند بلوغ 20% من الملكية.",
+      },
+      {
+        en: "Government-backed loans open more doors. FHA allows 3.5% down with flexible credit. VA loans — for veterans and service members — often need 0% down and no monthly mortgage insurance. USDA loans cover many rural and some suburban areas with 0% down and income limits.",
+        es: "Los préstamos respaldados por el gobierno abren más puertas. FHA permite 3.5% de inicial con crédito flexible. Los VA —para veteranos y militares— a menudo no requieren inicial ni seguro hipotecario mensual. Los USDA cubren muchas zonas rurales y algunas suburbanas con 0% de inicial y límites de ingreso.",
+        ar: "القروض المدعومة حكومياً تفتح أبواباً أكثر. قرض FHA يسمح بدفعة 3.5% بائتمان مرن. وقروض VA - للمحاربين القدامى والعسكريين - غالباً بلا دفعة أولى ولا تأمين رهن شهري. وقروض USDA تغطي كثيراً من المناطق الريفية وبعض الضواحي بدفعة 0% وبحدود دخل.",
+      },
+      {
+        en: "Each has trade-offs in down payment, mortgage insurance, and who qualifies — and many down-payment-assistance programs pair with specific loan types. A HUD-approved counselor or a good loan officer can match you to the best fit; you don't have to figure it out alone.",
+        es: "Cada uno tiene ventajas y desventajas en inicial, seguro hipotecario y quién califica, y muchos programas de ayuda se combinan con tipos de préstamo específicos. Un asesor aprobado por HUD o un buen oficial de préstamos puede emparejarte con el mejor; no tienes que resolverlo solo.",
+        ar: "لكلٍّ مزايا ومقايضات في الدفعة الأولى وتأمين الرهن ومن يتأهل - وكثير من برامج الدعم ترتبط بأنواع قروض محددة. ويمكن لمستشار معتمد من HUD أو موظف قروض جيد أن يوفّق لك الأنسب؛ لست مضطراً لاكتشاف ذلك وحدك.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Conventional loan", es: "Préstamo convencional", ar: "قرض تقليدي" },
+        def: {
+          en: "A mortgage not backed by a government program; PMI can be removed at 20% equity.",
+          es: "Una hipoteca no respaldada por el gobierno; el PMI se puede quitar al 20% de plusvalía.",
+          ar: "رهن غير مدعوم ببرنامج حكومي؛ ويمكن إلغاء تأمين PMI عند 20% ملكية.",
+        },
+      },
+      {
+        term: { en: "FHA / VA / USDA loans", es: "Préstamos FHA / VA / USDA", ar: "قروض FHA / VA / USDA" },
+        def: {
+          en: "Government-backed loans with low or no down payment for buyers who qualify.",
+          es: "Préstamos respaldados por el gobierno con poco o ningún pago inicial para quienes califican.",
+          ar: "قروض مدعومة حكومياً بدفعة أولى منخفضة أو معدومة لمن يتأهل.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Picking the right loan type can mean a far smaller down payment — and which assistance you can stack on top.",
+      es: "Elegir el tipo de préstamo correcto puede significar un pago inicial mucho menor, y qué ayuda puedes sumar.",
+      ar: "اختيار نوع القرض الصحيح قد يعني دفعة أولى أصغر بكثير - وأي دعم يمكنك إضافته فوقه.",
+    },
+    check: {
+      question: {
+        en: "Quick check: which loan often allows 0% down for veterans and service members?",
+        es: "Repaso rápido: ¿qué préstamo suele permitir 0% inicial para veteranos y militares?",
+        ar: "مراجعة سريعة: أي قرض غالباً يسمح بدفعة 0% للمحاربين القدامى والعسكريين؟",
+      },
+      options: [
+        { en: "A VA loan", es: "Un préstamo VA", ar: "قرض VA" },
+        { en: "A conventional loan", es: "Un préstamo convencional", ar: "قرض تقليدي" },
+        { en: "A payday loan", es: "Un préstamo de día de pago", ar: "قرض حتى يوم الراتب" },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — VA loans reward military service with often-zero down and no monthly mortgage insurance.",
+        es: "Correcto: los préstamos VA premian el servicio militar, a menudo sin inicial ni seguro hipotecario mensual.",
+        ar: "صحيح - قروض VA تكافئ الخدمة العسكرية، وغالباً بلا دفعة أولى ولا تأمين رهن شهري.",
+      },
+    },
+  },
+  {
+    id: "mortgage-upfront-monthly",
+    section: "mortgages",
+    calculator: "mortgage",
+    title: {
+      en: "What It Costs: Upfront & Monthly",
+      es: "Lo que cuesta: inicial y mensual",
+      ar: "كم يكلّف: مقدّماً وشهرياً",
+    },
+    body: [
+      {
+        en: "Two money questions decide what you can buy: what you need upfront, and what you'll pay each month. Upfront means your down payment (3.5%–20%), closing costs (1%–6% — appraisal, title, recording, loan origination), and earnest money (1%–3%, credited back at closing).",
+        es: "Dos preguntas de dinero deciden qué puedes comprar: lo que necesitas al inicio y lo que pagarás cada mes. Al inicio: el pago inicial (3.5%–20%), los costos de cierre (1%–6%: avalúo, título, registro, originación) y el depósito de buena fe (1%–3%, que se acredita al cierre).",
+        ar: "سؤالان ماليان يحدّدان ما يمكنك شراؤه: ما تحتاجه مقدماً، وما ستدفعه كل شهر. المقدّم يعني دفعتك الأولى (3.5%–20%)، وتكاليف الإتمام (1%–6%: تقييم، ملكية، تسجيل، إنشاء القرض)، والعربون (1%–3%، يُحتسب لك عند الإتمام).",
+      },
+      {
+        en: "Monthly means PITI: principal, interest, taxes, and insurance — plus PMI if you put less than 20% down. Your lender usually collects the taxes and insurance into an 'escrow' account and pays those bills for you, so your one payment covers everything.",
+        es: "El mensual es PITI: capital, interés, impuestos y seguro, más el PMI si das menos del 20%. El prestamista suele juntar impuestos y seguro en una cuenta 'escrow' y paga esas cuentas por ti, así un solo pago cubre todo.",
+        ar: "الشهري يعني PITI: أصل القرض والفائدة والضرائب والتأمين - بالإضافة إلى تأمين PMI إن دفعت أقل من 20%. وعادةً يجمع مُقرضك الضرائب والتأمين في حساب 'ضمان' ويدفع تلك الفواتير عنك، فتغطّي دفعةٌ واحدة كل شيء.",
+      },
+      {
+        en: "Play with the calculator below. Notice how a bigger down payment or a 15-year term cuts your interest but raises the upfront or monthly cost — and how taxes and insurance quietly add hundreds. The goal isn't the biggest loan; it's the payment you can keep making.",
+        es: "Juega con la calculadora de abajo. Nota cómo un mayor inicial o un plazo de 15 años reduce el interés pero sube el costo inicial o mensual, y cómo impuestos y seguro suman cientos sin que lo notes. La meta no es el préstamo más grande, sino el pago que puedas seguir haciendo.",
+        ar: "جرّب الحاسبة أدناه. لاحظ كيف تخفّض دفعة أولى أكبر أو مدة 15 عاماً فائدتك لكنها ترفع التكلفة المقدّمة أو الشهرية، وكيف تضيف الضرائب والتأمين مئات بهدوء. الهدف ليس أكبر قرض؛ بل الدفعة التي تستطيع الاستمرار في سدادها.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Escrow account", es: "Cuenta de escrow", ar: "حساب الضمان" },
+        def: {
+          en: "An account your lender uses to collect and pay your property taxes and insurance.",
+          es: "Una cuenta que el prestamista usa para juntar y pagar tus impuestos y seguro.",
+          ar: "حساب يستخدمه مُقرضك لتحصيل ودفع ضرائب عقارك وتأمينك.",
+        },
+      },
+      {
+        term: { en: "PITI", es: "PITI", ar: "PITI" },
+        def: {
+          en: "Principal, Interest, Taxes, Insurance — the four parts of a typical monthly payment.",
+          es: "Capital, interés, impuestos, seguro: las cuatro partes del pago mensual típico.",
+          ar: "أصل القرض والفائدة والضرائب والتأمين - الأجزاء الأربعة للدفعة الشهرية المعتادة.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Knowing both numbers — upfront and monthly — is how you avoid being 'house poor' after you move in.",
+      es: "Conocer ambos números —inicial y mensual— es como evitas quedar 'pobre por la casa' al mudarte.",
+      ar: "معرفة الرقمين - المقدّم والشهري - هي كيف تتجنّب أن تصبح 'فقيراً بسبب المنزل' بعد انتقالك.",
+    },
+  },
+  {
+    id: "process-preapproval",
+    section: "process",
+    title: {
+      en: "Get Pre-Approved & Shop Lenders",
+      es: "Obtén preaprobación y compara prestamistas",
+      ar: "احصل على موافقة مبدئية وقارن المُقرضين",
+    },
+    body: [
+      {
+        en: "Pre-qualification is a quick estimate. Pre-approval is the real thing: the lender verifies your income, credit, and savings and commits, in writing, to a loan amount. Get pre-approved BEFORE you shop — it tells you your true budget and makes sellers take your offer seriously.",
+        es: "La precalificación es una estimación rápida. La preaprobación es lo real: el prestamista verifica tus ingresos, crédito y ahorros y se compromete, por escrito, a un monto. Obtén la preaprobación ANTES de buscar: te dice tu presupuesto real y hace que los vendedores tomen en serio tu oferta.",
+        ar: "التأهيل المبدئي تقدير سريع. أما الموافقة المبدئية فهي الحقيقية: يتحقّق المُقرض من دخلك وائتمانك ومدّخراتك ويلتزم كتابياً بمبلغ. احصل عليها قبل البحث - فهي تُخبرك بميزانيتك الحقيقية وتجعل البائعين يأخذون عرضك بجدية.",
+      },
+      {
+        en: "Shop lenders like any big purchase. Get Loan Estimates from at least two or three within about two weeks — bunching the applications keeps the credit-inquiry impact tiny — and compare the APR, the fees, and how they treat you, not just the headline rate.",
+        es: "Compara prestamistas como cualquier compra grande. Obtén Estimaciones de al menos dos o tres en unas dos semanas —juntar las solicitudes mantiene mínimo el impacto en tu crédito— y compara el APR, las comisiones y cómo te tratan, no solo la tasa anunciada.",
+        ar: "قارن المُقرضين كأي عملية شراء كبيرة. احصل على تقديرات قرض من اثنين أو ثلاثة على الأقل خلال نحو أسبوعين - فتجميع الطلبات يُبقي أثر الاستعلام ضئيلاً - وقارن APR والرسوم وكيفية معاملتهم لك، لا السعر المُعلَن فقط.",
+      },
+      {
+        en: "Bring your pre-approval letter to every showing. It turns you from a browser into a buyer — and pairs with the Loan Estimate you'll learn to read in this class so you can pick the best, safest offer.",
+        es: "Lleva tu carta de preaprobación a cada visita. Te convierte de curioso en comprador, y se combina con la Estimación de Préstamo que aprenderás a leer en esta clase para elegir la mejor y más segura oferta.",
+        ar: "اصطحب خطاب موافقتك المبدئية إلى كل معاينة. فهو يحوّلك من متصفّح إلى مشترٍ - ويقترن بتقدير القرض الذي ستتعلّم قراءته في هذا الدرس لتختار أفضل عرض وأكثره أماناً.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Pre-approval", es: "Preaprobación", ar: "الموافقة المبدئية" },
+        def: {
+          en: "A lender's verified, written commitment to a loan amount — get it before you shop.",
+          es: "El compromiso escrito y verificado de un prestamista a un monto; obtenlo antes de buscar.",
+          ar: "التزام كتابي مُتحقَّق منه من المُقرض بمبلغ قرض - احصل عليه قبل البحث.",
+        },
+      },
+      {
+        term: { en: "Loan officer", es: "Oficial de préstamos", ar: "موظف القروض" },
+        def: {
+          en: "The lender's representative who guides your application and explains your options.",
+          es: "El representante del prestamista que guía tu solicitud y explica tus opciones.",
+          ar: "ممثل المُقرض الذي يوجّه طلبك ويشرح خياراتك.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Pre-approval plus a few competing Loan Estimates is the single best way to save money and shop with confidence.",
+      es: "La preaprobación más algunas Estimaciones que compitan es la mejor forma de ahorrar y comprar con confianza.",
+      ar: "الموافقة المبدئية مع بضعة تقديرات قروض متنافسة هي أفضل طريقة لتوفير المال والتسوّق بثقة.",
+    },
+    check: {
+      question: {
+        en: "Quick check: how is pre-approval different from pre-qualification?",
+        es: "Repaso rápido: ¿en qué se diferencia la preaprobación de la precalificación?",
+        ar: "مراجعة سريعة: كيف تختلف الموافقة المبدئية عن التأهيل المبدئي؟",
+      },
+      options: [
+        {
+          en: "Pre-approval is verified and in writing; pre-qualification is a quick estimate",
+          es: "La preaprobación es verificada y por escrito; la precalificación es una estimación rápida",
+          ar: "الموافقة المبدئية مُتحقَّق منها وكتابية؛ والتأهيل المبدئي تقدير سريع",
+        },
+        {
+          en: "They're exactly the same",
+          es: "Son exactamente lo mismo",
+          ar: "هما متطابقان تماماً",
+        },
+        {
+          en: "Pre-qualification guarantees your loan",
+          es: "La precalificación garantiza tu préstamo",
+          ar: "التأهيل المبدئي يضمن قرضك",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Yes — pre-approval means the lender checked your numbers and committed in writing.",
+        es: "Sí: la preaprobación significa que el prestamista revisó tus números y se comprometió por escrito.",
+        ar: "نعم - الموافقة المبدئية تعني أن المُقرض تحقّق من أرقامك والتزم كتابياً.",
       },
     },
   },

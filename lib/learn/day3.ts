@@ -17,6 +17,11 @@ export const DAY3_SECTIONS: Record<string, Localized> = {
     es: "La inspección de la vivienda",
     ar: "فحص المنزل",
   },
+  closing: {
+    en: "Appraisal, Title & Closing",
+    es: "Avalúo, título y cierre",
+    ar: "التقييم والملكية والإتمام",
+  },
 };
 
 export const DAY3_LESSONS: Lesson[] = [
@@ -181,6 +186,7 @@ export const DAY3_LESSONS: Lesson[] = [
   {
     id: "inspection-what-it-covers",
     section: "inspection",
+    activity: "inspection-checklist",
     title: {
       en: "What the Inspection Protects You From",
       es: "De qué te protege la inspección",
@@ -240,6 +246,213 @@ export const DAY3_LESSONS: Lesson[] = [
         { en: "Final loan approval", es: "Aprobación final del préstamo", ar: "الموافقة النهائية على القرض" },
         { en: "Close and get the keys!", es: "¡Cerrar y recibir las llaves!", ar: "الإتمام واستلام المفاتيح!" },
       ],
+    },
+  },
+  {
+    id: "inspection-negotiate",
+    section: "inspection",
+    title: {
+      en: "Negotiating After the Inspection",
+      es: "Negociar después de la inspección",
+      ar: "التفاوض بعد الفحص",
+    },
+    body: [
+      {
+        en: "An inspection report almost always finds something — that's normal. The question is whether it's cosmetic (a cracked tile) or serious (a failing roof, old wiring, water in the basement). Focus your energy on the costly, safety, and structural items.",
+        es: "Un informe de inspección casi siempre encuentra algo: es normal. La pregunta es si es cosmético (una loseta rota) o serio (un techo en mal estado, cableado viejo, agua en el sótano). Concentra tu energía en lo costoso, lo de seguridad y lo estructural.",
+        ar: "تقرير الفحص يجد شيئاً دائماً تقريباً - وهذا طبيعي. والسؤال هل هو شكلي (بلاطة متشقّقة) أم خطير (سقف متهالك، أسلاك قديمة، ماء في القبو). ركّز طاقتك على البنود المكلفة والمتعلّقة بالسلامة والهيكل.",
+      },
+      {
+        en: "You generally have three options: ask the seller to make repairs before closing, ask for a price reduction or a closing-cost credit so you can fix it yourself, or — if it's bad enough — use your inspection contingency to walk away and get your earnest money back.",
+        es: "Por lo general tienes tres opciones: pedir al vendedor que repare antes del cierre, pedir una rebaja de precio o un crédito para los costos de cierre y arreglarlo tú, o —si es grave— usar tu contingencia de inspección para retirarte y recuperar tu depósito.",
+        ar: "لديك عموماً ثلاثة خيارات: أن تطلب من البائع الإصلاح قبل الإتمام، أو أن تطلب خفض السعر أو رصيداً لتكاليف الإتمام لتُصلحه بنفسك، أو - إن كان سيئاً بما يكفي - أن تستخدم شرط الفحص للانسحاب واسترداد عربونك.",
+      },
+      {
+        en: "Get repair estimates so your ask is grounded in real numbers, and put everything in writing through your agent. A credit is often cleaner than seller repairs, because you control the quality of the work.",
+        es: "Consigue presupuestos de reparación para que tu pedido se base en números reales, y pon todo por escrito mediante tu agente. Un crédito suele ser más limpio que las reparaciones del vendedor, porque tú controlas la calidad del trabajo.",
+        ar: "احصل على تقديرات إصلاح ليكون طلبك مبنياً على أرقام حقيقية، ودوّن كل شيء كتابياً عبر وكيلك. والرصيد غالباً أنظف من إصلاحات البائع، لأنك تتحكّم في جودة العمل.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Repair credit", es: "Crédito por reparaciones", ar: "رصيد الإصلاح" },
+        def: {
+          en: "Money the seller credits you at closing instead of doing repairs themselves.",
+          es: "Dinero que el vendedor te acredita al cierre en vez de hacer las reparaciones.",
+          ar: "مال يمنحك إياه البائع عند الإتمام بدلاً من القيام بالإصلاحات بنفسه.",
+        },
+      },
+      {
+        term: { en: "Material defect", es: "Defecto material", ar: "عيب جوهري" },
+        def: {
+          en: "A significant problem affecting safety, value, or the home's structure.",
+          es: "Un problema importante que afecta la seguridad, el valor o la estructura.",
+          ar: "مشكلة كبيرة تؤثر في السلامة أو القيمة أو هيكل المنزل.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "The inspection isn't just a pass/fail — it's your last, strongest chance to adjust the deal in your favor.",
+      es: "La inspección no es solo aprobar o reprobar: es tu última y más fuerte oportunidad de ajustar el trato a tu favor.",
+      ar: "الفحص ليس مجرد نجاح أو رسوب - بل فرصتك الأخيرة والأقوى لتعديل الصفقة لصالحك.",
+    },
+    check: {
+      question: {
+        en: "Quick check: a serious inspection finding lets you…",
+        es: "Repaso rápido: un hallazgo serio en la inspección te permite…",
+        ar: "مراجعة سريعة: اكتشاف خطير في الفحص يتيح لك…",
+      },
+      options: [
+        {
+          en: "Renegotiate repairs/price, or walk away with your deposit",
+          es: "Renegociar reparaciones/precio o retirarte con tu depósito",
+          ar: "إعادة التفاوض على الإصلاحات/السعر، أو الانسحاب مع عربونك",
+        },
+        {
+          en: "Nothing — the price is final",
+          es: "Nada: el precio es final",
+          ar: "لا شيء - السعر نهائي",
+        },
+        {
+          en: "Automatically lower your interest rate",
+          es: "Bajar automáticamente tu tasa de interés",
+          ar: "خفض سعر فائدتك تلقائياً",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — your inspection contingency gives you real leverage to fix the deal or exit safely.",
+        es: "Correcto: tu contingencia de inspección te da poder real para ajustar el trato o salir con seguridad.",
+        ar: "صحيح - شرط الفحص يمنحك نفوذاً حقيقياً لتعديل الصفقة أو الخروج بأمان.",
+      },
+    },
+  },
+  {
+    id: "appraisal-title",
+    section: "closing",
+    title: {
+      en: "The Appraisal & Title",
+      es: "El avalúo y el título",
+      ar: "التقييم والملكية",
+    },
+    body: [
+      {
+        en: "Before your loan is final, the lender orders an appraisal — an independent expert confirms the home is worth at least what you're paying. It protects the lender (and you) from overpaying. If it comes in low, you can renegotiate the price, pay the gap, or sometimes walk away.",
+        es: "Antes de finalizar tu préstamo, el prestamista ordena un avalúo: un experto independiente confirma que la casa vale al menos lo que pagas. Protege al prestamista (y a ti) de pagar de más. Si sale bajo, puedes renegociar el precio, pagar la diferencia o, a veces, retirarte.",
+        ar: "قبل أن يُنهى قرضك، يطلب المُقرض تقييماً - خبير مستقل يؤكد أن المنزل يساوي على الأقل ما تدفعه. وهو يحمي المُقرض (وأنت) من الدفع الزائد. وإن جاء منخفضاً، يمكنك إعادة التفاوض على السعر أو دفع الفرق أو أحياناً الانسحاب.",
+      },
+      {
+        en: "Meanwhile, a title company searches public records to make sure the seller really owns the home and there are no surprise claims — unpaid taxes, old liens, or other people on the deed. A clean title means you'll truly own it free and clear.",
+        es: "Mientras tanto, una compañía de títulos busca en los registros públicos para asegurar que el vendedor de verdad es dueño y que no hay reclamos sorpresa: impuestos sin pagar, gravámenes viejos u otras personas en la escritura. Un título limpio significa que serás dueño sin problemas.",
+        ar: "في الأثناء، تبحث شركة الملكية في السجلات العامة للتأكد أن البائع يملك المنزل فعلاً وأنه لا توجد مطالبات مفاجئة - ضرائب غير مدفوعة أو امتيازات قديمة أو أشخاص آخرون في سند الملكية. والملكية النظيفة تعني أنك ستملكه خالصاً.",
+      },
+      {
+        en: "You'll buy title insurance at closing — a one-time cost that protects you if a hidden claim ever surfaces. It's part of your closing costs, and it's worth it: it defends the biggest purchase of your life.",
+        es: "Comprarás un seguro de título al cierre: un costo único que te protege si alguna vez aparece un reclamo oculto. Es parte de tus costos de cierre y vale la pena: defiende la compra más grande de tu vida.",
+        ar: "ستشتري تأمين ملكية عند الإتمام - تكلفة لمرة واحدة تحميك إن ظهرت مطالبة خفية يوماً ما. وهو جزء من تكاليف إتمامك ويستحق ذلك: فهو يدافع عن أكبر عملية شراء في حياتك.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Appraisal", es: "Avalúo", ar: "التقييم" },
+        def: {
+          en: "An independent estimate of the home's value, required by your lender.",
+          es: "Una estimación independiente del valor de la casa, exigida por tu prestamista.",
+          ar: "تقدير مستقل لقيمة المنزل، يطلبه مُقرضك.",
+        },
+      },
+      {
+        term: { en: "Title insurance", es: "Seguro de título", ar: "تأمين الملكية" },
+        def: {
+          en: "A one-time policy protecting your ownership if a hidden claim appears later.",
+          es: "Una póliza única que protege tu propiedad si aparece un reclamo oculto después.",
+          ar: "وثيقة لمرة واحدة تحمي ملكيتك إن ظهرت مطالبة خفية لاحقاً.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "The appraisal keeps you from overpaying; the title search keeps the home truly yours. Both quietly protect your money.",
+      es: "El avalúo evita que pagues de más; la búsqueda de título mantiene la casa realmente tuya. Ambos protegen tu dinero.",
+      ar: "التقييم يمنعك من الدفع الزائد؛ والبحث في الملكية يُبقي المنزل لك حقاً. وكلاهما يحمي مالك بهدوء.",
+    },
+  },
+  {
+    id: "closing-day",
+    section: "closing",
+    title: {
+      en: "Closing Day & the Final Walkthrough",
+      es: "El día del cierre y el recorrido final",
+      ar: "يوم الإتمام والجولة الأخيرة",
+    },
+    body: [
+      {
+        en: "A day or two before closing, you'll do a final walkthrough. This isn't a formality — confirm the home is in the agreed condition, any negotiated repairs are done, the seller's belongings are out, and everything that's supposed to stay (appliances, fixtures) is still there and working.",
+        es: "Uno o dos días antes del cierre harás un recorrido final. No es una formalidad: confirma que la casa esté en la condición acordada, que las reparaciones negociadas estén hechas, que las cosas del vendedor ya no estén y que todo lo que debe quedarse (electrodomésticos, accesorios) siga ahí y funcione.",
+        ar: "قبل الإتمام بيوم أو يومين ستقوم بجولة أخيرة. وهي ليست شكليّة - تأكّد أن المنزل بالحالة المتفق عليها، وأن الإصلاحات المتفاوض عليها تمّت، وأن أغراض البائع خرجت، وأن كل ما يُفترض بقاؤه (أجهزة، تجهيزات) ما زال موجوداً ويعمل.",
+      },
+      {
+        en: "At closing you'll review and sign the documents — your Closing Disclosure (compare it to your Loan Estimate!), the mortgage note, and the mortgage. Bring a government photo ID and a cashier's check or wire for your cash-to-close. Read before you sign; ask about anything unclear.",
+        es: "En el cierre revisarás y firmarás los documentos: tu Divulgación de Cierre (¡compárala con tu Estimación de Préstamo!), el pagaré y la hipoteca. Lleva una identificación oficial con foto y un cheque de caja o transferencia para tu efectivo de cierre. Lee antes de firmar; pregunta lo que no esté claro.",
+        ar: "عند الإتمام ستراجع وتوقّع المستندات - إفصاح الإتمام (قارنه بتقدير قرضك!)، وسند الرهن، والرهن. أحضِر هوية حكومية بصورة وشيكاً مصرفياً أو حوالة لمبلغ نقدك عند الإتمام. اقرأ قبل التوقيع؛ واسأل عن أي شيء غير واضح.",
+      },
+      {
+        en: "Then you get the keys. Congratulations — you're a homeowner. Keep every document in a safe place; you'll want them for taxes, insurance, and the day you sell. And remember Day 4: protecting this home is the next chapter.",
+        es: "Luego recibes las llaves. ¡Felicidades, eres propietario! Guarda cada documento en un lugar seguro; los querrás para impuestos, seguro y el día que vendas. Y recuerda el Día 4: proteger esta casa es el siguiente capítulo.",
+        ar: "ثم تحصل على المفاتيح. تهانينا - أنت الآن مالك منزل. احتفظ بكل مستند في مكان آمن؛ ستحتاجه للضرائب والتأمين ويوم تبيع. وتذكّر اليوم الرابع: حماية هذا المنزل هي الفصل التالي.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Final walkthrough", es: "Recorrido final", ar: "الجولة الأخيرة" },
+        def: {
+          en: "Your last check of the home's condition just before closing.",
+          es: "Tu última revisión del estado de la casa justo antes del cierre.",
+          ar: "آخر تحقّق لك من حالة المنزل قبيل الإتمام.",
+        },
+      },
+      {
+        term: { en: "Cash to close", es: "Efectivo de cierre", ar: "النقد عند الإتمام" },
+        def: {
+          en: "The total money you bring to closing — down payment plus closing costs, minus deposits.",
+          es: "El dinero total que llevas al cierre: inicial más costos de cierre, menos depósitos.",
+          ar: "إجمالي المال الذي تُحضره عند الإتمام - الدفعة الأولى مع تكاليف الإتمام، ناقص العرابين.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "The walkthrough and a careful read of your documents are your last safeguards before the home — and the loan — are yours.",
+      es: "El recorrido y una lectura cuidadosa de tus documentos son tus últimas protecciones antes de que la casa —y el préstamo— sean tuyos.",
+      ar: "الجولة وقراءة مستنداتك بعناية هما آخر ضماناتك قبل أن يصبح المنزل - والقرض - لك.",
+    },
+    check: {
+      question: {
+        en: "Quick check: at the closing table you should…",
+        es: "Repaso rápido: en la mesa de cierre debes…",
+        ar: "مراجعة سريعة: على طاولة الإتمام عليك أن…",
+      },
+      options: [
+        {
+          en: "Compare the Closing Disclosure to your Loan Estimate and read before signing",
+          es: "Comparar la Divulgación de Cierre con tu Estimación y leer antes de firmar",
+          ar: "تقارن إفصاح الإتمام بتقدير قرضك وتقرأ قبل التوقيع",
+        },
+        {
+          en: "Sign everything quickly without reading",
+          es: "Firmar todo rápido sin leer",
+          ar: "توقّع كل شيء بسرعة دون قراءة",
+        },
+        {
+          en: "Skip the final walkthrough",
+          es: "Saltarte el recorrido final",
+          ar: "تتخطّى الجولة الأخيرة",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Yes — your numbers should match your Loan Estimate, and you have the right to read every page.",
+        es: "Sí: tus números deben coincidir con tu Estimación, y tienes derecho a leer cada página.",
+        ar: "نعم - يجب أن تطابق أرقامك تقدير قرضك، ولك الحق في قراءة كل صفحة.",
+      },
     },
   },
 ];

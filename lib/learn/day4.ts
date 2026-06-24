@@ -170,6 +170,7 @@ export const DAY4_LESSONS: Lesson[] = [
   {
     id: "maintenance-cycle",
     section: "maintenance",
+    activity: "maintenance-planner",
     title: {
       en: "The Cycle of Home Maintenance",
       es: "El ciclo del mantenimiento del hogar",
@@ -322,6 +323,164 @@ export const DAY4_LESSONS: Lesson[] = [
         en: "Yes — added living space (rooms, bathrooms, finished attic, garage) is the classic value-builder from your Day 4 class.",
         es: "Sí: el espacio habitable agregado (cuartos, baños, ático terminado, garaje) es el clásico generador de valor de tu clase del Día 4.",
         ar: "نعم - المساحة المعيشية المضافة (غرف، حمّامات، علّية مكتملة، مرآب) هي البانية الكلاسيكية للقيمة من درس اليوم الرابع.",
+      },
+    },
+  },
+  {
+    id: "insurance-claim",
+    section: "insurance",
+    title: {
+      en: "Filing a Claim When You Need To",
+      es: "Presentar un reclamo cuando lo necesites",
+      ar: "تقديم مطالبة عند الحاجة",
+    },
+    body: [
+      {
+        en: "When something happens — a storm, a fire, theft, a burst pipe — your policy is there, but knowing how to use it matters. First, make your home safe and stop further damage (shut off the water, cover a broken window), then document everything with photos before you clean up.",
+        es: "Cuando algo pasa —una tormenta, un incendio, un robo, una tubería rota— tu póliza está ahí, pero importa saber usarla. Primero, haz tu casa segura y detén más daños (cierra el agua, cubre una ventana rota); luego documenta todo con fotos antes de limpiar.",
+        ar: "عندما يحدث شيء - عاصفة، حريق، سرقة، أنبوب منفجر - فإن وثيقتك موجودة، لكن معرفة استخدامها مهمة. أولاً، اجعل منزلك آمناً وأوقف المزيد من الضرر (أغلق الماء، غطِّ نافذة مكسورة)، ثم وثّق كل شيء بالصور قبل التنظيف.",
+      },
+      {
+        en: "Call your insurer to file the claim. An adjuster assesses the damage; you pay your deductible, and insurance covers the rest of the covered loss up to your limits. Keep receipts for repairs and any temporary living costs — those may be covered too.",
+        es: "Llama a tu aseguradora para presentar el reclamo. Un ajustador evalúa el daño; tú pagas tu deducible y el seguro cubre el resto de la pérdida cubierta hasta tus límites. Guarda recibos de reparaciones y gastos temporales de vivienda: también pueden estar cubiertos.",
+        ar: "اتصل بشركة تأمينك لتقديم المطالبة. يقيّم خبير الأضرار الضرر؛ وتدفع أنت مبلغ التحمّل، ويغطّي التأمين بقية الخسارة المُغطّاة حتى حدودك. واحتفظ بإيصالات الإصلاح وأي تكاليف سكن مؤقتة - فقد تكون مغطّاة أيضاً.",
+      },
+      {
+        en: "One smart caution: for small damage near or below your deductible, it's often cheaper to pay out of pocket than to file, because too many claims can raise your premium or get a policy non-renewed. Save claims for the big losses — that's what insurance is really for.",
+        es: "Una advertencia inteligente: para daños pequeños cerca o por debajo de tu deducible, suele ser más barato pagar de tu bolsillo que reclamar, porque muchos reclamos pueden subir tu prima o impedir la renovación. Reserva los reclamos para las pérdidas grandes: para eso es el seguro.",
+        ar: "تنبيه ذكي: للأضرار الصغيرة قرب مبلغ تحمّلك أو دونه، غالباً يكون الدفع من جيبك أرخص من تقديم مطالبة، لأن كثرة المطالبات قد ترفع قسطك أو تمنع تجديد الوثيقة. احفظ المطالبات للخسائر الكبيرة - فلهذا وُجد التأمين.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Claim", es: "Reclamo", ar: "مطالبة" },
+        def: {
+          en: "A formal request asking your insurer to pay for a covered loss.",
+          es: "Una solicitud formal pidiendo a tu aseguradora que pague una pérdida cubierta.",
+          ar: "طلب رسمي تطلب فيه من شركة تأمينك دفع خسارة مغطّاة.",
+        },
+      },
+      {
+        term: { en: "Adjuster", es: "Ajustador", ar: "خبير التسوية" },
+        def: {
+          en: "The insurer's representative who inspects the damage and sets the payout.",
+          es: "El representante de la aseguradora que inspecciona el daño y fija el pago.",
+          ar: "ممثل شركة التأمين الذي يعاين الضرر ويحدّد التعويض.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Insurance only protects you if you know how and when to use it — and when not to.",
+      es: "El seguro solo te protege si sabes cómo y cuándo usarlo, y cuándo no.",
+      ar: "التأمين لا يحميك إلا إذا عرفت كيف ومتى تستخدمه - ومتى لا تفعل.",
+    },
+    check: {
+      question: {
+        en: "Quick check: for damage near or below your deductible, it's often best to…",
+        es: "Repaso rápido: para daños cerca o por debajo de tu deducible, suele ser mejor…",
+        ar: "مراجعة سريعة: للأضرار قرب مبلغ تحمّلك أو دونه، غالباً الأفضل أن…",
+      },
+      options: [
+        {
+          en: "Pay out of pocket instead of filing a claim",
+          es: "Pagar de tu bolsillo en vez de reclamar",
+          ar: "تدفع من جيبك بدلاً من تقديم مطالبة",
+        },
+        {
+          en: "Always file a claim, no matter how small",
+          es: "Siempre reclamar, sin importar lo pequeño",
+          ar: "تقدّم مطالبة دائماً مهما كان الضرر صغيراً",
+        },
+        {
+          en: "Cancel your policy",
+          es: "Cancelar tu póliza",
+          ar: "تلغي وثيقتك",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — small claims can raise your premium; save insurance for the big losses.",
+        es: "Correcto: los reclamos pequeños pueden subir tu prima; reserva el seguro para pérdidas grandes.",
+        ar: "صحيح - المطالبات الصغيرة قد ترفع قسطك؛ فاحفظ التأمين للخسائر الكبيرة.",
+      },
+    },
+  },
+  {
+    id: "avoid-predatory-refi",
+    section: "maintenance",
+    title: {
+      en: "Protecting Your Equity from Scams",
+      es: "Proteger tu plusvalía de las estafas",
+      ar: "حماية ملكيتك من عمليات الاحتيال",
+    },
+    body: [
+      {
+        en: "Once you own, the offers start: refinance, borrow against your equity, 'lower your payment today.' Some are genuinely good. Refinancing replaces your loan and can lower your rate — but weigh the fees and how many months it takes to break even before it actually saves you money.",
+        es: "Cuando eres dueño, llegan las ofertas: refinancia, pide prestado contra tu plusvalía, 'baja tu pago hoy.' Algunas son buenas de verdad. Refinanciar reemplaza tu préstamo y puede bajar tu tasa, pero sopesa las comisiones y cuántos meses tardas en recuperar antes de que de verdad ahorres.",
+        ar: "بمجرد أن تملك، تبدأ العروض: أعد التمويل، اقترض مقابل ملكيتك، 'خفّض دفعتك اليوم.' بعضها جيد فعلاً. إعادة التمويل تستبدل قرضك وقد تخفّض فائدتك - لكن وازن الرسوم وعدد الأشهر اللازمة لاسترداد التكلفة قبل أن توفّر فعلاً.",
+      },
+      {
+        en: "Know the red flags of a predatory offer: pressure to sign right now, fees quietly rolled into the loan, a rate higher than you qualify for, 'don't worry about reading it,' or a cash-out that strips equity you don't need to spend. If it feels too urgent or too good, slow down — that urgency is the trick.",
+        es: "Conoce las señales de una oferta abusiva: presión para firmar ya, comisiones metidas en el préstamo, una tasa más alta de la que calificas, 'no te preocupes por leerlo' o un retiro de efectivo que te quita plusvalía que no necesitas gastar. Si se siente demasiado urgente o demasiado bueno, frena: esa urgencia es el truco.",
+        ar: "اعرف علامات العرض الاستغلالي: ضغط للتوقيع الآن، رسوم تُدسّ في القرض، سعر أعلى مما تتأهل له، 'لا تقلق بشأن قراءته،' أو سحب نقدي يجرّدك من ملكية لست بحاجة لإنفاقها. وإن بدا الأمر متعجّلاً جداً أو جيداً جداً، فتمهّل - فتلك العَجَلة هي الحيلة.",
+      },
+      {
+        en: "Your equity is your wealth — the share of the home you truly own. Guard it: get every offer in writing, compare at least two, never sign under pressure, and run big decisions past a HUD-approved counselor (216-791-8000). Paying down your loan and maintaining your home is how ownership builds lasting, generational wealth.",
+        es: "Tu plusvalía es tu riqueza: la parte de la casa que de verdad es tuya. Cuídala: pide cada oferta por escrito, compara al menos dos, nunca firmes bajo presión y consulta las decisiones grandes con un asesor aprobado por HUD (216-791-8000). Pagar tu préstamo y mantener tu casa es como ser dueño crea riqueza duradera y generacional.",
+        ar: "ملكيتك هي ثروتك - الجزء الذي تملكه فعلاً من المنزل. احرسها: اطلب كل عرض كتابياً، وقارن اثنين على الأقل، ولا توقّع تحت ضغط أبداً، واستشر في القرارات الكبيرة مستشاراً معتمداً من HUD (216-791-8000). فسداد قرضك وصيانة منزلك هو كيف يبني التملّك ثروة دائمة للأجيال.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Refinancing", es: "Refinanciamiento", ar: "إعادة التمويل" },
+        def: {
+          en: "Replacing your current mortgage with a new one — useful, but weigh the fees.",
+          es: "Reemplazar tu hipoteca actual por una nueva; útil, pero sopesa las comisiones.",
+          ar: "استبدال رهنك الحالي بآخر جديد - مفيد، لكن وازن الرسوم.",
+        },
+      },
+      {
+        term: { en: "Equity stripping", es: "Despojo de plusvalía", ar: "تجريد الملكية" },
+        def: {
+          en: "A predatory tactic that drains the ownership value you've built up.",
+          es: "Una táctica abusiva que vacía el valor de propiedad que has construido.",
+          ar: "أسلوب استغلالي يستنزف قيمة الملكية التي بنيتها.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "The same equity that builds your wealth is exactly what predatory lenders target — guarding it is part of owning.",
+      es: "La misma plusvalía que construye tu riqueza es justo lo que buscan los prestamistas abusivos; cuidarla es parte de ser dueño.",
+      ar: "الملكية نفسها التي تبني ثروتك هي بالضبط ما يستهدفه المُقرضون الاستغلاليون - وحراستها جزء من التملّك.",
+    },
+    check: {
+      question: {
+        en: "Quick check: an offer that pressures you to sign today, with fees rolled in and 'no need to read it,' is…",
+        es: "Repaso rápido: una oferta que te presiona a firmar hoy, con comisiones incluidas y 'no hace falta leerlo', es…",
+        ar: "مراجعة سريعة: عرض يضغط عليك للتوقيع اليوم، برسوم مُدسّة و'لا حاجة لقراءته'، هو…",
+      },
+      options: [
+        {
+          en: "A red flag — slow down and get advice",
+          es: "Una señal de alerta: frena y busca consejo",
+          ar: "علامة تحذير - تمهّل واطلب المشورة",
+        },
+        {
+          en: "A great deal you should grab fast",
+          es: "Una gran oferta que debes tomar rápido",
+          ar: "صفقة رائعة عليك اغتنامها بسرعة",
+        },
+        {
+          en: "Required by law",
+          es: "Exigida por la ley",
+          ar: "مطلوبة بموجب القانون",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — urgency, hidden fees, and 'don't read it' are classic predatory signals. Get it in writing and ask a counselor.",
+        es: "Correcto: la urgencia, las comisiones ocultas y el 'no lo leas' son señales clásicas de abuso. Pídelo por escrito y consulta a un asesor.",
+        ar: "صحيح - العَجَلة والرسوم الخفية و'لا تقرأه' إشارات استغلالية كلاسيكية. اطلبه كتابياً واستشر مستشاراً.",
       },
     },
   },

@@ -68,9 +68,15 @@ export interface Lesson {
     | "budget-planner"
     | "credit-simulator"
     | "savings-goal"
-    | "debt-payoff";
+    | "debt-payoff"
+    | "mortgage";
   /** Named hands-on activity widget rendered inside the lesson. */
-  activity?: "expense-classifier" | "sample-credit-report";
+  activity?:
+    | "expense-classifier"
+    | "sample-credit-report"
+    | "loan-estimate"
+    | "inspection-checklist"
+    | "maintenance-planner";
 }
 
 export const DAY1_SECTIONS: Record<string, Localized> = {

@@ -13,6 +13,9 @@ import { SavingsGoalPlanner } from "@/components/learn/savings-goal-planner";
 import { DebtPayoffCalculator } from "@/components/learn/debt-payoff-calculator";
 import { ExpenseClassifier } from "@/components/learn/expense-classifier";
 import { SampleCreditReport } from "@/components/learn/sample-credit-report";
+import { MortgageCalculator } from "@/components/learn/mortgage-calculator";
+import { LoanEstimateExhibit } from "@/components/learn/loan-estimate-exhibit";
+import { InspectionChecklist, MaintenancePlanner } from "@/components/learn/interactive-checklist";
 import { KnowledgeCheck } from "@/components/learn/knowledge-check";
 import { StepSorter } from "@/components/learn/step-sorter";
 import {
@@ -59,17 +62,25 @@ const LESSON_ICON: Record<string, string> = {
   "mortgage-what-is": "🏦",
   "mortgage-types-pmi": "📈",
   "mortgage-affordability": "🧮",
+  "loan-types": "🏷️",
+  "mortgage-upfront-monthly": "💵",
   "process-steps-team": "🗺️",
+  "process-preapproval": "✅",
   "rights-documents": "⚖️",
   // Day 3
   "shopping-needs-wants": "📝",
   "shopping-offer-escrow": "🤝",
   "inspection-what-it-covers": "🔍",
+  "inspection-negotiate": "💬",
+  "appraisal-title": "📐",
+  "closing-day": "🔑",
   // Day 4
   "insurance-basics": "☂️",
   "insurance-choosing": "🧾",
+  "insurance-claim": "📞",
   "maintenance-cycle": "🔄",
   "maintenance-protect-investment": "💎",
+  "avoid-predatory-refi": "🛡️",
 };
 
 export function CoursePlayer({
@@ -311,8 +322,12 @@ export function CoursePlayer({
               {lesson.calculator === "credit-simulator" && <CreditSimulator lang={lang} />}
               {lesson.calculator === "savings-goal" && <SavingsGoalPlanner lang={lang} />}
               {lesson.calculator === "debt-payoff" && <DebtPayoffCalculator lang={lang} />}
+              {lesson.calculator === "mortgage" && <MortgageCalculator lang={lang} />}
               {lesson.activity === "expense-classifier" && <ExpenseClassifier lang={lang} />}
               {lesson.activity === "sample-credit-report" && <SampleCreditReport lang={lang} />}
+              {lesson.activity === "loan-estimate" && <LoanEstimateExhibit lang={lang} />}
+              {lesson.activity === "inspection-checklist" && <InspectionChecklist lang={lang} />}
+              {lesson.activity === "maintenance-planner" && <MaintenancePlanner lang={lang} />}
               {lesson.check && (
                 <KnowledgeCheck
                   check={lesson.check}
