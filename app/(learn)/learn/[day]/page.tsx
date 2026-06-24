@@ -34,6 +34,7 @@ export default async function DayPage({ params }: { params: Promise<{ day: strin
       sections={courseDay.sections}
       lessons={courseDay.lessons}
       questions={dayPublicQuestions(courseDay.slug)}
+      pdf={courseDay.pdf}
     />
   );
 }

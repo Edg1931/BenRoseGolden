@@ -40,7 +40,7 @@ export function PodcastPlayer({
     lineRef.current = line;
   }, [line]);
 
-  // Pick two distinct voices for the selected language once available.
+  // Pick two distinct, highest-quality voices for the language once available.
   useEffect(() => {
     if (!supported) return;
     const prefix = SPEECH_LANG[lang].slice(0, 2);
@@ -50,13 +50,25 @@ export function PodcastPlayer({
         voicesRef.current = {};
         return;
       }
-      const female = all.find((v) =>
-        /female|samantha|victoria|zira|paulina|monica|laila|google/i.test(v.name),
+      // Prefer neural/natural/cloud voices (Google, "Natural", Apple premium names)
+      // — these sound far closer to NotebookLM than the default robotic ones.
+      const quality = (v: SpeechSynthesisVoice) =>
+        /natural|neural|google|premium|enhanced|siri|samantha|aaron|allison|ava|zoe/i.test(v.name)
+          ? 1
+          : 0;
+      const ranked = [...all].sort((a, b) => quality(b) - quality(a));
+      const female = ranked.find((v) =>
+        /female|samantha|victoria|zira|paulina|monica|laila|ava|allison|zoe|joanna|aria/i.test(v.name),
       );
-      const male = all.find(
-        (v) => /male|daniel|alex|david|mark|diego|jorge|tarik|maged/i.test(v.name) && v !== female,
+      const male = ranked.find(
+        (v) =>
+          /male|daniel|alex|aaron|david|mark|diego|jorge|tarik|maged|guy|matthew/i.test(v.name) &&
+          v !== female,
       );
-      voicesRef.current = { maya: female ?? all[0], devon: male ?? all[1] ?? all[0] };
+      voicesRef.current = {
+        maya: female ?? ranked[0],
+        devon: male ?? ranked.find((v) => v !== (female ?? ranked[0])) ?? ranked[0],
+      };
     };
     load();
     window.speechSynthesis.onvoiceschanged = load;
@@ -98,9 +110,17 @@ export function PodcastPlayer({
       utter.lang = SPEECH_LANG[lang];
       const v = voicesRef.current[ln.speaker];
       if (v) utter.voice = v;
-      utter.pitch = ln.speaker === "maya" ? 1.15 : 0.85;
-      utter.rate = 1.0;
-      utter.onend = () => speakAt(i + 1);
+      // Subtle, distinct prosody per host + a slightly relaxed pace reads as
+      // more conversational than the flat default.
+      utter.pitch = ln.speaker === "maya" ? 1.08 : 0.92;
+      utter.rate = 0.96;
+      // A short beat between turns mimics natural back-and-forth timing.
+      const prev = i > 0 ? lines[i - 1] : null;
+      const gap = prev && prev.speaker !== ln.speaker ? 260 : 90;
+      utter.onend = () => {
+        if (!playingRef.current) return;
+        window.setTimeout(() => speakAt(i + 1), gap);
+      };
       utter.onerror = () => setPlaying(false);
       window.speechSynthesis.speak(utter);
     };

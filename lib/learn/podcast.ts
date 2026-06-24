@@ -1,11 +1,12 @@
 import type { Localized } from "./content";
 
 /**
- * Interactive podcast scripts — two friendly hosts (Maya & Devon) talk through
- * each day conversationally. Every line is authored in all three course
- * languages, so the episode plays in the learner's language with matching
- * speech-synthesis voices. The learner can pause at any line and ask the AI
- * Coach (NotebookLM-style), then resume.
+ * Interactive podcast scripts — two hosts (Maya & Devon) talk through each day
+ * in a natural, NotebookLM-style back-and-forth: reactions, contractions,
+ * everyday analogies, short alternating turns. Every line is authored in all
+ * three course languages, so the episode plays in the learner's language with
+ * matching speech-synthesis voices. Learners can pause at any line and ask the
+ * AI Coach, then resume.
  */
 
 export type Host = "maya" | "devon";
@@ -38,73 +39,105 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
       {
         speaker: "maya",
         text: {
-          en: "Welcome to Home Ready! I'm Maya, and today Devon and I are talking about the foundation of buying a home: money management and credit.",
-          es: "¡Bienvenidos a Home Ready! Soy Maya, y hoy Devon y yo hablamos de la base para comprar casa: el manejo del dinero y el crédito.",
-          ar: "أهلاً بكم في «جاهز للمنزل»! أنا مايا، واليوم نتحدث أنا وديفون عن أساس شراء المنزل: إدارة المال والائتمان.",
+          en: "Okay, so if you've ever looked at your bank account and just thought, where did it all go — this episode is for you.",
+          es: "Bueno, si alguna vez miraste tu cuenta del banco y pensaste «¿a dónde se fue todo?», este episodio es para ti.",
+          ar: "حسناً، إن سبق أن نظرت إلى حسابك البنكي وتساءلت «أين ذهب كل هذا؟» - فهذه الحلقة لك.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Let's start with the budget. People tense up at that word, but a budget is just a spending plan — it gives every dollar a job before the month begins.",
-          es: "Empecemos con el presupuesto. La palabra asusta, pero es solo un plan de gastos: le da una tarea a cada dólar antes de que empiece el mes.",
-          ar: "لنبدأ بالميزانية. يتوتر الناس من هذه الكلمة، لكنها مجرد خطة إنفاق - تعطي كل دولار مهمة قبل أن يبدأ الشهر.",
+          en: "Ha, every month, honestly. I'm Devon, that's Maya, and today it's money management and credit — the stuff that actually gets you to a front door.",
+          es: "Ja, cada mes, la verdad. Soy Devon, ella es Maya, y hoy hablamos de manejo del dinero y crédito: lo que de verdad te lleva a tu casa.",
+          ar: "ها، كل شهر صراحةً. أنا ديفون، وهذه مايا، واليوم موضوعنا إدارة المال والائتمان - الأمور التي توصلك فعلاً إلى باب منزلك.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "And expenses come in flavors: fixed ones like rent that never change, and variable ones like groceries that move around. The surprises — car repairs, medical bills — are the ones that wreck budgets.",
-          es: "Y los gastos tienen tipos: fijos como el alquiler, que no cambian, y variables como la comida. Las sorpresas —reparaciones, gastos médicos— son las que arruinan presupuestos.",
-          ar: "وللمصروفات أنواع: ثابتة كالإيجار لا تتغير، ومتغيرة كالبقالة. أما المفاجآت - إصلاح سيارة أو فاتورة طبية - فهي ما يخرّب الميزانيات.",
+          en: "So let's kill the scary word first. A budget. It's not a punishment — it's just a plan that tells your money where to go before it disappears.",
+          es: "Empecemos por quitarle el miedo a la palabra. Presupuesto. No es un castigo, es solo un plan que le dice a tu dinero a dónde ir antes de que desaparezca.",
+          ar: "لنُزِل الخوف من الكلمة أولاً. الميزانية. ليست عقاباً - إنها مجرد خطة تُخبر مالك إلى أين يذهب قبل أن يختفي.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Here's the number to remember: keep housing near thirty percent of your gross monthly income. That keeps the rest of your life affordable.",
-          es: "El número para recordar: mantén la vivienda cerca del treinta por ciento de tu ingreso bruto mensual. Así el resto de tu vida sigue siendo pagable.",
-          ar: "إليك الرقم الذي يجب تذكره: أبقِ تكلفة السكن قرب ثلاثين بالمئة من دخلك الشهري الإجمالي. هكذا تبقى بقية حياتك ميسورة.",
+          en: "Right, you're the boss giving every dollar a job. And step one is just knowing two numbers: what comes in, and what goes out.",
+          es: "Exacto, tú eres el jefe que le da trabajo a cada dólar. Y el primer paso es saber dos números: lo que entra y lo que sale.",
+          ar: "صحيح، أنت المدير الذي يعطي كل دولار مهمة. والخطوة الأولى هي معرفة رقمين: ما يدخل وما يخرج.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "Now credit. Your credit report is the story of how you've borrowed and repaid. Three bureaus keep it — Equifax, Experian, and TransUnion — and you can check each one free every year.",
-          es: "Ahora el crédito. Tu informe es la historia de cómo has pedido y pagado. Tres agencias lo guardan —Equifax, Experian y TransUnion— y puedes revisarlo gratis cada año.",
-          ar: "الآن الائتمان. تقريرك الائتماني هو قصة اقتراضك وسدادك. تحفظه ثلاث وكالات - إكويفاكس وإكسبيريان وترانس يونيون - ويمكنك فحص كل منها مجاناً سنوياً.",
+          en: "And here's a trick — pull up your last bank statement and sort it. Rent and the car payment? Those are fixed, same every month. Groceries and gas? Those move around.",
+          es: "Y un truco: abre tu último estado de cuenta y clasifícalo. ¿Renta y pago del auto? Son fijos, iguales cada mes. ¿Comida y gasolina? Esos varían.",
+          ar: "وإليك حيلة - افتح آخر كشف حساب بنكي ورتّبه. الإيجار وقسط السيارة؟ ثابتة، نفسها كل شهر. البقالة والوقود؟ تلك تتغير.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "And checking your own report never hurts your score. What moves the score most? Payment history. Paying every bill on time is the whole game.",
-          es: "Y revisar tu propio informe nunca baja tu puntaje. ¿Qué lo mueve más? El historial de pagos. Pagar todo a tiempo es la clave.",
-          ar: "وفحصك لتقريرك بنفسك لا يضر درجتك أبداً. ما الذي يحرّك الدرجة أكثر؟ سجل المدفوعات. دفع كل فاتورة في موعدها هو كل شيء.",
+          en: "It's the little stuff that gets you. Five bucks here, a subscription there — by the end of the month it's real money.",
+          es: "Son las cositas las que te atrapan. Cinco dólares aquí, una suscripción allá, y al final del mes es dinero de verdad.",
+          ar: "الأشياء الصغيرة هي ما يوقعك. خمسة دولارات هنا، اشتراك هناك - وبنهاية الشهر يصبح مالاً حقيقياً.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "Second is utilization — how much of your available credit you're using. Keep balances well below your limits, keep old accounts open, and don't apply for lots of new credit at once.",
-          es: "Lo segundo es el uso del crédito: cuánto de tu límite estás usando. Mantén saldos bajos, conserva cuentas antiguas y no pidas mucho crédito nuevo a la vez.",
-          ar: "ثانياً معدل الاستخدام - كم تستعمل من ائتمانك المتاح. أبقِ الأرصدة منخفضة، واحتفظ بالحسابات القديمة مفتوحة، ولا تطلب ائتماناً جديداً كثيراً دفعة واحدة.",
+          en: "One number to tattoo on your brain: try to keep housing around thirty percent of your gross monthly income. Stay near that, and everything else breathes.",
+          es: "Un número para grabarte: intenta mantener la vivienda en cerca del treinta por ciento de tu ingreso bruto mensual. Cerca de ahí, todo lo demás respira.",
+          ar: "رقم احفظه جيداً: حاول إبقاء السكن عند نحو ثلاثين بالمئة من دخلك الشهري الإجمالي. ابقَ قربه، ويتنفس كل شيء آخر.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Why does it matter? Many down-payment-assistance programs want a score around six-twenty to six-forty. Steady habits get you there.",
-          es: "¿Por qué importa? Muchos programas de ayuda para el pago inicial piden un puntaje de unos 620 a 640. Los hábitos constantes te llevan ahí.",
-          ar: "لماذا يهم هذا؟ كثير من برامج المساعدة في الدفعة الأولى تطلب درجة بين 620 و640 تقريباً. والعادات الثابتة توصلك إلى هناك.",
+          en: "Okay, switching gears — credit. This is the one that makes people sweat. But your credit report is really just a report card for borrowing.",
+          es: "Bien, cambiando de tema: el crédito. Este hace sudar a la gente. Pero tu informe de crédito es solo una boleta de calificaciones de cómo pides prestado.",
+          ar: "حسناً، ننتقل إلى الائتمان. هذا ما يجعل الناس يتوترون. لكن تقرير ائتمانك هو في الحقيقة مجرد بطاقة تقييم لطريقة اقتراضك.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "Got a question? Pause us and ask the Coach — then come back. When you're ready, take the Day 1 test and earn that certificate!",
-          es: "¿Tienes una duda? Pausa y pregúntale al Coach, y luego vuelve. Cuando estés listo, haz la prueba del Día 1 ¡y gana tu certificado!",
-          ar: "عندك سؤال؟ أوقفنا مؤقتاً واسأل المدرب - ثم عُد. وعندما تكون مستعداً، أدِّ اختبار اليوم الأول واحصل على شهادتك!",
+          en: "And you can see your own report card for free, once a year, from all three bureaus — Equifax, Experian, TransUnion. Checking it yourself does not hurt your score.",
+          es: "Y puedes ver tu boleta gratis, una vez al año, de las tres agencias: Equifax, Experian y TransUnion. Revisarla tú mismo no daña tu puntaje.",
+          ar: "ويمكنك رؤية بطاقتك مجاناً، مرة سنوياً، من الوكالات الثلاث - إكويفاكس وإكسبيريان وترانس يونيون. ومراجعتها بنفسك لا تضر درجتك.",
+        },
+      },
+      {
+        speaker: "devon",
+        text: {
+          en: "So what actually moves the score? Number one, by a mile — paying your bills on time. That's it. That's the headline.",
+          es: "¿Y qué mueve el puntaje? Lo número uno, por mucho: pagar tus cuentas a tiempo. Es eso. Ese es el titular.",
+          ar: "إذاً ما الذي يحرّك الدرجة فعلاً؟ الأول بفارق كبير - دفع فواتيرك في موعدها. هذا كل شيء. هذا هو العنوان.",
+        },
+      },
+      {
+        speaker: "maya",
+        text: {
+          en: "After that it's how much of your available credit you're using — keep those card balances low. And why do we care so much? Because a lot of down-payment programs want a score around six-twenty to six-forty.",
+          es: "Después es cuánto de tu crédito disponible usas: mantén bajos los saldos de las tarjetas. ¿Y por qué nos importa tanto? Porque muchos programas de ayuda piden un puntaje de unos 620 a 640.",
+          ar: "بعد ذلك مقدار ما تستخدمه من ائتمانك المتاح - أبقِ أرصدة البطاقات منخفضة. ولماذا نهتم لهذا الحد؟ لأن كثيراً من برامج الدعم تطلب درجة بين 620 و640.",
+        },
+      },
+      {
+        speaker: "devon",
+        text: {
+          en: "That score is your ticket to free money for your down payment. Steady habits, that's the whole secret.",
+          es: "Ese puntaje es tu boleto al dinero gratis para tu pago inicial. Hábitos constantes, ese es todo el secreto.",
+          ar: "تلك الدرجة هي تذكرتك إلى مال مجاني لدفعتك الأولى. عادات ثابتة، هذا هو السر كله.",
+        },
+      },
+      {
+        speaker: "maya",
+        text: {
+          en: "Hit pause anytime and ask the Coach a question — seriously, that's what it's there for. Otherwise, go crush the Day 1 test. You've got this.",
+          es: "Pausa cuando quieras y hazle una pregunta al Coach, en serio, para eso está. Si no, ve y arrasa con la prueba del Día 1. Tú puedes.",
+          ar: "أوقف في أي وقت واسأل المدرب سؤالاً - حقاً، لهذا هو موجود. وإلا، اذهب وتفوّق في اختبار اليوم الأول. أنت قادر.",
         },
       },
     ],
@@ -120,65 +153,89 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
       {
         speaker: "devon",
         text: {
-          en: "Day 2! Today it's mortgages. Maya, give it to me straight — what IS a mortgage?",
-          es: "¡Día 2! Hoy tocan las hipotecas. Maya, dímelo claro: ¿qué ES una hipoteca?",
-          ar: "اليوم الثاني! اليوم نتحدث عن الرهن العقاري. مايا، قوليها لي بصراحة - ما هو الرهن العقاري؟",
+          en: "Alright, today's the big scary one — mortgages. Maya, talk me down. What is a mortgage, really?",
+          es: "Muy bien, hoy toca el tema temido: las hipotecas. Maya, tranquilízame. ¿Qué es una hipoteca, de verdad?",
+          ar: "حسناً، اليوم الموضوع المخيف - الرهن العقاري. مايا، طمئنّي. ما هو الرهن العقاري حقاً؟",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "A loan to buy a property — and it's a secured loan. The home itself is the collateral. Stop paying, and the lender can take the home through foreclosure.",
-          es: "Un préstamo para comprar una propiedad, y es garantizado. La propia casa es la garantía. Si dejas de pagar, el prestamista puede tomarla mediante la ejecución hipotecaria.",
-          ar: "قرض لشراء عقار - وهو قرض مضمون. المنزل نفسه هو الضمانة. توقف عن السداد، ويمكن للمقرض أخذ المنزل عبر حبس الرهن.",
+          en: "It's just a loan to buy a house. The catch is it's secured — meaning the house itself is the collateral. Stop paying, and the lender can take it back. That's foreclosure.",
+          es: "Es solo un préstamo para comprar una casa. El detalle es que está garantizado: la casa misma es la garantía. Dejas de pagar y el prestamista la recupera. Eso es la ejecución hipotecaria.",
+          ar: "إنه مجرد قرض لشراء منزل. لكن الفارق أنه مضمون - أي أن المنزل نفسه هو الضمانة. توقّف عن الدفع، ويستطيع المُقرض استرجاعه. هذا هو حبس الرهن.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Fixed versus ARM: a fixed rate never changes — predictable for thirty years. An adjustable rate can rise over time. For most first-time buyers, predictable wins.",
-          es: "Fija versus ARM: la tasa fija nunca cambia, predecible por treinta años. La ajustable puede subir. Para la mayoría de los compradores primerizos, gana lo predecible.",
-          ar: "الثابتة مقابل المتغيرة: الفائدة الثابتة لا تتغير أبداً - متوقعة لثلاثين عاماً. والمتغيرة قد ترتفع مع الوقت. ولمعظم المشترين الجدد، الثبات هو الأفضل.",
+          en: "So the house is basically holding itself hostage. Good motivation to pick a payment you can actually live with.",
+          es: "Así que la casa básicamente se toma a sí misma de rehén. Buena motivación para elegir un pago que de verdad puedas sostener.",
+          ar: "إذاً المنزل عملياً يحتجز نفسه رهينة. حافز جيد لاختيار دفعة تستطيع تحمّلها فعلاً.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "And PMI — private mortgage insurance — usually applies when you put down less than twenty percent. It protects the lender, and you can ask to remove it once you reach about twenty percent equity.",
-          es: "Y el PMI —el seguro hipotecario privado— suele aplicar cuando das menos del veinte por ciento inicial. Protege al prestamista, y puedes pedir quitarlo al llegar a veinte por ciento de plusvalía.",
-          ar: "وتأمين PMI - تأمين الرهن الخاص - يُطبق عادة عند دفعة أولى أقل من عشرين بالمئة. يحمي المقرض، ويمكنك طلب إزالته عند بلوغ نحو عشرين بالمئة من الملكية.",
+          en: "Exactly. Now, fixed versus adjustable. Fixed means your rate never changes — same payment for thirty years. An ARM can go up later. For most first-timers, boring and predictable wins.",
+          es: "Exacto. Ahora, fija contra ajustable. Fija quiere decir que tu tasa nunca cambia: el mismo pago por treinta años. Una ARM puede subir después. Para la mayoría de los primerizos, gana lo aburrido y predecible.",
+          ar: "تماماً. الآن، الثابتة مقابل المتغيرة. الثابتة تعني أن فائدتك لا تتغير أبداً - نفس الدفعة لثلاثين عاماً. أما المتغيرة فقد ترتفع لاحقاً. ولمعظم المبتدئين، يفوز الممل والمتوقع.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Now the magic numbers: twenty-nine and forty-one. Housing should stay near twenty-nine percent of gross monthly income, and housing plus all debts under about forty-one percent.",
-          es: "Ahora los números mágicos: veintinueve y cuarenta y uno. La vivienda cerca del veintinueve por ciento del ingreso bruto, y vivienda más deudas bajo el cuarenta y uno.",
-          ar: "والآن الرقمان السحريان: تسعة وعشرون وواحد وأربعون. السكن قرب تسعة وعشرين بالمئة من الدخل الإجمالي، والسكن مع كل الديون تحت واحد وأربعين بالمئة تقريباً.",
+          en: "And PMI — that one surprises people. If you put down less than twenty percent, you usually pay private mortgage insurance. And here's the kicker: it protects the lender, not you.",
+          es: "Y el PMI, ese sorprende a la gente. Si das menos del veinte por ciento, normalmente pagas el seguro hipotecario privado. Y lo irónico: protege al prestamista, no a ti.",
+          ar: "وتأمين PMI، هذا يفاجئ الناس. إذا دفعت أقل من عشرين بالمئة، تدفع عادةً تأمين الرهن الخاص. والمفارقة: إنه يحمي المُقرض، لا أنت.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "That's exactly how the Murphy family in our class worksheet figured out what they could afford before falling in love with a house they couldn't.",
-          es: "Así fue exactamente como la familia Murphy de nuestra clase calculó lo que podía pagar antes de enamorarse de una casa fuera de su alcance.",
-          ar: "هكذا تماماً عرفت عائلة ميرفي في ورقة عمل صفنا ما تستطيع تحمله قبل أن تقع في حب منزل لا تقدر عليه.",
+          en: "But the good news — it's not forever. Once you've got about twenty percent equity, you can ask to drop it and shrink your payment.",
+          es: "Pero la buena noticia: no es para siempre. Cuando tienes cerca del veinte por ciento de plusvalía, puedes pedir quitarlo y bajar tu pago.",
+          ar: "لكن الخبر السار: ليس إلى الأبد. بمجرد أن تملك نحو عشرين بالمئة من حقوق الملكية، يمكنك طلب إلغائه وتقليل دفعتك.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Know your rights too. The Closing Disclosure must reach you at least three business days before closing, and fair-lending laws make discrimination illegal. If a deal pressures you to sign fast — walk away.",
-          es: "Conoce también tus derechos. La Divulgación de Cierre debe llegarte al menos tres días hábiles antes del cierre, y las leyes de préstamos justos prohíben la discriminación. Si te presionan a firmar rápido, retírate.",
-          ar: "اعرف حقوقك أيضاً. يجب أن يصلك إفصاح الإتمام قبل ثلاثة أيام عمل على الأقل، وقوانين الإقراض العادل تجرّم التمييز. إذا ضغط عليك أحد للتوقيع بسرعة - فانسحب.",
+          en: "Okay, the magic numbers — twenty-nine and forty-one. Where do those come from?",
+          es: "Bien, los números mágicos: veintinueve y cuarenta y uno. ¿De dónde salen?",
+          ar: "حسناً، الرقمان السحريان - تسعة وعشرون وواحد وأربعون. من أين يأتيان؟",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "Try the affordability calculator in the lesson, and quiz yourself when you're ready. Questions? Pause and ask the Coach!",
-          es: "Prueba la calculadora de capacidad de pago en la lección y haz la prueba cuando estés listo. ¿Dudas? ¡Pausa y pregunta al Coach!",
-          ar: "جرّب حاسبة القدرة على التحمل في الدرس، واختبر نفسك عندما تستعد. أسئلة؟ أوقف مؤقتاً واسأل المدرب!",
+          en: "It's the lender's math. Housing should be around twenty-nine percent of your gross income, and housing plus all your other debt under forty-one. Plug in your numbers and you'll know your ceiling before you ever tour a house.",
+          es: "Es el cálculo del prestamista. La vivienda cerca del veintinueve por ciento de tu ingreso bruto, y la vivienda más tus otras deudas bajo el cuarenta y uno. Pon tus números y sabrás tu tope antes de ver una sola casa.",
+          ar: "إنه حساب المُقرض. السكن نحو تسعة وعشرين بالمئة من دخلك الإجمالي، والسكن مع بقية ديونك تحت واحد وأربعين. أدخل أرقامك وستعرف سقفك قبل أن تزور أي منزل.",
+        },
+      },
+      {
+        speaker: "devon",
+        text: {
+          en: "There's a calculator right in the lesson for that — play with it. And last thing, your rights: that Closing Disclosure has to be in your hands three business days before closing.",
+          es: "Hay una calculadora en la lección para eso, juega con ella. Y lo último, tus derechos: esa Divulgación de Cierre debe estar en tus manos tres días hábiles antes del cierre.",
+          ar: "هناك حاسبة في الدرس لذلك - جرّبها. وآخر شيء، حقوقك: يجب أن يكون إفصاح الإتمام بين يديك قبل ثلاثة أيام عمل من الإتمام.",
+        },
+      },
+      {
+        speaker: "maya",
+        text: {
+          en: "And nobody — nobody — can deny you a loan based on your race, religion, or where you're from. If a deal feels rushed or shady, walk away and call a counselor.",
+          es: "Y nadie, nadie, puede negarte un préstamo por tu raza, religión o de dónde eres. Si un trato se siente apurado o turbio, retírate y llama a un asesor.",
+          ar: "ولا أحد - لا أحد - يستطيع رفض قرضك بسبب عِرقك أو دينك أو أصلك. وإن بدا العرض متعجّلاً أو مريباً، انسحب واتصل بمستشار.",
+        },
+      },
+      {
+        speaker: "devon",
+        text: {
+          en: "Stuck on any of it? Pause and ask the Coach. Then go pass that Day 2 test.",
+          es: "¿Te atoraste en algo? Pausa y pregunta al Coach. Luego ve a aprobar la prueba del Día 2.",
+          ar: "تعثّرت في شيء؟ أوقف واسأل المدرب. ثم اذهب واجتَز اختبار اليوم الثاني.",
         },
       },
     ],
@@ -194,65 +251,81 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
       {
         speaker: "maya",
         text: {
-          en: "Day 3 — the fun part! House hunting. But before you tour anything, Devon, what's the homework?",
-          es: "Día 3, ¡la parte divertida! Buscar casa. Pero antes de visitar nada, Devon, ¿cuál es la tarea?",
-          ar: "اليوم الثالث - الجزء الممتع! البحث عن منزل. لكن قبل أن تزور أي شيء، ديفون، ما الواجب؟",
+          en: "This is the fun part — house hunting! But Devon, confession: this is also where people fall in love and lose their minds a little.",
+          es: "¡Esta es la parte divertida, buscar casa! Pero Devon, confesión: aquí también es donde la gente se enamora y pierde un poco la cabeza.",
+          ar: "هذا هو الجزء الممتع - البحث عن منزل! لكن يا ديفون، اعتراف: هنا أيضاً يقع الناس في الحب ويفقدون صوابهم قليلاً.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Two lists: needs and wants. Needs are non-negotiable — bedrooms, location, a price inside your pre-approval. Wants are the granite countertops.",
-          es: "Dos listas: necesidades y deseos. Las necesidades no se negocian: habitaciones, zona, un precio dentro de tu preaprobación. Los deseos son las encimeras de granito.",
-          ar: "قائمتان: احتياجات ورغبات. الاحتياجات لا تُناقش - غرف النوم، الموقع، سعر ضمن موافقتك المبدئية. أما الرغبات فهي أسطح الغرانيت.",
+          en: "Oh, a hundred percent. So before you fall for the cute kitchen, make two lists: needs and wants. Needs are non-negotiable — enough bedrooms, safe area, a price inside your pre-approval.",
+          es: "Ah, cien por ciento. Así que antes de caer por la cocina linda, haz dos listas: necesidades y deseos. Las necesidades no se negocian: suficientes recámaras, zona segura, un precio dentro de tu preaprobación.",
+          ar: "آه، مئة بالمئة. لذا قبل أن تقع في حب المطبخ الجميل، اصنع قائمتين: احتياجات ورغبات. الاحتياجات لا تُناقش - غرف نوم كافية، حيّ آمن، سعر ضمن موافقتك المبدئية.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "When you find the one, you make a written offer with contingencies — escape hatches that protect you, like passing the inspection and getting your financing.",
-          es: "Cuando encuentras la indicada, haces una oferta escrita con contingencias: salidas de emergencia que te protegen, como pasar la inspección y obtener el financiamiento.",
-          ar: "عندما تجد المنزل المنشود، تقدّم عرضاً مكتوباً مع شروط وقائية - مخارج أمان تحميك، مثل اجتياز الفحص والحصول على التمويل.",
+          en: "And wants are the granite countertops and the soaking tub. Nice, but they don't pay the mortgage.",
+          es: "Y los deseos son las encimeras de granito y la tina de remojo. Lindos, pero no pagan la hipoteca.",
+          ar: "والرغبات هي أسطح الغرانيت وحوض الاستحمام. جميلة، لكنها لا تدفع الرهن.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "You'll include earnest money — a good-faith deposit held in escrow, a neutral account. It shows the seller you're serious, and it comes back to you at closing.",
-          es: "Incluirás el depósito de buena fe, guardado en escrow, una cuenta neutral. Muestra al vendedor que vas en serio y se te devuelve en el cierre.",
-          ar: "سترفق العربون - وديعة حسن نية تُحفظ في حساب ضمان محايد. تُظهر للبائع جدّيتك، وتعود إليك عند الإتمام.",
+          en: "When you find the one, you make a written offer — with contingencies. Those are your escape hatches, like 'only if it passes inspection' or 'only if my loan comes through.'",
+          es: "Cuando encuentras la indicada, haces una oferta por escrito, con contingencias. Esas son tus salidas de emergencia: «solo si pasa la inspección» o «solo si me aprueban el préstamo».",
+          ar: "عندما تجد المنزل المنشود، تقدّم عرضاً مكتوباً - مع شروط وقائية. تلك مخارج أمانك، مثل «فقط إن اجتاز الفحص» أو «فقط إن حصلت على قرضي».",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "Golden rule while you're in escrow: no big purchases, no new credit. Lenders re-check your credit right before closing, and a new car loan can sink the whole deal.",
-          es: "Regla de oro en escrow: ni compras grandes ni crédito nuevo. Los prestamistas revisan tu crédito justo antes del cierre, y un préstamo de auto puede hundir todo.",
-          ar: "القاعدة الذهبية أثناء الضمان: لا مشتريات كبيرة ولا ائتمان جديد. يعيد المقرضون فحص ائتمانك قبيل الإتمام، وقرض سيارة جديد قد يُغرق الصفقة كلها.",
+          en: "And you put down earnest money — a good-faith deposit that just sits safely in escrow until closing. It tells the seller you're serious.",
+          es: "Y das un depósito de buena fe que se queda seguro en el escrow hasta el cierre. Le dice al vendedor que vas en serio.",
+          ar: "وتدفع عربوناً - وديعة حسن نية تبقى بأمان في حساب الضمان حتى الإتمام. تُخبر البائع أنك جاد.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "And the inspection — never skip it. A few hundred dollars buys you a top-to-bottom report on the roof, foundation, plumbing, and electric. The inspector works for YOU.",
-          es: "Y la inspección: nunca la saltes. Unos cientos de dólares te compran un informe completo del techo, cimientos, plomería y electricidad. El inspector trabaja para TI.",
-          ar: "والفحص - لا تتخطاه أبداً. بضع مئات من الدولارات تشتري لك تقريراً شاملاً عن السقف والأساسات والسباكة والكهرباء. الفاحص يعمل لصالحك أنت.",
+          en: "Okay, this next one is my soapbox. Once you're under contract — do not, I repeat, do not go buy a new car.",
+          es: "Bien, este es mi sermón. Una vez bajo contrato, no, repito, no vayas a comprar un auto nuevo.",
+          ar: "حسناً، هذه نقطتي التي أكررها. بمجرد توقيع العقد - لا، أكرر، لا تذهب لشراء سيارة جديدة.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "If it finds real problems, your contingency gives you options: ask for repairs, negotiate the price, or walk away with your earnest money. That's power.",
-          es: "Si encuentra problemas reales, tu contingencia te da opciones: pedir reparaciones, negociar el precio o retirarte con tu depósito. Eso es poder.",
-          ar: "إذا وجد مشاكل حقيقية، يمنحك الشرط الوقائي خيارات: اطلب الإصلاح، أو فاوض على السعر، أو انسحب مع عربونك. هذه هي القوة.",
+          en: "Ha, the classic mistake! Lenders re-check your credit right before closing. New debt can literally cancel your loan the week you move in.",
+          es: "¡Ja, el error clásico! Los prestamistas revisan tu crédito justo antes del cierre. Una deuda nueva puede cancelar tu préstamo la semana que te mudas.",
+          ar: "ها، الخطأ الكلاسيكي! يعيد المُقرضون فحص ائتمانك قبيل الإتمام. والدين الجديد قد يُلغي قرضك حرفياً في أسبوع انتقالك.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Try the put-the-steps-in-order game in this lesson, then take the Day 3 test. And remember — pause and ask the Coach anytime.",
-          es: "Juega a ordenar los pasos en esta lección y luego haz la prueba del Día 3. Y recuerda: pausa y pregunta al Coach cuando quieras.",
-          ar: "جرّب لعبة ترتيب الخطوات في هذا الدرس، ثم أدِّ اختبار اليوم الثالث. وتذكر - أوقف مؤقتاً واسأل المدرب في أي وقت.",
+          en: "And please, never skip the inspection. A few hundred bucks gets a pro to check the roof, the wiring, the plumbing — and the inspector works for you, not the seller.",
+          es: "Y por favor, nunca te saltes la inspección. Unos cientos de dólares hacen que un profesional revise el techo, la instalación eléctrica, la plomería, y el inspector trabaja para ti, no para el vendedor.",
+          ar: "وأرجوك، لا تتخطَّ الفحص أبداً. بضع مئات من الدولارات تجعل خبيراً يفحص السقف والأسلاك والسباكة - والفاحص يعمل لصالحك، لا البائع.",
+        },
+      },
+      {
+        speaker: "maya",
+        text: {
+          en: "And if it turns up something ugly? Your contingency lets you renegotiate, ask for repairs, or just walk away with your deposit. That's the power you paid for.",
+          es: "¿Y si aparece algo feo? Tu contingencia te deja renegociar, pedir reparaciones o simplemente retirarte con tu depósito. Ese es el poder que pagaste.",
+          ar: "وإن ظهر شيء سيئ؟ شرطك الوقائي يتيح لك إعادة التفاوض أو طلب الإصلاحات أو الانسحاب مع عربونك. هذه هي القوة التي دفعت ثمنها.",
+        },
+      },
+      {
+        speaker: "devon",
+        text: {
+          en: "There's a put-the-steps-in-order game in the lesson — go try it. Questions? Pause and ask the Coach. See you at the Day 3 test.",
+          es: "Hay un juego de ordenar los pasos en la lección, ve a probarlo. ¿Dudas? Pausa y pregunta al Coach. Nos vemos en la prueba del Día 3.",
+          ar: "هناك لعبة ترتيب الخطوات في الدرس - جرّبها. أسئلة؟ أوقف واسأل المدرب. أراك في اختبار اليوم الثالث.",
         },
       },
     ],
@@ -268,65 +341,81 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
       {
         speaker: "devon",
         text: {
-          en: "Final day! You bought the house — now let's keep it. Maya, why does the lender insist on homeowner's insurance?",
-          es: "¡Último día! Compraste la casa, ahora hay que conservarla. Maya, ¿por qué el prestamista insiste en el seguro de vivienda?",
-          ar: "اليوم الأخير! اشتريت المنزل - والآن لنحافظ عليه. مايا، لماذا يصرّ المقرض على تأمين المنزل؟",
+          en: "Last day! You got the keys. Now the job changes from buying the house to keeping it. Maya, start us with insurance — why is it not optional?",
+          es: "¡Último día! Tienes las llaves. Ahora el trabajo cambia de comprar la casa a conservarla. Maya, empieza con el seguro: ¿por qué no es opcional?",
+          ar: "اليوم الأخير! حصلت على المفاتيح. الآن تتحوّل المهمة من شراء المنزل إلى الحفاظ عليه. مايا، ابدئي بالتأمين - لماذا ليس اختيارياً؟",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "Because the home is the loan's collateral. A standard policy covers the structure, your belongings, liability if someone's hurt, and living expenses if a covered disaster forces you out.",
-          es: "Porque la casa es la garantía del préstamo. Una póliza estándar cubre la estructura, tus pertenencias, la responsabilidad civil y los gastos de vivienda si un desastre cubierto te obliga a salir.",
-          ar: "لأن المنزل هو ضمانة القرض. الوثيقة القياسية تغطي الهيكل وممتلكاتك والمسؤولية إذا أُصيب أحد، ونفقات المعيشة إذا أجبرتك كارثة مغطاة على الخروج.",
+          en: "Because the lender won't let you close without it — the house is their collateral too, remember. And a good policy covers the building, your stuff inside, and if someone gets hurt on your property.",
+          es: "Porque el prestamista no te deja cerrar sin él: la casa también es su garantía, recuerda. Y una buena póliza cubre la estructura, tus cosas adentro y si alguien se lastima en tu propiedad.",
+          ar: "لأن المُقرض لن يدعك تُتمّ دون تأمين - فالمنزل ضمانته أيضاً، تذكّر. والوثيقة الجيدة تغطي المبنى وأغراضك بداخله وإن أُصيب أحد في عقارك.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Watch the exclusions though — floods and earthquakes usually need separate coverage. And insure for replacement cost, what it takes to rebuild today.",
-          es: "Pero ojo con las exclusiones: inundaciones y terremotos suelen necesitar cobertura aparte. Y asegura por el costo de reposición, lo que cuesta reconstruir hoy.",
-          ar: "لكن انتبه للاستثناءات - الفيضانات والزلازل تحتاج عادة تغطية منفصلة. وأمِّن بتكلفة الإحلال، أي ما يكلفه إعادة البناء اليوم.",
+          en: "But read the fine print, because here's the gotcha — floods and earthquakes usually aren't covered. You need separate policies for those.",
+          es: "Pero lee la letra chica, porque aquí está la trampa: las inundaciones y los terremotos normalmente no están cubiertos. Necesitas pólizas aparte para eso.",
+          ar: "لكن اقرأ التفاصيل الدقيقة، فهنا المفاجأة - الفيضانات والزلازل عادةً غير مغطاة. تحتاج وثائق منفصلة لها.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "Your deductible is a dial: higher deductible, lower premium, more risk. Set it where your emergency fund can actually reach. And shop quotes every year or two — loyalty rarely pays.",
-          es: "El deducible es una perilla: más alto, prima más baja, más riesgo. Ponlo donde tu fondo de emergencia llegue. Y compara cotizaciones cada uno o dos años: la lealtad rara vez paga.",
-          ar: "مبلغ التحمل مثل المقبض: كلما ارتفع انخفض القسط وزادت المخاطرة. اضبطه حيث يستطيع صندوق طوارئك الوصول. وقارن العروض كل سنة أو سنتين - فالولاء نادراً ما يُجزى.",
+          en: "And think of your deductible like a dial. Crank it higher, your monthly premium drops — but you pay more out of pocket if something happens. Set it where your emergency fund can actually reach.",
+          es: "Y piensa en tu deducible como una perilla. Súbelo y tu prima mensual baja, pero pagas más de tu bolsillo si pasa algo. Ponlo donde tu fondo de emergencia de verdad alcance.",
+          ar: "وفكّر في مبلغ التحمّل كالمقبض. ارفعه فينخفض قسطك الشهري - لكنك تدفع أكثر من جيبك إن حدث شيء. اضبطه حيث يصل إليه صندوق طوارئك فعلاً.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Now maintenance. It's a yearly cycle — gutters and roof in spring, cooling in summer, furnace and sealing in fall, pipes and detectors in winter.",
-          es: "Ahora el mantenimiento. Es un ciclo anual: canaletas y techo en primavera, aire en verano, calefacción y sellado en otoño, tuberías y detectores en invierno.",
-          ar: "الآن الصيانة. إنها دورة سنوية - المزاريب والسقف في الربيع، والتبريد في الصيف، والمدفأة وسد الفجوات في الخريف، والأنابيب وأجهزة الكشف في الشتاء.",
+          en: "Pro tip: shop your insurance every year or two. Loyalty doesn't really pay here — three quotes can save you real money.",
+          es: "Consejo: compara tu seguro cada uno o dos años. La lealtad no paga aquí, tres cotizaciones pueden ahorrarte dinero de verdad.",
+          ar: "نصيحة: قارن تأمينك كل سنة أو سنتين. الولاء لا يُجزى هنا - ثلاثة عروض قد توفّر عليك مالاً حقيقياً.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "And your home talks to you: hot and cold spots, pests, mold, utility bills jumping. Those are warning signs of fixable problems — and mold and pests are health issues too.",
-          es: "Y tu casa te habla: zonas frías y calientes, plagas, moho, facturas que saltan. Son señales de problemas reparables, y el moho y las plagas también afectan la salud.",
-          ar: "ومنزلك يتحدث إليك: مناطق حارة وباردة، آفات، عفن، فواتير تقفز. هذه علامات تحذير لمشاكل قابلة للإصلاح - والعفن والآفات مشاكل صحية أيضاً.",
+          en: "Okay, maintenance. The trick is to think in seasons — gutters and roof in spring, the AC in summer, furnace in fall, pipes in winter. Little stuff, on a rhythm.",
+          es: "Bien, el mantenimiento. El truco es pensar por temporadas: canaletas y techo en primavera, el aire en verano, la calefacción en otoño, las tuberías en invierno. Cositas, con ritmo.",
+          ar: "حسناً، الصيانة. الحيلة أن تفكّر بالمواسم - المزاريب والسقف في الربيع، والتكييف في الصيف، والمدفأة في الخريف، والأنابيب في الشتاء. أشياء صغيرة، بإيقاع منتظم.",
         },
       },
       {
         speaker: "devon",
         text: {
-          en: "Last money tip: ask your agent about tax abatement where you're buying — it can save you thousands in property taxes. And improvements that add living space add real value.",
-          es: "Último consejo: pregunta a tu agente por la reducción de impuestos donde compras; puede ahorrarte miles. Y las mejoras que agregan espacio habitable agregan valor real.",
-          ar: "نصيحة مالية أخيرة: اسأل وكيلك عن الإعفاء الضريبي حيث تشتري - قد يوفر لك آلافاً من ضرائب العقار. والتحسينات التي تضيف مساحة معيشية تضيف قيمة حقيقية.",
+          en: "And honestly, your house will tell you when something's wrong. Cold drafts, a musty smell, bugs, a utility bill that suddenly spikes — those aren't random. They're clues.",
+          es: "Y la verdad, tu casa te avisa cuando algo anda mal. Corrientes frías, olor a humedad, insectos, una factura que de repente se dispara, no son al azar. Son pistas.",
+          ar: "وصراحةً، سيُخبرك منزلك عندما يكون هناك خطب. تيارات باردة، رائحة عفن، حشرات، فاتورة تقفز فجأة - تلك ليست عشوائية. إنها أدلّة.",
         },
       },
       {
         speaker: "maya",
         text: {
-          en: "Pass the Day 4 test and you've finished the whole course — every day, every certificate. We're proud of you. Now go find that assistance and get those keys!",
-          es: "Aprueba la prueba del Día 4 y habrás terminado todo el curso: cada día, cada certificado. Estamos orgullosos de ti. ¡Ahora busca tu ayuda y consigue esas llaves!",
-          ar: "اجتز اختبار اليوم الرابع وتكون قد أنهيت الدورة كاملة - كل يوم وكل شهادة. نحن فخورون بك. الآن اذهب وابحث عن المساعدة واحصل على تلك المفاتيح!",
+          en: "And mold and pests aren't just gross — they're health issues. Catching moisture early protects your family, not just your wallet. A twenty-dollar tube of caulk beats a two-thousand-dollar repair.",
+          es: "Y el moho y las plagas no solo dan asco, son problemas de salud. Atrapar la humedad a tiempo protege a tu familia, no solo tu bolsillo. Un sellador de veinte dólares le gana a una reparación de dos mil.",
+          ar: "والعفن والآفات ليست مقززة فقط - إنها مشاكل صحية. معالجة الرطوبة مبكراً تحمي عائلتك، لا محفظتك فقط. أنبوب سدّ بعشرين دولاراً خير من إصلاح بألفي دولار.",
+        },
+      },
+      {
+        speaker: "devon",
+        text: {
+          en: "One last money move: ask your agent about tax abatement where you're buying. In some Ohio cities that's thousands off your property taxes.",
+          es: "Un último movimiento de dinero: pregunta a tu agente por la reducción de impuestos donde compras. En algunas ciudades de Ohio son miles menos en impuestos.",
+          ar: "خطوة مالية أخيرة: اسأل وكيلك عن الإعفاء الضريبي حيث تشتري. في بعض مدن أوهايو هذا يعني آلافاً أقل من ضرائب العقار.",
+        },
+      },
+      {
+        speaker: "maya",
+        text: {
+          en: "Pass this last test and you've finished the whole course — all four days. Honestly? You now know more than most buyers ever do. Go find your assistance and get those keys. We're rooting for you.",
+          es: "Aprueba esta última prueba y habrás terminado todo el curso, los cuatro días. ¿La verdad? Ya sabes más que la mayoría de los compradores. Ve por tu ayuda y consigue esas llaves. Vamos contigo.",
+          ar: "اجتَز هذا الاختبار الأخير وتكون قد أنهيت الدورة كاملة - الأيام الأربعة. وبصراحة؟ أنت الآن تعرف أكثر من معظم المشترين. اذهب وابحث عن دعمك واحصل على تلك المفاتيح. نحن نشجّعك.",
         },
       },
     ],

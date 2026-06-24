@@ -65,7 +65,7 @@ export function CrmTable({ participants }: { participants: Participant[] }) {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search name, email, phone, city, tag…"
-          className="min-w-[16rem] flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
+          className="w-full min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm sm:w-auto sm:min-w-[16rem]"
         />
         <select className={selectClass} value={stage} onChange={(e) => setStage(e.target.value)}>
           <option value="">All stages</option>
@@ -84,8 +84,8 @@ export function CrmTable({ participants }: { participants: Participant[] }) {
         </span>
       </div>
 
-      <div className="overflow-hidden rounded-lg border border-border bg-background">
-        <table className="w-full text-sm">
+      <div className="overflow-x-auto rounded-lg border border-border bg-background">
+        <table className="w-full min-w-[44rem] text-sm">
           <thead className="border-b border-border bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
               <th className="px-4 py-2 font-medium">Client</th>

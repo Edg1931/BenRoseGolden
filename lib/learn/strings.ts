@@ -243,6 +243,12 @@ export const UI: Record<string, Localized> = {
     ar: "نقطة انطلاق شائعة هي خطة 50/30/20. عدّل دخلك لترى الأهداف.",
   },
 
+  viewSlides: {
+    en: "Original class slides (PDF)",
+    es: "Diapositivas originales (PDF)",
+    ar: "شرائح الصف الأصلية (PDF)",
+  },
+
   // Progress / gamification
   xp: { en: "XP", es: "XP", ar: "نقاط" },
   lessonsDone: { en: "lessons read", es: "lecciones leídas", ar: "دروس مقروءة" },

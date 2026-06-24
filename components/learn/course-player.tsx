@@ -66,11 +66,13 @@ export function CoursePlayer({
   sections,
   lessons,
   questions,
+  pdf,
 }: {
   daySlug: string;
   sections: Record<string, Localized>;
   lessons: Lesson[];
   questions: PublicQuizQuestion[];
+  pdf?: string;
 }) {
   const [lang, setLang] = useState<LearnLang>("en");
   const [tab, setTab] = useState<Tab>("lessons");
@@ -208,11 +210,21 @@ export function CoursePlayer({
           </div>
         </div>
       </div>
-      {dayTitle && (
-        <p className="mb-4 font-serif text-sm font-semibold text-brand-plum print:hidden">
-          {dayTitle[lang]}
-        </p>
-      )}
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 print:hidden">
+        {dayTitle && (
+          <p className="font-serif text-sm font-semibold text-brand-plum">{dayTitle[lang]}</p>
+        )}
+        {pdf && (
+          <a
+            href={pdf}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 rounded-full border border-input px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-muted"
+          >
+            📄 {t("viewSlides")}
+          </a>
+        )}
+      </div>
 
       {/* Tab bar */}
       <div className="mb-6 flex gap-1 rounded-lg bg-muted p-1 print:hidden">

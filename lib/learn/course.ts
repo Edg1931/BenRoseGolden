@@ -17,6 +17,8 @@ export interface CourseDay {
   title: string;
   blurb: string;
   icon: string;
+  /** Original class slide deck (public path) — viewable & downloadable. */
+  pdf: string;
   sections: Record<string, Localized>;
   lessons: Lesson[];
 }
@@ -28,6 +30,7 @@ export const COURSE_DAYS: CourseDay[] = [
     title: "Money Management & Understanding Credit",
     blurb: "Build a budget, understand your expenses, and learn how credit reports and scores really work.",
     icon: "💰",
+    pdf: "/materials/day-1-money-management-credit.pdf",
     sections: DAY1_SECTIONS,
     lessons: DAY1_LESSONS,
   },
@@ -37,6 +40,7 @@ export const COURSE_DAYS: CourseDay[] = [
     title: "Obtaining a Mortgage & Know Your Rights",
     blurb: "How mortgages work, what you can afford (the 29/41 rule), the homebuying team, and your rights as a borrower.",
     icon: "🏦",
+    pdf: "/materials/day-2-mortgage-rights.pdf",
     sections: DAY2_SECTIONS,
     lessons: DAY2_LESSONS,
   },
@@ -46,6 +50,7 @@ export const COURSE_DAYS: CourseDay[] = [
     title: "Shopping for a Home & Home Inspection",
     blurb: "House-hunting with a plan, making an offer, escrow, and what the inspection protects you from.",
     icon: "🔍",
+    pdf: "/materials/day-3-shopping-inspection.pdf",
     sections: DAY3_SECTIONS,
     lessons: DAY3_LESSONS,
   },
@@ -55,6 +60,7 @@ export const COURSE_DAYS: CourseDay[] = [
     title: "Home Insurance Basics & Home Maintenance",
     blurb: "Protect your investment with the right insurance, a seasonal maintenance routine, and smart improvements.",
     icon: "🛡️",
+    pdf: "/materials/day-4-insurance-maintenance.pdf",
     sections: DAY4_SECTIONS,
     lessons: DAY4_LESSONS,
   },
