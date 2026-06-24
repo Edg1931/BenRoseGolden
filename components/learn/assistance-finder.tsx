@@ -345,7 +345,9 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
                       </span>
                     )}
                   </div>
-                  <h3 className="mt-1.5 font-semibold">{m.name}</h3>
+                  <Link href={`/assistance/${m.id}`} className="mt-1.5 block font-semibold hover:text-brand-rose hover:underline">
+                    {m.name}
+                  </Link>
                   <p className="text-xs text-muted-foreground">{m.provider}</p>
                 </div>
                 <div className="text-end">
@@ -387,13 +389,19 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
                 </span>
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
+                <Link
+                  href={`/assistance/${m.id}`}
+                  className="rounded-md bg-brand-rose px-4 py-2 text-sm font-medium text-white hover:bg-brand-plum"
+                >
+                  View details & how to apply →
+                </Link>
                 <a
                   href={m.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-md bg-brand-rose px-4 py-2 text-sm font-medium text-white hover:bg-brand-plum"
+                  className="rounded-md border border-input px-4 py-2 text-sm font-medium hover:bg-muted"
                 >
-                  Program details ↗
+                  Official page ↗
                 </a>
                 {m.requiresHomebuyerEd && !m.unlockedByCertificate && (
                   <Link
