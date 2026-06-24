@@ -6,15 +6,18 @@ import type { Program } from "../schema";
  * is a matter of registering another source — no engine or schema changes.
  */
 export interface ProgramSource {
-  readonly id: "curated" | "dpr";
+  readonly id: "curated" | "dpr" | "supabase";
   readonly enabled: boolean;
   load(): Promise<Program[]>;
 }
 
 import { curatedSource } from "./curated";
 import { dprSource } from "./dpr";
+import { supabaseSource } from "./supabase";
 
-const SOURCES: ProgramSource[] = [curatedSource, dprSource];
+// Order = precedence: the first source to write an id wins. Supabase (live,
+// staff-curated) overrides the static seed, which overrides the DPR adapter.
+const SOURCES: ProgramSource[] = [supabaseSource, curatedSource, dprSource];
 
 /** Load and merge programs from every enabled source, de-duped by id. */
 export async function loadAllPrograms(): Promise<Program[]> {
@@ -24,7 +27,7 @@ export async function loadAllPrograms(): Promise<Program[]> {
   const byId = new Map<string, Program>();
   for (const list of results) {
     for (const program of list) {
-      // Curated wins ties unless a source explicitly overrides (first-write wins).
+      // First write wins; SOURCES order gives Supabase precedence over seed.
       if (!byId.has(program.id)) byId.set(program.id, program);
     }
   }

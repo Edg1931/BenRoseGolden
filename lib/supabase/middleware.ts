@@ -48,6 +48,7 @@ export async function updateSession(request: NextRequest): Promise<NextResponse>
     path.startsWith("/learn") ||
     path.startsWith("/assistance") ||
     path.startsWith("/api/learn") ||
+    path.startsWith("/api/cron") ||
     path.startsWith("/api/newsletter") ||
     path.startsWith("/auth") ||
     path.startsWith("/_next") ||
