@@ -6,7 +6,9 @@ import { Card } from "@/components/ui/card";
 import { CoachPanel } from "@/components/learn/coach-panel";
 import { PodcastPlayer } from "@/components/learn/podcast-player";
 import { BudgetCalculator } from "@/components/learn/budget-calculator";
+import { BudgetPlanner } from "@/components/learn/budget-planner";
 import { AffordabilityCalculator } from "@/components/learn/affordability-calculator";
+import { CreditSimulator } from "@/components/learn/credit-simulator";
 import { ExpenseClassifier } from "@/components/learn/expense-classifier";
 import { KnowledgeCheck } from "@/components/learn/knowledge-check";
 import { StepSorter } from "@/components/learn/step-sorter";
@@ -41,7 +43,9 @@ const LESSON_ICON: Record<string, string> = {
   "budgeting-know-expenses": "🧾",
   "budgeting-good-habits": "🌱",
   "budgeting-money-tight": "⚖️",
+  "budgeting-make-it-easier": "⚙️",
   "credit-what-is-report": "📄",
+  "credit-why-matters": "⭐",
   "credit-whats-in-report": "🔍",
   "credit-score-factors": "📊",
   "credit-build-protect": "🛡️",
@@ -296,7 +300,9 @@ export function CoursePlayer({
 
               {/* Interactive blocks */}
               {lesson.calculator === "budget" && <BudgetCalculator lang={lang} />}
+              {lesson.calculator === "budget-planner" && <BudgetPlanner lang={lang} />}
               {lesson.calculator === "affordability" && <AffordabilityCalculator lang={lang} />}
+              {lesson.calculator === "credit-simulator" && <CreditSimulator lang={lang} />}
               {lesson.activity === "expense-classifier" && <ExpenseClassifier lang={lang} />}
               {lesson.check && (
                 <KnowledgeCheck

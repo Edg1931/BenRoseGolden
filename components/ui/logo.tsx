@@ -17,39 +17,24 @@ export function RoseMark({ className }: { className?: string }) {
       aria-hidden="true"
       className={cn("h-9 w-9", className)}
     >
-      {/* Outer petals */}
-      <g>
-        {[0, 72, 144, 216, 288].map((rot) => (
-          <ellipse
-            key={rot}
-            cx="24"
-            cy="13.5"
-            rx="7.5"
-            ry="11"
-            transform={`rotate(${rot} 24 24)`}
-            fill="hsl(338 65% 46%)"
-            opacity="0.55"
-          />
-        ))}
-      </g>
-      {/* Inner petals, offset for bloom depth */}
-      <g>
-        {[36, 108, 180, 252, 324].map((rot) => (
-          <ellipse
-            key={rot}
-            cx="24"
-            cy="17.5"
-            rx="5"
-            ry="7.5"
-            transform={`rotate(${rot} 24 24)`}
-            fill="hsl(331 48% 30%)"
-            opacity="0.75"
-          />
-        ))}
-      </g>
-      {/* Bud */}
-      <circle cx="24" cy="24" r="5" fill="hsl(331 48% 22%)" />
-      <circle cx="24" cy="24" r="2.2" fill="hsl(42 80% 55%)" />
+      {/* Benjamin Rose-style spiral rose: an unfurling swirl in brand red. */}
+      <circle cx="24" cy="24" r="22" fill="hsl(349 80% 47%)" />
+      <path
+        d="M24 9
+           C32.3 9 39 15.7 39 24
+           C39 31.2 33.2 37 26 37
+           C19.9 37 15 32.1 15 26
+           C15 20.8 19.2 16.6 24.4 16.6
+           C28.8 16.6 32.4 20.2 32.4 24.6
+           C32.4 28.3 29.4 31.3 25.7 31.3
+           C22.6 31.3 20.1 28.8 20.1 25.7"
+        fill="none"
+        stroke="white"
+        strokeWidth="3.4"
+        strokeLinecap="round"
+      />
+      {/* Leaf accent */}
+      <path d="M33 33 C36 33 38 35 38 38 C35 38 33 36 33 33 Z" fill="white" opacity="0.9" />
     </svg>
   );
 }

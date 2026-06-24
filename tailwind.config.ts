@@ -9,26 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Partnership palette, keyed to the Benjamin Rose brand (benrose.org):
-        // warm berry plum + rose on cream, with The Golden Group's gold as the
-        // partner accent. Tuned to the public brand's rose motif — when the
-        // official style-guide hexes are available, update these tokens and the
-        // whole app retunes.
-        border: "hsl(30 25% 88%)",
-        input: "hsl(30 25% 88%)",
-        ring: "hsl(338 65% 46%)",
+        // Matched to the real Benjamin Rose brand (benrose.org / class decks):
+        // a bold red with a spiral-rose mark and a warm orange accent, on soft
+        // pink/cream. `plum` now holds the deep brand red used for dark sections
+        // (name kept so existing usages don't churn); `gold` is the orange accent
+        // that also nods to The Golden Group.
+        border: "hsl(20 22% 88%)",
+        input: "hsl(20 22% 88%)",
+        ring: "hsl(349 80% 47%)",
         background: "hsl(0 0% 100%)",
-        foreground: "hsl(331 35% 16%)",
+        foreground: "hsl(350 24% 15%)",
         muted: {
-          DEFAULT: "hsl(33 40% 95%)",
-          foreground: "hsl(331 12% 42%)",
+          DEFAULT: "hsl(18 42% 96%)",
+          foreground: "hsl(350 8% 42%)",
         },
         brand: {
-          plum: "hsl(331 48% 24%)",
-          rose: "hsl(338 65% 46%)",
-          blush: "hsl(340 60% 96%)",
-          gold: "hsl(42 80% 42%)",
-          cream: "hsl(36 50% 97%)",
+          plum: "hsl(349 68% 32%)",
+          rose: "hsl(349 80% 47%)",
+          blush: "hsl(349 100% 96%)",
+          gold: "hsl(30 92% 50%)",
+          cream: "hsl(18 60% 98%)",
         },
       },
       borderRadius: {

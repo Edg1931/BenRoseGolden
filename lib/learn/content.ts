@@ -62,7 +62,7 @@ export interface Lesson {
   /** Optional interactive blocks rendered inside the lesson. */
   check?: InlineCheck;
   sorter?: SorterBlock;
-  calculator?: "budget" | "affordability";
+  calculator?: "budget" | "affordability" | "budget-planner" | "credit-simulator";
   /** Named hands-on activity widget rendered inside the lesson. */
   activity?: "expense-classifier";
 }
@@ -85,6 +85,7 @@ export const DAY1_LESSONS: Lesson[] = [
   {
     id: "budgeting-spending-plan",
     section: "budgeting",
+    calculator: "budget-planner",
     title: {
       en: "Your Spending Plan (Budget)",
       es: "Tu plan de gastos (presupuesto)",
@@ -289,6 +290,91 @@ export const DAY1_LESSONS: Lesson[] = [
     },
   },
 
+  {
+    id: "budgeting-make-it-easier",
+    section: "budgeting",
+    title: {
+      en: "Make Money Management Easier",
+      es: "Haz más fácil el manejo del dinero",
+      ar: "اجعل إدارة المال أسهل",
+    },
+    body: [
+      {
+        en: "Small systems beat willpower. Know when every bill is due and set up autopay or reminders. Ask your utilities about 'level' or 'budget' billing so the gas and electric cost the same each month instead of spiking in winter.",
+        es: "Los pequeños sistemas le ganan a la fuerza de voluntad. Sabe cuándo vence cada cuenta y activa el pago automático o recordatorios. Pregunta a tus servicios por la facturación 'nivelada' para que el gas y la luz cuesten igual cada mes en vez de dispararse en invierno.",
+        ar: "الأنظمة الصغيرة تتغلّب على قوة الإرادة. اعرف موعد كل فاتورة وفعّل الدفع التلقائي أو التذكيرات. واسأل شركات الخدمات عن الفوترة 'المستوية' ليكون الغاز والكهرباء بالتكلفة نفسها كل شهر بدل أن ترتفع في الشتاء.",
+      },
+      {
+        en: "Make your money flow automatically: use direct deposit, send a set amount to savings the day you get paid, and consider a separate account just for your home-savings goal so you're not tempted to spend it.",
+        es: "Haz que tu dinero fluya solo: usa el depósito directo, envía una cantidad fija al ahorro el día que cobras y considera una cuenta separada solo para tu meta de casa, para no caer en la tentación de gastarla.",
+        ar: "اجعل أموالك تتدفق تلقائياً: استخدم الإيداع المباشر، وحوّل مبلغاً ثابتاً إلى الادخار يوم استلام راتبك، وفكّر في حساب منفصل مخصّص لهدف منزلك حتى لا تُغريك نفسك بإنفاقه.",
+      },
+      {
+        en: "Control day-to-day spending: carry as little cash as possible, buy only what's on your list, and keep a visual reminder of your goal — a photo of a house, your target number — where you'll see it when you're tempted.",
+        es: "Controla el gasto diario: lleva el menor efectivo posible, compra solo lo de tu lista y ten un recordatorio visual de tu meta —la foto de una casa, tu número objetivo— donde lo veas cuando tengas tentación.",
+        ar: "تحكّم في الإنفاق اليومي: احمل أقل قدر ممكن من النقد، واشترِ فقط ما في قائمتك، واحتفظ بتذكير بصري لهدفك - صورة منزل، أو رقمك المستهدف - حيث تراه عند الإغراء.",
+      },
+      {
+        en: "And remember why you're doing this: down-payment assistance is real. Ohio programs, Grants for Grads, lender programs, and your city or county can all help — and Benjamin Rose counselors (216-791-8000) help you find and stack them.",
+        es: "Y recuerda por qué lo haces: la ayuda para el pago inicial es real. Programas de Ohio, Grants for Grads, programas de prestamistas y tu ciudad o condado pueden ayudar, y los asesores de Benjamin Rose (216-791-8000) te ayudan a encontrarlos y combinarlos.",
+        ar: "وتذكّر لماذا تفعل هذا: المساعدة في الدفعة الأولى حقيقية. برامج أوهايو، ومنح الخريجين، وبرامج المُقرضين، ومدينتك أو مقاطعتك يمكن أن تساعد - ومستشارو Benjamin Rose (هاتف 216-791-8000) يساعدونك على إيجادها وتجميعها.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Level billing", es: "Facturación nivelada", ar: "الفوترة المستوية" },
+        def: {
+          en: "A utility option that averages your bill so you pay the same amount each month.",
+          es: "Una opción del servicio que promedia tu factura para pagar lo mismo cada mes.",
+          ar: "خيار من شركة الخدمة يُوزّع فاتورتك لتدفع المبلغ نفسه كل شهر.",
+        },
+      },
+      {
+        term: { en: "Automatic savings", es: "Ahorro automático", ar: "الادخار التلقائي" },
+        def: {
+          en: "Moving money to savings automatically on payday, before you can spend it.",
+          es: "Mover dinero al ahorro automáticamente el día de pago, antes de gastarlo.",
+          ar: "تحويل المال إلى الادخار تلقائياً يوم الراتب قبل أن تنفقه.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "The buyers who reach their down payment aren't the ones with the most income — they're the ones who automated good habits.",
+      es: "Los compradores que logran su pago inicial no son los de mayor ingreso, son los que automatizaron buenos hábitos.",
+      ar: "المشترون الذين يبلغون دفعتهم الأولى ليسوا أصحاب أعلى دخل - بل من أتمتوا العادات الجيدة.",
+    },
+    check: {
+      question: {
+        en: "Quick check: the best way to make sure you save every month is to…",
+        es: "Repaso rápido: la mejor forma de asegurarte de ahorrar cada mes es…",
+        ar: "مراجعة سريعة: أفضل طريقة لتضمن الادخار كل شهر هي…",
+      },
+      options: [
+        {
+          en: "Save whatever is left at the end of the month",
+          es: "Ahorrar lo que sobre al final del mes",
+          ar: "ادّخار ما يتبقّى في نهاية الشهر",
+        },
+        {
+          en: "Automatically move money to savings on payday",
+          es: "Mover dinero al ahorro automáticamente el día de pago",
+          ar: "تحويل المال تلقائياً إلى الادخار يوم الراتب",
+        },
+        {
+          en: "Keep all your cash in your wallet",
+          es: "Tener todo tu efectivo en la cartera",
+          ar: "إبقاء كل نقدك في محفظتك",
+        },
+      ],
+      correctIndex: 1,
+      explain: {
+        en: "Right — 'pay yourself first' with automatic transfers beats hoping money is left over.",
+        es: "Correcto: 'págate a ti primero' con transferencias automáticas vence a esperar que sobre dinero.",
+        ar: "صحيح - 'ادفع لنفسك أولاً' بالتحويلات التلقائية أفضل من انتظار أن يتبقّى مال.",
+      },
+    },
+  },
+
   // ── Understanding Credit ──────────────────────────────────────────────────
   {
     id: "credit-what-is-report",
@@ -389,8 +475,76 @@ export const DAY1_LESSONS: Lesson[] = [
     },
   },
   {
+    id: "credit-why-matters",
+    section: "credit-basics",
+    title: {
+      en: "Why Good Credit Matters",
+      es: "Por qué importa el buen crédito",
+      ar: "لماذا يهمّ الائتمان الجيد",
+    },
+    body: [
+      {
+        en: "Credit touches far more than mortgages. Good credit helps you rent or buy what you need, get a lower interest rate (which saves you real money), and even land a job, lease an apartment, turn on utilities, or get cheaper insurance.",
+        es: "El crédito influye en mucho más que las hipotecas. El buen crédito te ayuda a rentar o comprar lo que necesitas, obtener una tasa de interés más baja (que ahorra dinero real) e incluso conseguir empleo, rentar departamento, activar servicios o pagar menos por seguros.",
+        ar: "الائتمان يمسّ أكثر بكثير من الرهن العقاري. فالائتمان الجيد يساعدك على استئجار أو شراء ما تحتاجه، والحصول على فائدة أقل (توفّر مالاً حقيقياً)، بل وحتى الحصول على وظيفة، أو استئجار شقة، أو تشغيل الخدمات، أو تأمين أرخص.",
+      },
+      {
+        en: "Lenders translate your report into a score, usually on a 300–850 scale. Roughly: 800+ is excellent, 740–799 very good, 670–739 good, 580–669 fair, and below 580 needs work. Higher score, lower risk to the lender, better rate for you.",
+        es: "Los prestamistas convierten tu informe en un puntaje, normalmente de 300 a 850. A grandes rasgos: 800+ es excelente, 740–799 muy bueno, 670–739 bueno, 580–669 regular y menos de 580 necesita trabajo. Mayor puntaje, menor riesgo y mejor tasa para ti.",
+        ar: "يحوّل المُقرضون تقريرك إلى درجة، عادةً على مقياس 300–850. تقريباً: 800+ ممتاز، و740–799 جيد جداً، و670–739 جيد، و580–669 مقبول، وأقل من 580 يحتاج عملاً. كلما ارتفعت الدرجة، قلّت المخاطرة وتحسّن سعرك.",
+      },
+      {
+        en: "Here's the money part: on a 30-year mortgage, the gap between 'fair' and 'very good' credit can be a full percentage point or more — that's often tens of thousands of dollars over the life of the loan. Your score is worth working on.",
+        es: "La parte del dinero: en una hipoteca a 30 años, la diferencia entre crédito 'regular' y 'muy bueno' puede ser un punto porcentual completo o más, a menudo decenas de miles de dólares en la vida del préstamo. Vale la pena trabajar tu puntaje.",
+        ar: "أما الجانب المالي: في رهن لثلاثين عاماً، قد يكون الفارق بين ائتمان 'مقبول' و'جيد جداً' نقطة مئوية كاملة أو أكثر - وغالباً عشرات الآلاف من الدولارات على مدى القرض. درجتك تستحق العمل عليها.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "FICO score", es: "Puntaje FICO", ar: "درجة فايكو" },
+        def: {
+          en: "The most common credit score, from 300 to 850; higher means lower lending risk.",
+          es: "El puntaje de crédito más común, de 300 a 850; más alto significa menor riesgo.",
+          ar: "أكثر درجات الائتمان شيوعاً، من 300 إلى 850؛ الأعلى يعني مخاطرة أقل.",
+        },
+      },
+      {
+        term: { en: "Interest rate", es: "Tasa de interés", ar: "سعر الفائدة" },
+        def: {
+          en: "The yearly cost of borrowing — a better score earns a lower rate.",
+          es: "El costo anual de pedir prestado; un mejor puntaje gana una tasa más baja.",
+          ar: "التكلفة السنوية للاقتراض - الدرجة الأفضل تكسب سعراً أقل.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Your credit score quietly sets the price of almost everything you finance — raising it is one of the highest-paying things you can do.",
+      es: "Tu puntaje de crédito fija calladamente el precio de casi todo lo que financias; subirlo es de lo más rentable que puedes hacer.",
+      ar: "درجة ائتمانك تُحدّد بهدوء سعر كل ما تموّله تقريباً - ورفعها من أكثر ما تفعله مردوداً.",
+    },
+    check: {
+      question: {
+        en: "Quick check: which credit score range is considered 'good'?",
+        es: "Repaso rápido: ¿qué rango de puntaje se considera 'bueno'?",
+        ar: "مراجعة سريعة: أي نطاق درجات يُعدّ 'جيداً'؟",
+      },
+      options: [
+        { en: "300–579", es: "300–579", ar: "300–579" },
+        { en: "670–739", es: "670–739", ar: "670–739" },
+        { en: "It doesn't matter", es: "No importa", ar: "لا يهمّ" },
+      ],
+      correctIndex: 1,
+      explain: {
+        en: "Yes — 670–739 is 'good,' and most assistance programs want at least the high-600s.",
+        es: "Sí: 670–739 es 'bueno', y la mayoría de los programas piden al menos cerca de 670.",
+        ar: "نعم - 670–739 'جيد'، ومعظم برامج الدعم تطلب نحو أواخر الـ600 على الأقل.",
+      },
+    },
+  },
+  {
     id: "credit-score-factors",
     section: "credit-basics",
+    calculator: "credit-simulator",
     title: {
       en: "What Your Credit Score Is Based On",
       es: "En qué se basa tu puntaje de crédito",
