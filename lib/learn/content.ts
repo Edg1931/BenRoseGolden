@@ -837,6 +837,85 @@ export const DAY1_LESSONS: Lesson[] = [
       ar: "كل دولار من الدين تسدّده قبل التقديم يجعل رهنك أسهل في الحصول عليه وأرخص في تحمّله.",
     },
   },
+  {
+    id: "budgeting-goals-help",
+    section: "budgeting",
+    title: {
+      en: "Set Goals — and Get Help",
+      es: "Fija metas y busca ayuda",
+      ar: "حدّد أهدافاً واطلب المساعدة",
+    },
+    body: [
+      {
+        en: "A spending plan isn't about restriction — it's about reaching goals. A good plan helps you prepare for large expenses, cushion surprise expenses, encourage saving, spot wasteful spending, and actually accomplish what matters to you, like a home. Name your goal, attach a number and a date, and let your budget point every dollar toward it.",
+        es: "Un plan de gastos no se trata de restringir, sino de alcanzar metas. Un buen plan te ayuda a prepararte para gastos grandes, amortiguar gastos sorpresa, fomentar el ahorro, detectar gastos inútiles y lograr lo que te importa, como una casa. Nombra tu meta, ponle un número y una fecha, y deja que tu presupuesto dirija cada dólar hacia ella.",
+        ar: "خطة الإنفاق ليست عن الحرمان - بل عن بلوغ الأهداف. الخطة الجيدة تساعدك على الاستعداد للنفقات الكبيرة، وتخفيف النفقات المفاجئة، وتشجيع الادخار، واكتشاف الإنفاق المُهدِر، وتحقيق ما يهمّك فعلاً، كالمنزل. سمِّ هدفك، وأرفق به رقماً وتاريخاً، ودع ميزانيتك توجّه كل دولار نحوه.",
+      },
+      {
+        en: "Make goals SMART: Specific, Measurable, Achievable, Relevant, and Time-bound. 'Save money' is a wish; 'save $7,000 for a down payment in 24 months by setting aside $295 a month' is a plan you can actually follow and check your progress against.",
+        es: "Haz metas SMART: específicas, medibles, alcanzables, relevantes y con plazo. 'Ahorrar dinero' es un deseo; 'ahorrar $7,000 para el pago inicial en 24 meses apartando $295 al mes' es un plan que puedes seguir y medir.",
+        ar: "اجعل أهدافك SMART: محددة وقابلة للقياس وقابلة للتحقيق وذات صلة ومحدّدة بوقت. 'ادّخار المال' أمنية؛ أما 'ادّخار 7,000 دولار للدفعة الأولى خلال 24 شهراً بتخصيص 295 دولاراً شهرياً' فخطة يمكنك اتّباعها وقياس تقدّمك بها.",
+      },
+      {
+        en: "And you don't have to do it alone. Benjamin Rose offers free financial counseling and coaching, financial education workshops, matched savings programs, a benefits enrollment center, free tax preparation, and the homebuyer education you're in right now — plus help finding down-payment assistance. Call 216-791-8000 to be connected to a counselor.",
+        es: "Y no tienes que hacerlo solo. Benjamin Rose ofrece asesoría y coaching financiero gratis, talleres de educación financiera, programas de ahorro con contrapartida, un centro de inscripción a beneficios, preparación de impuestos gratuita y la educación para compradores que tomas ahora, además de ayuda para encontrar asistencia para el pago inicial. Llama al 216-791-8000 para conectarte con un asesor.",
+        ar: "ولست مضطراً لفعل ذلك وحدك. تقدّم Benjamin Rose استشارة وتدريباً مالياً مجانياً، وورش تثقيف مالي، وبرامج ادخار مُطابَقة، ومركز تسجيل في الإعانات، وإعداد ضرائب مجانياً، وتعليم مشتري المنازل الذي تتلقاه الآن - إضافةً إلى المساعدة في إيجاد دعم الدفعة الأولى. اتصل على 216-791-8000 للتواصل مع مستشار.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "SMART goal", es: "Meta SMART", ar: "هدف SMART" },
+        def: {
+          en: "A goal that is Specific, Measurable, Achievable, Relevant, and Time-bound.",
+          es: "Una meta específica, medible, alcanzable, relevante y con plazo.",
+          ar: "هدف محدّد وقابل للقياس وقابل للتحقيق وذو صلة ومحدّد بوقت.",
+        },
+      },
+      {
+        term: { en: "Financial counseling", es: "Asesoría financiera", ar: "الاستشارة المالية" },
+        def: {
+          en: "Free, one-on-one help from Benjamin Rose to build a plan and reach your goals.",
+          es: "Ayuda gratuita y personal de Benjamin Rose para crear un plan y alcanzar tus metas.",
+          ar: "مساعدة مجانية فردية من Benjamin Rose لوضع خطة وبلوغ أهدافك.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "A clear, written goal — plus free expert help — is what turns wanting a home into a plan that gets you one.",
+      es: "Una meta clara y escrita, más ayuda experta gratuita, convierte el querer una casa en un plan que te la consigue.",
+      ar: "هدف واضح مكتوب - مع مساعدة خبيرة مجانية - هو ما يحوّل الرغبة في منزل إلى خطة توصلك إليه.",
+    },
+    check: {
+      question: {
+        en: "Quick check: which is a SMART savings goal?",
+        es: "Repaso rápido: ¿cuál es una meta de ahorro SMART?",
+        ar: "مراجعة سريعة: أيٌّ هدف ادخار يُعدّ SMART؟",
+      },
+      options: [
+        {
+          en: "Save $7,000 in 24 months by setting aside $295/month",
+          es: "Ahorrar $7,000 en 24 meses apartando $295 al mes",
+          ar: "ادّخار 7,000 دولار خلال 24 شهراً بتخصيص 295 شهرياً",
+        },
+        {
+          en: "Save more money someday",
+          es: "Ahorrar más dinero algún día",
+          ar: "ادّخار المزيد يوماً ما",
+        },
+        {
+          en: "Spend less, generally",
+          es: "Gastar menos, en general",
+          ar: "الإنفاق أقل عموماً",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — it's specific, measurable, and time-bound, so you can track it.",
+        es: "Correcto: es específica, medible y con plazo, así puedes seguirla.",
+        ar: "صحيح - فهو محدد وقابل للقياس ومحدّد بوقت، فيمكنك تتبّعه.",
+      },
+    },
+  },
 ];
 
 /** Lessons in display order for a given Day 1 section. */

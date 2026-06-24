@@ -574,4 +574,150 @@ export const DAY2_LESSONS: Lesson[] = [
       },
     },
   },
+  {
+    id: "mortgage-murphy",
+    section: "mortgages",
+    title: {
+      en: "Worked Example: Meet the Murphys",
+      es: "Ejemplo práctico: la familia Murphy",
+      ar: "مثال محلول: عائلة ميرفي",
+    },
+    body: [
+      {
+        en: "Terrance and Wilma Murphy live with their two kids in a crowded apartment and want to buy a home. Their combined gross income is $2,890 a month, they've saved $1,200, and they have six debts — store cards, furniture, two car loans — that add up to about $506 in monthly payments. A lender offers a 30-year fixed loan with a 29% housing ratio and a 41% debt-to-income ratio.",
+        es: "Terrance y Wilma Murphy viven con sus dos hijos en un apartamento pequeño y quieren comprar casa. Su ingreso bruto combinado es de $2,890 al mes, ahorraron $1,200 y tienen seis deudas —tarjetas de tienda, muebles, dos autos— que suman unos $506 de pagos mensuales. Un prestamista ofrece un préstamo fijo a 30 años con proporción de vivienda de 29% y DTI de 41%.",
+        ar: "يعيش تيرانس وويلما ميرفي مع طفليهما في شقة مزدحمة ويريدان شراء منزل. دخلهما الإجمالي المشترك 2,890 دولاراً شهرياً، ادّخرا 1,200 دولار، ولديهما ستة ديون - بطاقات متاجر، أثاث، قرضا سيارتين - تبلغ نحو 506 دولارات أقساط شهرية. يعرض مُقرض قرضاً ثابتاً لثلاثين عاماً بنسبة سكن 29% ونسبة دين إلى دخل 41%.",
+      },
+      {
+        en: "Run the two ratios. The housing rule: 29% of $2,890 = about $838 a month for housing. The debt-to-income rule: 41% of $2,890 = about $1,185 for housing PLUS all debt — minus their $506 in existing debt leaves about $679 for housing. The lender uses the LOWER of the two, so the Murphys can support roughly $679 a month in house payment (PITI).",
+        es: "Aplica las dos proporciones. Vivienda: 29% de $2,890 = unos $838 al mes. DTI: 41% de $2,890 = unos $1,185 para vivienda MÁS todas las deudas; menos sus $506 de deudas quedan unos $679 para vivienda. El prestamista usa el MENOR de los dos, así que los Murphy pueden sostener cerca de $679 al mes de pago (PITI).",
+        ar: "طبّق النسبتين. السكن: 29% من 2,890 = نحو 838 دولاراً شهرياً. ونسبة الدين إلى الدخل: 41% من 2,890 = نحو 1,185 للسكن مع كل الديون؛ ناقص 506 دولارات ديونهم يتبقى نحو 679 للسكن. يستخدم المُقرض الأقل من الرقمين، فيمكن لعائلة ميرفي تحمّل نحو 679 دولاراً شهرياً للدفعة (PITI).",
+      },
+      {
+        en: "See what their debt did? Those $506 in monthly payments cut their housing budget from $838 down to $679 — about $160 a month, which is real buying power. That's exactly why Day 1 pushed paying down debt: every dollar of monthly debt you clear is a dollar more you can put toward a home. Try their numbers in the affordability calculator on the next lesson.",
+        es: "¿Ves lo que hizo su deuda? Esos $506 mensuales redujeron su presupuesto de vivienda de $838 a $679 —unos $160 al mes—, que es poder de compra real. Por eso el Día 1 insistió en pagar deudas: cada dólar de deuda mensual que liquidas es un dólar más para tu casa. Prueba sus números en la calculadora de la siguiente lección.",
+        ar: "أرأيت ما فعله دينهم؟ تلك الـ506 دولارات الشهرية خفّضت ميزانية سكنهم من 838 إلى 679 - نحو 160 دولاراً شهرياً، وهي قوة شرائية حقيقية. لهذا شدّد اليوم الأول على سداد الديون: كل دولار من الدين الشهري تسدّده هو دولار إضافي لمنزلك. جرّب أرقامهم في حاسبة القدرة في الدرس التالي.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Front-end ratio", es: "Proporción inicial", ar: "النسبة الأمامية" },
+        def: {
+          en: "Housing cost ÷ gross income — the Murphys' was capped at 29%.",
+          es: "Costo de vivienda ÷ ingreso bruto; el de los Murphy se limitó al 29%.",
+          ar: "تكلفة السكن ÷ الدخل الإجمالي - وقد حُدّت نسبة عائلة ميرفي عند 29%.",
+        },
+      },
+      {
+        term: { en: "Back-end ratio", es: "Proporción final", ar: "النسبة الخلفية" },
+        def: {
+          en: "Housing plus ALL debt ÷ gross income — capped at 41% in this example.",
+          es: "Vivienda más TODAS las deudas ÷ ingreso bruto; limitado al 41% aquí.",
+          ar: "السكن مع كل الديون ÷ الدخل الإجمالي - محدود عند 41% في هذا المثال.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Seeing real numbers makes the ratios click — and shows exactly how debt shrinks the home you can buy.",
+      es: "Ver números reales hace que las proporciones tengan sentido y muestra cómo la deuda reduce la casa que puedes comprar.",
+      ar: "رؤية أرقام حقيقية تجعل النسب مفهومة - وتُظهر تماماً كيف يُقلّص الدين المنزل الذي يمكنك شراؤه.",
+    },
+    check: {
+      question: {
+        en: "Quick check: lenders qualify you using…",
+        es: "Repaso rápido: los prestamistas te califican usando…",
+        ar: "مراجعة سريعة: يؤهّلك المُقرضون باستخدام…",
+      },
+      options: [
+        {
+          en: "The lower of the two ratio results",
+          es: "El menor de los dos resultados de las proporciones",
+          ar: "الأقل من نتيجتي النسبتين",
+        },
+        {
+          en: "The higher of the two, always",
+          es: "El mayor de los dos, siempre",
+          ar: "الأعلى من النسبتين دائماً",
+        },
+        {
+          en: "Only your income, ignoring debt",
+          es: "Solo tu ingreso, ignorando la deuda",
+          ar: "دخلك فقط متجاهلين الدين",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — the lower limit governs, which is why reducing monthly debt raises what you can afford.",
+        es: "Correcto: gobierna el límite menor, por eso reducir la deuda mensual sube lo que puedes pagar.",
+        ar: "صحيح - الحد الأدنى هو الحاكم، ولهذا فإن تقليل الدين الشهري يرفع ما تستطيع تحمّله.",
+      },
+    },
+  },
+  {
+    id: "process-true-cost",
+    section: "process",
+    title: {
+      en: "The True Cost of Owning a Home",
+      es: "El costo real de tener casa",
+      ar: "التكلفة الحقيقية لامتلاك منزل",
+    },
+    body: [
+      {
+        en: "The mortgage payment is only part of the story. Upfront, beyond your down payment, plan for the home inspection fee, closing costs, moving costs, and the furnishings, appliances, and small repairs every new place needs. Lenders also like to see cash reserves left over — so don't drain every dollar to close.",
+        es: "El pago hipotecario es solo parte de la historia. Por adelantado, además del pago inicial, considera la inspección, los costos de cierre, la mudanza y los muebles, electrodomésticos y reparaciones pequeñas que toda casa nueva necesita. A los prestamistas les gusta ver reservas de efectivo, así que no gastes hasta el último dólar al cerrar.",
+        ar: "دفعة الرهن ليست سوى جزء من القصة. مقدماً، إضافةً إلى دفعتك الأولى، خطّط لرسوم فحص المنزل، وتكاليف الإتمام، والانتقال، والأثاث والأجهزة والإصلاحات الصغيرة التي يحتاجها كل منزل جديد. ويحب المُقرضون رؤية احتياطي نقدي متبقٍّ - فلا تستنزف كل دولار عند الإتمام.",
+      },
+      {
+        en: "Then come the ongoing costs that renters never paid: utilities (often higher in a house than an apartment), routine maintenance, and the inevitable repairs — a water heater, a roof, an appliance. A good rule is to set aside about 1% of the home's value each year just for upkeep. On a $200,000 home, that's about $2,000 a year, or $165 a month.",
+        es: "Luego vienen los costos continuos que un inquilino nunca pagó: servicios (a menudo más altos en una casa que en un apartamento), mantenimiento de rutina y las reparaciones inevitables —un calentador, un techo, un electrodoméstico—. Una buena regla es apartar cerca del 1% del valor de la casa al año solo para el cuidado. En una casa de $200,000, son unos $2,000 al año, o $165 al mes.",
+        ar: "ثم تأتي التكاليف المستمرة التي لم يدفعها المستأجر قط: الخدمات (غالباً أعلى في المنزل منها في الشقة)، والصيانة الدورية، والإصلاحات الحتمية - سخان ماء، سقف، جهاز. وقاعدة جيدة أن تخصّص نحو 1% من قيمة المنزل سنوياً للعناية فقط. في منزل بـ200,000 دولار، هذا نحو 2,000 دولار سنوياً، أو 165 شهرياً.",
+      },
+      {
+        en: "Build all of this into the budget from Day 1 before you decide what you can afford. Owners who plan for the full cost keep their homes and their peace of mind; those who only budget the mortgage are the ones a single repair can push into debt.",
+        es: "Incluye todo esto en el presupuesto del Día 1 antes de decidir cuánto puedes pagar. Los dueños que planean el costo completo conservan su casa y su tranquilidad; los que solo presupuestan la hipoteca son los que una sola reparación puede endeudar.",
+        ar: "أدرج كل هذا في ميزانية اليوم الأول قبل أن تقرّر ما تستطيع تحمّله. الملّاك الذين يخطّطون للتكلفة الكاملة يحتفظون بمنازلهم وراحة بالهم؛ أما من يضع ميزانية للرهن فقط فهم من قد يدفعهم إصلاح واحد إلى الدين.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Cash reserves", es: "Reservas de efectivo", ar: "الاحتياطي النقدي" },
+        def: {
+          en: "Money left in the bank after closing — lenders and smart buyers want a cushion.",
+          es: "Dinero que queda en el banco tras el cierre; los prestamistas y compradores listos quieren un colchón.",
+          ar: "مال يبقى في البنك بعد الإتمام - يريده المُقرضون والمشترون الأذكياء كوسادة.",
+        },
+      },
+      {
+        term: { en: "Maintenance reserve", es: "Reserva de mantenimiento", ar: "احتياطي الصيانة" },
+        def: {
+          en: "Savings set aside for upkeep — about 1% of the home's value per year.",
+          es: "Ahorro apartado para el cuidado: cerca del 1% del valor de la casa al año.",
+          ar: "مدّخرات للعناية - نحو 1% من قيمة المنزل سنوياً.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Budgeting only the mortgage is the most common way new owners get into trouble — the full cost is the real number.",
+      es: "Presupuestar solo la hipoteca es la forma más común en que los nuevos dueños se meten en problemas; el costo completo es el número real.",
+      ar: "وضع ميزانية للرهن فقط هو أكثر أسباب وقوع الملّاك الجدد في المشاكل - التكلفة الكاملة هي الرقم الحقيقي.",
+    },
+    check: {
+      question: {
+        en: "Quick check: a common guideline for yearly home maintenance savings is…",
+        es: "Repaso rápido: una guía común de ahorro anual para mantenimiento es…",
+        ar: "مراجعة سريعة: من القواعد الشائعة للادخار السنوي للصيانة…",
+      },
+      options: [
+        { en: "About 1% of the home's value", es: "Cerca del 1% del valor de la casa", ar: "نحو 1% من قيمة المنزل" },
+        { en: "Nothing — repairs are rare", es: "Nada: las reparaciones son raras", ar: "لا شيء - الإصلاحات نادرة" },
+        { en: "50% of your income", es: "El 50% de tu ingreso", ar: "50% من دخلك" },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Yes — about 1% a year keeps a repair from becoming a crisis.",
+        es: "Sí: cerca del 1% al año evita que una reparación se vuelva una crisis.",
+        ar: "نعم - نحو 1% سنوياً يمنع أن يتحوّل الإصلاح إلى أزمة.",
+      },
+    },
+  },
 ];

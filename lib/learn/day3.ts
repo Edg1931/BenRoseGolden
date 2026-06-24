@@ -455,4 +455,229 @@ export const DAY3_LESSONS: Lesson[] = [
       },
     },
   },
+  {
+    id: "shopping-professionals",
+    section: "shopping",
+    title: {
+      en: "Real Estate Professionals & Who They Represent",
+      es: "Profesionales inmobiliarios y a quién representan",
+      ar: "محترفو العقارات ومن يمثّلون",
+    },
+    body: [
+      {
+        en: "The titles can be confusing. A real estate agent is licensed by the state and works under a broker (every firm must have one). An agent who belongs to the National Association of Realtors can use the term Realtor®; a member of the National Association of Real Estate Brokers — the oldest minority real estate trade group — may be called a Realtist®.",
+        es: "Los títulos confunden. Un agente inmobiliario tiene licencia del estado y trabaja bajo un corredor (toda empresa debe tener uno). Un agente miembro de la Asociación Nacional de Realtors puede usar el término Realtor®; un miembro de la Asociación Nacional de Corredores de Bienes Raíces —el grupo de minorías más antiguo— puede llamarse Realtist®.",
+        ar: "قد تكون الألقاب مربكة. الوكيل العقاري مرخّص من الولاية ويعمل تحت وسيط (على كل شركة أن يكون لديها واحد). والوكيل المنتمي إلى الجمعية الوطنية للوكلاء العقاريين يمكنه استخدام لقب Realtor®؛ وعضو الجمعية الوطنية لوسطاء العقارات - أقدم مجموعة عقارية للأقليات - قد يُسمى Realtist®.",
+      },
+      {
+        en: "What matters most is who the agent represents. A seller's (listing) agent works only for the seller. A buyer's agent works only for you. A dual agent represents BOTH sides in the same deal — which means no one is fully on your side. Always know which one you're working with.",
+        es: "Lo que más importa es a quién representa el agente. Un agente del vendedor (de listado) trabaja solo para el vendedor. Un agente del comprador trabaja solo para ti. Un agente dual representa a AMBAS partes en el mismo trato, lo que significa que nadie está totalmente de tu lado. Siempre sabe con cuál trabajas.",
+        ar: "الأهم هو من يمثّله الوكيل. وكيل البائع (وكيل الإدراج) يعمل للبائع فقط. ووكيل المشتري يعمل لك أنت فقط. أما الوكيل المزدوج فيمثّل الطرفين في الصفقة نفسها - ما يعني أن لا أحد في صفّك تماماً. اعرف دائماً مع من تعمل.",
+      },
+      {
+        en: "For a first-time buyer, a dedicated buyer's agent is usually the right choice: they help you set your wants and needs, share neighborhood information, find homes in your price range, prepare your offer, negotiate for you, and review every piece of paperwork. Interview a few — ask how long they've been licensed and whether they mostly work with buyers.",
+        es: "Para un comprador primerizo, un agente del comprador dedicado suele ser lo correcto: te ayuda a fijar tus necesidades, comparte información del vecindario, busca casas en tu rango, prepara tu oferta, negocia por ti y revisa cada documento. Entrevista a varios: pregunta cuánto tiempo llevan con licencia y si trabajan sobre todo con compradores.",
+        ar: "للمشتري لأول مرة، عادةً ما يكون وكيل المشتري المتخصص هو الخيار الصحيح: يساعدك على تحديد احتياجاتك، ويشاركك معلومات الحي، ويجد منازل ضمن نطاقك، ويُعدّ عرضك، ويتفاوض عنك، ويراجع كل ورقة. قابِل عدة وكلاء - اسأل منذ متى لديهم ترخيص وهل يعملون غالباً مع المشترين.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Buyer's agent", es: "Agente del comprador", ar: "وكيل المشتري" },
+        def: {
+          en: "An agent who represents only your interests in the purchase.",
+          es: "Un agente que representa solo tus intereses en la compra.",
+          ar: "وكيل يمثّل مصالحك أنت فقط في عملية الشراء.",
+        },
+      },
+      {
+        term: { en: "Dual agent", es: "Agente dual", ar: "الوكيل المزدوج" },
+        def: {
+          en: "One agent representing both buyer and seller — neither side is fully represented.",
+          es: "Un agente que representa a comprador y vendedor; ninguna parte está plenamente representada.",
+          ar: "وكيل واحد يمثّل المشتري والبائع - لا طرف ممثَّل تماماً.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Knowing who your agent actually works for protects you in the biggest negotiation of your life.",
+      es: "Saber para quién trabaja realmente tu agente te protege en la negociación más grande de tu vida.",
+      ar: "معرفة لمن يعمل وكيلك فعلاً تحميك في أكبر مفاوضة في حياتك.",
+    },
+    check: {
+      question: {
+        en: "Quick check: a buyer's agent represents…",
+        es: "Repaso rápido: un agente del comprador representa…",
+        ar: "مراجعة سريعة: وكيل المشتري يمثّل…",
+      },
+      options: [
+        { en: "Only you, the buyer", es: "Solo a ti, el comprador", ar: "أنت فقط، المشتري" },
+        { en: "Only the seller", es: "Solo al vendedor", ar: "البائع فقط" },
+        { en: "The bank", es: "Al banco", ar: "البنك" },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — a buyer's agent is on your side alone; a dual agent is not.",
+        es: "Correcto: el agente del comprador está solo de tu lado; el dual no.",
+        ar: "صحيح - وكيل المشتري في صفّك وحدك؛ أما المزدوج فلا.",
+      },
+    },
+  },
+  {
+    id: "shopping-agent-pay",
+    section: "shopping",
+    title: {
+      en: "How Agents Get Paid (New Rules)",
+      es: "Cómo se les paga a los agentes (reglas nuevas)",
+      ar: "كيف يتقاضى الوكلاء أجورهم (قواعد جديدة)",
+    },
+    body: [
+      {
+        en: "Real estate agents are paid by commission — a percentage based on the home's price, paid at closing. A separate brokerage fee doesn't go to the agent. As of recent national rule changes, commissions are openly negotiable, and you'll sign paperwork that spells out exactly how your agent is paid before they start working for you.",
+        es: "Los agentes cobran por comisión: un porcentaje según el precio de la casa, pagado en el cierre. Una cuota de corretaje aparte no va al agente. Con los cambios recientes en las reglas nacionales, las comisiones son abiertamente negociables y firmarás documentos que explican exactamente cómo se le paga a tu agente antes de que empiece a trabajar para ti.",
+        ar: "يتقاضى الوكلاء العقاريون عمولة - نسبة مئوية حسب سعر المنزل، تُدفع عند الإتمام. ورسم الوساطة المنفصل لا يذهب للوكيل. ومع التغييرات الأخيرة في القواعد الوطنية، أصبحت العمولات قابلة للتفاوض علناً، وستوقّع أوراقاً تبيّن تماماً كيف يتقاضى وكيلك أجره قبل أن يبدأ العمل لك.",
+      },
+      {
+        en: "That document is the Buyer Representation Agreement — a written contract between you and your agent. It must clearly outline how the agent will be paid AND their duties to you, signed before they provide services. The goal of the change is transparency: you know the cost and the commitment up front.",
+        es: "Ese documento es el Acuerdo de Representación del Comprador: un contrato escrito entre tú y tu agente. Debe explicar con claridad cómo se le pagará Y sus deberes hacia ti, firmado antes de prestar servicios. El objetivo del cambio es la transparencia: conoces el costo y el compromiso por adelantado.",
+        ar: "تلك الوثيقة هي اتفاقية تمثيل المشتري - عقد مكتوب بينك وبين وكيلك. يجب أن يوضّح كيف سيُدفع له وواجباته تجاهك، موقَّعاً قبل تقديم الخدمات. والهدف من التغيير هو الشفافية: تعرف التكلفة والالتزام مقدماً.",
+      },
+      {
+        en: "Read it before you sign. Contracts can differ between brokerages — check the commission rate, how long the agreement lasts, and whether you can cancel. It's your money and your decision; a good agent will walk you through every line.",
+        es: "Léelo antes de firmar. Los contratos varían entre corredurías: revisa la tasa de comisión, cuánto dura el acuerdo y si puedes cancelarlo. Es tu dinero y tu decisión; un buen agente te explicará cada línea.",
+        ar: "اقرأها قبل التوقيع. تختلف العقود بين الوساطات - تحقّق من نسبة العمولة، ومدة الاتفاقية، وهل يمكنك إلغاؤها. إنه مالك وقرارك؛ والوكيل الجيد سيشرح لك كل سطر.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Commission", es: "Comisión", ar: "العمولة" },
+        def: {
+          en: "The agent's pay — a percentage of the sale price, paid at closing.",
+          es: "El pago del agente: un porcentaje del precio de venta, pagado en el cierre.",
+          ar: "أجر الوكيل - نسبة من سعر البيع، تُدفع عند الإتمام.",
+        },
+      },
+      {
+        term: { en: "Buyer Representation Agreement", es: "Acuerdo de Representación del Comprador", ar: "اتفاقية تمثيل المشتري" },
+        def: {
+          en: "A written contract setting your agent's pay and duties — signed before they work for you.",
+          es: "Un contrato escrito que fija el pago y los deberes del agente, firmado antes de trabajar para ti.",
+          ar: "عقد مكتوب يحدّد أجر وكيلك وواجباته - يُوقَّع قبل أن يعمل لك.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Commissions are negotiable and now spelled out up front — knowing that can save you real money.",
+      es: "Las comisiones son negociables y ahora se detallan por adelantado; saberlo puede ahorrarte dinero real.",
+      ar: "العمولات قابلة للتفاوض وتُوضَّح الآن مقدماً - ومعرفة ذلك قد توفّر عليك مالاً حقيقياً.",
+    },
+    check: {
+      question: {
+        en: "Quick check: the Buyer Representation Agreement must be signed…",
+        es: "Repaso rápido: el Acuerdo de Representación del Comprador debe firmarse…",
+        ar: "مراجعة سريعة: يجب توقيع اتفاقية تمثيل المشتري…",
+      },
+      options: [
+        {
+          en: "Before the agent provides services",
+          es: "Antes de que el agente preste servicios",
+          ar: "قبل أن يقدّم الوكيل الخدمات",
+        },
+        {
+          en: "After closing",
+          es: "Después del cierre",
+          ar: "بعد الإتمام",
+        },
+        {
+          en: "Never — it's optional",
+          es: "Nunca: es opcional",
+          ar: "أبداً - فهي اختيارية",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — it's signed up front and spells out pay and duties, for transparency.",
+        es: "Correcto: se firma por adelantado y detalla pago y deberes, por transparencia.",
+        ar: "صحيح - تُوقَّع مقدماً وتبيّن الأجر والواجبات، تحقيقاً للشفافية.",
+      },
+    },
+  },
+  {
+    id: "shopping-neighborhood",
+    section: "shopping",
+    title: {
+      en: "Choosing a Home & a Neighborhood",
+      es: "Elegir una casa y un vecindario",
+      ar: "اختيار المنزل والحي",
+    },
+    body: [
+      {
+        en: "You're not just buying a house — you're buying a neighborhood and a daily life. Visit at different times of day and on weekends; traffic, noise, and parking change. Drive your actual commute to work. Walk around, chat with neighbors, and check local crime statistics with the police department.",
+        es: "No solo compras una casa: compras un vecindario y una vida diaria. Visita a distintas horas y los fines de semana; el tráfico, el ruido y el estacionamiento cambian. Maneja tu trayecto real al trabajo. Camina, habla con los vecinos y consulta las estadísticas de criminalidad con la policía.",
+        ar: "أنت لا تشتري منزلاً فقط - بل تشتري حياً وحياة يومية. زُر في أوقات مختلفة وفي عطلات الأسبوع؛ فحركة المرور والضوضاء ومواقف السيارات تتغير. اقطع طريق عملك الفعلي. تجوّل، وتحدّث مع الجيران، وراجع إحصاءات الجريمة مع قسم الشرطة.",
+      },
+      {
+        en: "Think ahead, too: will this home fit your household in five years? Check the schools and daycare, even if you don't have kids yet — good schools protect your home's value. Look at the other homes on the street; are neighbors keeping them up?",
+        es: "Piensa también a futuro: ¿esta casa servirá a tu hogar en cinco años? Revisa las escuelas y guarderías, aunque aún no tengas hijos; las buenas escuelas protegen el valor de tu casa. Observa las otras casas de la calle: ¿los vecinos las cuidan?",
+        ar: "فكّر للمستقبل أيضاً: هل سيناسب هذا المنزل أسرتك بعد خمس سنوات؟ افحص المدارس ودور الحضانة، حتى لو لم يكن لديك أطفال بعد - فالمدارس الجيدة تحمي قيمة منزلك. وانظر إلى منازل الشارع الأخرى؛ هل يعتني بها الجيران؟",
+      },
+      {
+        en: "When you tour the home itself, look past the cosmetics. Check the floors, windows, and switches; test the water pressure; look for water in the basement, cracks in the walls, odd smells, and fresh paint that might be hiding a problem. Note the roof, the trees, the electrical and plumbing, and any signs of pests. Paint is cheap to fix — a roof or foundation is not.",
+        es: "Cuando recorras la casa, mira más allá de lo cosmético. Revisa pisos, ventanas e interruptores; prueba la presión del agua; busca agua en el sótano, grietas en las paredes, olores raros y pintura fresca que pueda ocultar un problema. Nota el techo, los árboles, la electricidad y la plomería, y señales de plagas. La pintura es barata de arreglar; un techo o cimientos no.",
+        ar: "عندما تتجول في المنزل، انظر إلى ما هو أبعد من الشكليات. افحص الأرضيات والنوافذ والمفاتيح؛ واختبر ضغط الماء؛ وابحث عن ماء في القبو، وشقوق في الجدران، وروائح غريبة، وطلاء جديد قد يخفي مشكلة. لاحظ السقف والأشجار والكهرباء والسباكة وأي علامات آفات. الطلاء رخيص الإصلاح؛ أما السقف أو الأساسات فلا.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Due diligence", es: "Debida diligencia", ar: "العناية الواجبة" },
+        def: {
+          en: "Doing your homework on a home and area before you commit.",
+          es: "Investigar bien una casa y la zona antes de comprometerte.",
+          ar: "بحثك الجيد عن المنزل والمنطقة قبل الالتزام.",
+        },
+      },
+      {
+        term: { en: "Cosmetic vs. structural", es: "Cosmético vs. estructural", ar: "شكلي مقابل هيكلي" },
+        def: {
+          en: "Cheap surface fixes (paint) versus costly bones (roof, foundation).",
+          es: "Arreglos baratos de superficie (pintura) versus lo costoso de fondo (techo, cimientos).",
+          ar: "إصلاحات سطحية رخيصة (طلاء) مقابل بنية مكلفة (سقف، أساسات).",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "A great house in the wrong neighborhood — or hiding an expensive flaw — is a mistake an afternoon of looking can prevent.",
+      es: "Una gran casa en el vecindario equivocado —o que oculta un defecto caro— es un error que una tarde de observación puede evitar.",
+      ar: "منزل رائع في حيّ خاطئ - أو يخفي عيباً مكلفاً - خطأ يمكن لظهيرة من التفقّد أن تمنعه.",
+    },
+    check: {
+      question: {
+        en: "Quick check: fresh paint in just one spot might be…",
+        es: "Repaso rápido: pintura fresca en un solo lugar podría ser…",
+        ar: "مراجعة سريعة: طلاء جديد في بقعة واحدة فقط قد يكون…",
+      },
+      options: [
+        {
+          en: "A possible sign of a hidden problem to ask about",
+          es: "Una posible señal de un problema oculto que debes preguntar",
+          ar: "علامة محتملة على مشكلة مخفية ينبغي السؤال عنها",
+        },
+        {
+          en: "Always meaningless",
+          es: "Siempre sin importancia",
+          ar: "دائماً بلا معنى",
+        },
+        {
+          en: "A reason to pay more",
+          es: "Una razón para pagar más",
+          ar: "سبب لدفع المزيد",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — patch-painting can hide water stains or cracks; ask, and let the inspector check.",
+        es: "Correcto: pintar por partes puede ocultar manchas de agua o grietas; pregunta y deja que el inspector revise.",
+        ar: "صحيح - الطلاء الجزئي قد يخفي بقع ماء أو شقوقاً؛ اسأل ودع الفاحص يتحقق.",
+      },
+    },
+  },
 ];

@@ -484,4 +484,217 @@ export const DAY4_LESSONS: Lesson[] = [
       },
     },
   },
+  {
+    id: "insurance-perils",
+    section: "insurance",
+    title: {
+      en: "What's Covered: Perils Explained",
+      es: "Qué está cubierto: los peligros explicados",
+      ar: "ما المُغطّى: شرح الأخطار",
+    },
+    body: [
+      {
+        en: "A standard homeowner's policy covers four big areas: physical damage to your house and other structures (a detached garage, a fence), damage to your belongings, additional living expenses if you must live elsewhere while it's repaired, and personal liability and medical costs if someone is hurt on your property.",
+        es: "Una póliza estándar cubre cuatro grandes áreas: daño físico a tu casa y otras estructuras (un garaje separado, una cerca), daño a tus pertenencias, gastos de vivienda adicionales si debes vivir en otro lugar mientras se repara, y responsabilidad civil y gastos médicos si alguien se lastima en tu propiedad.",
+        ar: "تغطي الوثيقة القياسية أربعة مجالات كبيرة: الضرر المادي لمنزلك والمنشآت الأخرى (مرآب منفصل، سياج)، وضرر ممتلكاتك، ونفقات معيشة إضافية إن اضطررت للسكن في مكان آخر أثناء الإصلاح، والمسؤولية الشخصية والتكاليف الطبية إن أُصيب أحد في عقارك.",
+      },
+      {
+        en: "Coverage is built around 'perils' — events that cause damage or loss. Most policies are 'named-peril' policies that list exactly 16 covered events: windstorm or hail; fire or lightning; explosion; smoke; damage from aircraft; damage from vehicles; riot or civil unrest; vandalism; theft; falling objects; volcanic eruption; the weight of ice or snow; a burst hot-water/steam system; accidental water overflow from plumbing; freezing of pipes or systems; and sudden accidental electrical damage.",
+        es: "La cobertura se basa en 'peligros': eventos que causan daño o pérdida. La mayoría de las pólizas son de 'peligros nombrados' que listan exactamente 16 eventos cubiertos: viento o granizo; fuego o rayo; explosión; humo; daño por aeronaves; daño por vehículos; disturbios; vandalismo; robo; objetos que caen; erupción volcánica; peso de hielo o nieve; reventón del sistema de agua caliente/vapor; desbordamiento accidental de plomería; congelación de tuberías o sistemas; y daño eléctrico accidental repentino.",
+        ar: "تُبنى التغطية حول 'الأخطار' - أحداث تسبب ضرراً أو خسارة. ومعظم الوثائق من نوع 'الأخطار المسمّاة' التي تُدرج 16 حدثاً مغطّى بالضبط: الرياح أو البرَد؛ الحريق أو الصاعقة؛ الانفجار؛ الدخان؛ ضرر الطائرات؛ ضرر المركبات؛ الشغب أو الاضطراب المدني؛ التخريب؛ السرقة؛ سقوط الأجسام؛ ثوران بركاني؛ ثقل الجليد أو الثلج؛ انفجار نظام الماء الساخن/البخار؛ الفيضان العرضي من السباكة؛ تجمّد الأنابيب أو الأنظمة؛ والضرر الكهربائي العرضي المفاجئ.",
+      },
+      {
+        en: "Notice what's usually NOT on the list: floods and earthquakes. Those need their own separate policies. Read your declarations page so you know exactly which perils you're covered for — that's the moment to find a gap, not after a storm.",
+        es: "Nota lo que normalmente NO está en la lista: inundaciones y terremotos. Esos requieren sus propias pólizas. Lee tu página de declaraciones para saber exactamente para qué peligros estás cubierto; ese es el momento de hallar un vacío, no después de una tormenta.",
+        ar: "لاحظ ما لا يكون عادةً في القائمة: الفيضانات والزلازل. تلك تحتاج وثائق منفصلة خاصة بها. اقرأ صفحة بيانات وثيقتك لتعرف تماماً أي أخطار أنت مُغطّى لها - فهذه لحظة اكتشاف الثغرة، لا بعد العاصفة.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Peril", es: "Peligro", ar: "الخطر" },
+        def: {
+          en: "Any event that causes property damage or loss, like fire or theft.",
+          es: "Cualquier evento que causa daño o pérdida, como fuego o robo.",
+          ar: "أي حدث يسبب ضرراً أو خسارة للممتلكات، كالحريق أو السرقة.",
+        },
+      },
+      {
+        term: { en: "Named-peril policy", es: "Póliza de peligros nombrados", ar: "وثيقة الأخطار المسمّاة" },
+        def: {
+          en: "A policy that covers only the specific events it lists.",
+          es: "Una póliza que cubre solo los eventos específicos que enumera.",
+          ar: "وثيقة تغطي فقط الأحداث المحددة التي تُدرجها.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "Knowing your covered perils — and the gaps like flood — is how you avoid a denied claim when it matters most.",
+      es: "Conocer tus peligros cubiertos —y los vacíos como inundación— es como evitas un reclamo negado cuando más importa.",
+      ar: "معرفة أخطارك المغطّاة - والثغرات كالفيضان - هي كيف تتجنّب رفض مطالبة في أحرج وقت.",
+    },
+    check: {
+      question: {
+        en: "Quick check: a standard named-peril policy usually does NOT cover…",
+        es: "Repaso rápido: una póliza estándar de peligros nombrados normalmente NO cubre…",
+        ar: "مراجعة سريعة: وثيقة الأخطار المسمّاة القياسية عادةً لا تغطي…",
+      },
+      options: [
+        { en: "Flood damage", es: "Daño por inundación", ar: "أضرار الفيضان" },
+        { en: "Fire", es: "Incendio", ar: "حريق" },
+        { en: "Theft", es: "Robo", ar: "سرقة" },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — floods (and earthquakes) need separate coverage; fire and theft are named perils.",
+        es: "Correcto: inundaciones (y terremotos) requieren cobertura aparte; fuego y robo son peligros nombrados.",
+        ar: "صحيح - الفيضانات (والزلازل) تحتاج تغطية منفصلة؛ أما الحريق والسرقة فمن الأخطار المسمّاة.",
+      },
+    },
+  },
+  {
+    id: "insurance-liability-value",
+    section: "insurance",
+    title: {
+      en: "Liability, Payouts & Your Home Inventory",
+      es: "Responsabilidad, pagos y tu inventario",
+      ar: "المسؤولية والتعويضات وجرد منزلك",
+    },
+    body: [
+      {
+        en: "Liability coverage protects you if someone is injured on your property and you're held responsible — the insurer can represent you and pay damages up to your policy limit. One Ohio-specific rule: if you own a dog the state classifies as 'vicious,' you're required to carry at least $100,000 of liability coverage. Talk to your agent about the right limit for your household.",
+        es: "La cobertura de responsabilidad te protege si alguien se lesiona en tu propiedad y te hacen responsable: la aseguradora puede representarte y pagar daños hasta el límite de tu póliza. Una regla específica de Ohio: si tienes un perro que el estado clasifica como 'peligroso', debes tener al menos $100,000 de cobertura de responsabilidad. Habla con tu agente sobre el límite correcto.",
+        ar: "تحميك تغطية المسؤولية إن أُصيب أحد في عقارك وتحمّلت المسؤولية - فيمكن لشركة التأمين أن تمثّلك وتدفع التعويضات حتى حد وثيقتك. وقاعدة خاصة بأوهايو: إن امتلكت كلباً تصنّفه الولاية 'شرساً'، فعليك حمل تغطية مسؤولية لا تقل عن 100,000 دولار. تحدّث مع وكيلك عن الحد المناسب لأسرتك.",
+      },
+      {
+        en: "How a claim pays out depends on one key choice: replacement cost versus actual cash value. Replacement cost pays what it takes to buy the item new today. Actual cash value pays only the depreciated value — a 10-year-old couch is worth far less than a new one. Replacement-cost coverage costs a bit more, but it's the difference between truly replacing your things and being left short.",
+        es: "Cómo paga un reclamo depende de una elección clave: costo de reposición versus valor real en efectivo. El costo de reposición paga lo que cuesta comprar el artículo nuevo hoy. El valor real en efectivo paga solo el valor depreciado: un sofá de 10 años vale mucho menos que uno nuevo. La cobertura de reposición cuesta un poco más, pero es la diferencia entre reemplazar de verdad tus cosas o quedarte corto.",
+        ar: "كيفية دفع المطالبة تعتمد على خيار رئيسي: تكلفة الإحلال مقابل القيمة النقدية الفعلية. تكلفة الإحلال تدفع ما يلزم لشراء الغرض جديداً اليوم. أما القيمة النقدية الفعلية فتدفع القيمة المُستهلَكة فقط - أريكة عمرها 10 سنوات تساوي أقل بكثير من جديدة. تغطية الإحلال تكلّف أكثر قليلاً، لكنها الفرق بين استبدال أغراضك فعلاً والبقاء بعجز.",
+      },
+      {
+        en: "Either way, prove what you own before disaster strikes. Make a home inventory: a list of your belongings, receipts for big items like appliances and electronics, and photos or a video walking through each room. Store it somewhere safe away from the house — in the cloud or with a relative — so it survives even if your home doesn't.",
+        es: "En cualquier caso, prueba lo que tienes antes de un desastre. Haz un inventario: una lista de tus pertenencias, recibos de artículos grandes como electrodomésticos y electrónicos, y fotos o un video recorriendo cada cuarto. Guárdalo en un lugar seguro fuera de la casa —en la nube o con un familiar— para que sobreviva aunque tu casa no lo haga.",
+        ar: "في الحالتين، أثبت ما تملكه قبل وقوع الكارثة. اصنع جرداً منزلياً: قائمة بممتلكاتك، وإيصالات الأغراض الكبيرة كالأجهزة والإلكترونيات، وصوراً أو فيديو يتجول في كل غرفة. واحفظه في مكان آمن بعيداً عن المنزل - في السحابة أو لدى قريب - ليبقى حتى لو لم يبقَ منزلك.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Replacement cost", es: "Costo de reposición", ar: "تكلفة الإحلال" },
+        def: {
+          en: "Pays to buy your item new today — the fuller, better coverage.",
+          es: "Paga para comprar tu artículo nuevo hoy: la cobertura más completa.",
+          ar: "تدفع لشراء غرضك جديداً اليوم - التغطية الأكمل والأفضل.",
+        },
+      },
+      {
+        term: { en: "Actual cash value", es: "Valor real en efectivo", ar: "القيمة النقدية الفعلية" },
+        def: {
+          en: "Pays only the depreciated value of an item — usually much less.",
+          es: "Paga solo el valor depreciado de un artículo; normalmente mucho menos.",
+          ar: "تدفع فقط القيمة المُستهلَكة للغرض - عادةً أقل بكثير.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "The right liability limit and replacement-cost coverage — plus a home inventory — turn a catastrophe into a covered claim.",
+      es: "El límite correcto de responsabilidad y la cobertura de reposición —más un inventario— convierten una catástrofe en un reclamo cubierto.",
+      ar: "حد المسؤولية الصحيح وتغطية الإحلال - مع جرد منزلي - تحوّل الكارثة إلى مطالبة مغطّاة.",
+    },
+    check: {
+      question: {
+        en: "Quick check: which pays enough to actually replace a stolen laptop with a new one?",
+        es: "Repaso rápido: ¿cuál paga lo suficiente para reemplazar una laptop robada por una nueva?",
+        ar: "مراجعة سريعة: أيٌّ يدفع ما يكفي لاستبدال حاسوب محمول مسروق بآخر جديد فعلاً؟",
+      },
+      options: [
+        { en: "Replacement cost coverage", es: "Cobertura de costo de reposición", ar: "تغطية تكلفة الإحلال" },
+        { en: "Actual cash value", es: "Valor real en efectivo", ar: "القيمة النقدية الفعلية" },
+        { en: "Neither covers electronics", es: "Ninguna cubre electrónicos", ar: "لا شيء منهما يغطي الإلكترونيات" },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — replacement cost pays today's new price; actual cash value pays only the depreciated amount.",
+        es: "Correcto: el costo de reposición paga el precio nuevo de hoy; el valor real solo lo depreciado.",
+        ar: "صحيح - تكلفة الإحلال تدفع سعر اليوم الجديد؛ والقيمة الفعلية تدفع المبلغ المُستهلَك فقط.",
+      },
+    },
+  },
+  {
+    id: "maintenance-toolkit",
+    section: "maintenance",
+    title: {
+      en: "The Maintenance Cycle & Your Toolkit",
+      es: "El ciclo de mantenimiento y tu caja de herramientas",
+      ar: "دورة الصيانة وصندوق أدواتك",
+    },
+    body: [
+      {
+        en: "Caring for a home moves through a simple cycle: preventative maintenance (small, regular upkeep), repair or replacement (fixing what breaks or wears out), and home improvement (upgrades that add comfort or value). Most of your time and money should go to the first one — prevention is always cheaper than repair.",
+        es: "Cuidar una casa sigue un ciclo simple: mantenimiento preventivo (cuidado pequeño y regular), reparación o reemplazo (arreglar lo que se rompe o desgasta) y mejoras del hogar (mejoras que dan comodidad o valor). La mayor parte de tu tiempo y dinero debe ir al primero: prevenir siempre es más barato que reparar.",
+        ar: "تسير العناية بالمنزل عبر دورة بسيطة: الصيانة الوقائية (عناية صغيرة منتظمة)، والإصلاح أو الاستبدال (إصلاح ما يتعطل أو يبلى)، وتحسين المنزل (ترقيات تضيف راحة أو قيمة). ومعظم وقتك ومالك يجب أن يذهب للأولى - فالوقاية دائماً أرخص من الإصلاح.",
+      },
+      {
+        en: "Every new owner needs a basic toolkit so small problems don't wait for a paid handyman: Phillips and flathead screwdrivers, a tape measure, pliers, a utility knife, a hammer, a putty knife, a stud finder, an adjustable wrench, a wire stripper, Allen wrenches, a power drill, an extension cord, a flashlight, a sturdy ladder, and outlet testers. Add to it over time.",
+        es: "Todo nuevo dueño necesita una caja de herramientas básica para que los problemas pequeños no esperen a un técnico pagado: destornilladores Phillips y plano, cinta métrica, pinzas, navaja, martillo, espátula, localizador de vigas, llave ajustable, pelacables, llaves Allen, taladro, extensión, linterna, una escalera firme y probadores de enchufes. Agrega más con el tiempo.",
+        ar: "كل مالك جديد يحتاج صندوق أدوات أساسياً حتى لا تنتظر المشاكل الصغيرة سبّاكاً مأجوراً: مفكّات صليبية ومسطّحة، شريط قياس، كمّاشة، سكين متعددة، مطرقة، سكين معجون، كاشف دعامات، مفتاح ربط قابل للضبط، مقشّر أسلاك، مفاتيح ألن، مثقاب كهربائي، وصلة كهرباء، مصباح يدوي، سلّم متين، وفاحصات منافذ. وأضِف إليه مع الوقت.",
+      },
+      {
+        en: "Two habits tie it all together. First, line up your homeowner's insurance as soon as you sign the purchase contract, so the policy is active before closing. Second, keep a simple calendar of seasonal tasks (use the planner from the maintenance lesson). A house rewards the owner who tends it a little, all the time.",
+        es: "Dos hábitos lo unen todo. Primero, contrata tu seguro de vivienda en cuanto firmes el contrato de compra, para que la póliza esté activa antes del cierre. Segundo, mantén un calendario simple de tareas por temporada (usa el planificador de la lección de mantenimiento). Una casa premia al dueño que la cuida un poco, todo el tiempo.",
+        ar: "عادتان تربطان كل ذلك. أولاً، رتّب تأمين منزلك بمجرد توقيع عقد الشراء، ليكون نشطاً قبل الإتمام. ثانياً، احتفظ بتقويم بسيط للمهام الموسمية (استخدم المخطّط من درس الصيانة). فالمنزل يكافئ من يعتني به قليلاً، طوال الوقت.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "Preventative maintenance", es: "Mantenimiento preventivo", ar: "الصيانة الوقائية" },
+        def: {
+          en: "Small, regular care that stops big problems before they start.",
+          es: "Cuidado pequeño y regular que detiene grandes problemas antes de empezar.",
+          ar: "عناية صغيرة منتظمة توقف المشاكل الكبيرة قبل أن تبدأ.",
+        },
+      },
+      {
+        term: { en: "Home improvement", es: "Mejora del hogar", ar: "تحسين المنزل" },
+        def: {
+          en: "Upgrades that add comfort or value, beyond basic upkeep.",
+          es: "Mejoras que añaden comodidad o valor, más allá del cuidado básico.",
+          ar: "ترقيات تضيف راحة أو قيمة، أبعد من العناية الأساسية.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "A toolkit, a calendar, and insurance lined up before closing turn ownership from stressful to manageable.",
+      es: "Una caja de herramientas, un calendario y el seguro listo antes del cierre hacen que ser dueño pase de estresante a manejable.",
+      ar: "صندوق أدوات وتقويم وتأمين جاهز قبل الإتمام يحوّل التملّك من مُرهق إلى قابل للإدارة.",
+    },
+    check: {
+      question: {
+        en: "Quick check: when should you line up homeowner's insurance?",
+        es: "Repaso rápido: ¿cuándo debes contratar el seguro de vivienda?",
+        ar: "مراجعة سريعة: متى يجب أن ترتّب تأمين المنزل؟",
+      },
+      options: [
+        {
+          en: "As soon as you sign the purchase contract",
+          es: "En cuanto firmes el contrato de compra",
+          ar: "بمجرد توقيع عقد الشراء",
+        },
+        {
+          en: "A year after you move in",
+          es: "Un año después de mudarte",
+          ar: "بعد عام من انتقالك",
+        },
+        {
+          en: "Only if something breaks",
+          es: "Solo si algo se rompe",
+          ar: "فقط إذا تعطّل شيء",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — start early so you can compare quotes and have the policy active before closing.",
+        es: "Correcto: empieza temprano para comparar cotizaciones y tener la póliza activa antes del cierre.",
+        ar: "صحيح - ابدأ مبكراً لتقارن العروض ويكون التأمين نشطاً قبل الإتمام.",
+      },
+    },
+  },
 ];
