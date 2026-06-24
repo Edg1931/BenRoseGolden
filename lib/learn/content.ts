@@ -70,7 +70,7 @@ export interface Lesson {
     | "savings-goal"
     | "debt-payoff";
   /** Named hands-on activity widget rendered inside the lesson. */
-  activity?: "expense-classifier";
+  activity?: "expense-classifier" | "sample-credit-report";
 }
 
 export const DAY1_SECTIONS: Record<string, Localized> = {
@@ -485,6 +485,7 @@ export const DAY1_LESSONS: Lesson[] = [
   {
     id: "credit-whats-in-report",
     section: "credit-basics",
+    activity: "sample-credit-report",
     title: {
       en: "What's In a Credit Report",
       es: "Qué contiene un informe de crédito",

@@ -12,6 +12,7 @@ import { CreditSimulator } from "@/components/learn/credit-simulator";
 import { SavingsGoalPlanner } from "@/components/learn/savings-goal-planner";
 import { DebtPayoffCalculator } from "@/components/learn/debt-payoff-calculator";
 import { ExpenseClassifier } from "@/components/learn/expense-classifier";
+import { SampleCreditReport } from "@/components/learn/sample-credit-report";
 import { KnowledgeCheck } from "@/components/learn/knowledge-check";
 import { StepSorter } from "@/components/learn/step-sorter";
 import {
@@ -311,6 +312,7 @@ export function CoursePlayer({
               {lesson.calculator === "savings-goal" && <SavingsGoalPlanner lang={lang} />}
               {lesson.calculator === "debt-payoff" && <DebtPayoffCalculator lang={lang} />}
               {lesson.activity === "expense-classifier" && <ExpenseClassifier lang={lang} />}
+              {lesson.activity === "sample-credit-report" && <SampleCreditReport lang={lang} />}
               {lesson.check && (
                 <KnowledgeCheck
                   check={lesson.check}
