@@ -63,6 +63,8 @@ export interface Lesson {
   check?: InlineCheck;
   sorter?: SorterBlock;
   calculator?: "budget" | "affordability";
+  /** Named hands-on activity widget rendered inside the lesson. */
+  activity?: "expense-classifier";
 }
 
 export const DAY1_SECTIONS: Record<string, Localized> = {
@@ -132,6 +134,7 @@ export const DAY1_LESSONS: Lesson[] = [
   {
     id: "budgeting-know-expenses",
     section: "budgeting",
+    activity: "expense-classifier",
     title: {
       en: "Know Your Expenses",
       es: "Conoce tus gastos",

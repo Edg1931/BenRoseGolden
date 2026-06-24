@@ -7,6 +7,7 @@ import { CoachPanel } from "@/components/learn/coach-panel";
 import { PodcastPlayer } from "@/components/learn/podcast-player";
 import { BudgetCalculator } from "@/components/learn/budget-calculator";
 import { AffordabilityCalculator } from "@/components/learn/affordability-calculator";
+import { ExpenseClassifier } from "@/components/learn/expense-classifier";
 import { KnowledgeCheck } from "@/components/learn/knowledge-check";
 import { StepSorter } from "@/components/learn/step-sorter";
 import {
@@ -296,6 +297,7 @@ export function CoursePlayer({
               {/* Interactive blocks */}
               {lesson.calculator === "budget" && <BudgetCalculator lang={lang} />}
               {lesson.calculator === "affordability" && <AffordabilityCalculator lang={lang} />}
+              {lesson.activity === "expense-classifier" && <ExpenseClassifier lang={lang} />}
               {lesson.check && (
                 <KnowledgeCheck
                   check={lesson.check}
