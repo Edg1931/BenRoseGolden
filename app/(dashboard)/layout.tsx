@@ -23,7 +23,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-border bg-background">
+      <header className="border-b border-border bg-background print:hidden">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
           <div className="flex items-center justify-between gap-3">
             <Link href="/dashboard" className="shrink-0">

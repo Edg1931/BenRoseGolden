@@ -57,7 +57,7 @@ const OCCUPATIONS = [
  * verification dates, and clear next steps. Programs that require homebuyer
  * education link straight to the free classes.
  */
-export function AssistanceFinder({ counties }: { counties: string[] }) {
+export function AssistanceFinder({ counties, staff = false }: { counties: string[]; staff?: boolean }) {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({
@@ -307,7 +307,7 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
       {/* Results */}
       {step === 4 && results && (
         <div className="space-y-4">
-          <div className="text-center">
+          <div className="text-center print:hidden">
             <h2 className="font-serif text-2xl font-bold text-brand-plum">
               {results.matches.length} program{results.matches.length === 1 ? "" : "s"} you may
               qualify for
@@ -318,6 +318,55 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
                 Change my answers
               </button>
             </p>
+            {staff && (
+              <button
+                onClick={() => window.print()}
+                className="mt-3 inline-flex items-center gap-2 rounded-md border border-brand-rose px-4 py-2 text-sm font-medium text-brand-rose hover:bg-brand-blush"
+              >
+                🖨 Print client scenario
+              </button>
+            )}
+          </div>
+
+          {/* Print-only header: a clean client-scenario sheet for staff/clients to keep */}
+          <div className="hidden print:block">
+            <h2 className="font-serif text-xl font-bold text-brand-plum">
+              Benjamin Rose Housing — Down-Payment Assistance Scenario
+            </h2>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Prepared {formatDate(new Date().toISOString())} · {results.matches.length} of{" "}
+              {results.totalPrograms} tracked Ohio programs matched · estimates only, verify before applying.
+            </p>
+            <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1 text-sm">
+              <div className="flex justify-between border-b border-border py-1">
+                <dt className="text-muted-foreground">County</dt>
+                <dd className="font-medium">{answers.county ? `${answers.county.charAt(0).toUpperCase()}${answers.county.slice(1)} County` : "Statewide / unsure"}</dd>
+              </div>
+              <div className="flex justify-between border-b border-border py-1">
+                <dt className="text-muted-foreground">First-time buyer</dt>
+                <dd className="font-medium">{answers.firstTimeBuyer ? "Yes" : "No"}</dd>
+              </div>
+              <div className="flex justify-between border-b border-border py-1">
+                <dt className="text-muted-foreground">Household size</dt>
+                <dd className="font-medium">{answers.householdSize}</dd>
+              </div>
+              <div className="flex justify-between border-b border-border py-1">
+                <dt className="text-muted-foreground">Household income</dt>
+                <dd className="font-medium">{answers.householdIncome ? `$${answers.householdIncome.toLocaleString()}/yr` : "Not given"}</dd>
+              </div>
+              <div className="flex justify-between border-b border-border py-1">
+                <dt className="text-muted-foreground">Credit (estimated)</dt>
+                <dd className="font-medium">{CREDIT_BANDS.find((b) => b.value === answers.estimatedCredit)?.label ?? "—"}</dd>
+              </div>
+              <div className="flex justify-between border-b border-border py-1">
+                <dt className="text-muted-foreground">Occupation</dt>
+                <dd className="font-medium">{answers.occupation || "—"}</dd>
+              </div>
+              <div className="flex justify-between border-b border-border py-1">
+                <dt className="text-muted-foreground">Homebuyer ed complete</dt>
+                <dd className="font-medium">{answers.completedHomebuyerEd ? "Yes (certificate)" : "Not yet"}</dd>
+              </div>
+            </dl>
           </div>
 
           {results.matches.length === 0 && (
@@ -332,7 +381,7 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
             <Card
               key={m.id}
               onClick={() => router.push(`/assistance/${m.id}`)}
-              className={`cursor-pointer p-5 transition hover:border-brand-rose hover:shadow-md ${m.unlockedByCertificate ? "ring-2 ring-brand-gold" : ""}`}
+              className={`cursor-pointer p-5 transition hover:border-brand-rose hover:shadow-md print:break-inside-avoid print:shadow-none print:transition-none ${m.unlockedByCertificate ? "ring-2 ring-brand-gold" : ""}`}
             >
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
@@ -398,7 +447,7 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
                   <span className="font-medium">Next step:</span> {m.nextStep}
                 </span>
               </div>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 flex flex-wrap gap-2 print:hidden">
                 <Link
                   href={`/assistance/${m.id}`}
                   className="rounded-md bg-brand-rose px-4 py-2 text-sm font-medium text-white hover:bg-brand-plum"
@@ -424,6 +473,12 @@ export function AssistanceFinder({ counties }: { counties: string[] }) {
                   </Link>
                 )}
               </div>
+              <p className="mt-2 hidden break-all text-xs text-muted-foreground print:block">
+                Official program page: {m.link}
+                {m.requiresHomebuyerEd && !m.unlockedByCertificate
+                  ? " · Requires HUD-approved homebuyer education (free classes at benrose.org)."
+                  : ""}
+              </p>
             </Card>
           ))}
 

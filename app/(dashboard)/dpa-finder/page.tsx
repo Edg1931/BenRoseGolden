@@ -28,7 +28,7 @@ export default async function DpaFinderPage() {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="print:hidden">
         <h1 className="text-xl font-semibold tracking-tight">
           Down Payment Assistance &amp; Grant Finder
         </h1>
@@ -54,21 +54,25 @@ export default async function DpaFinderPage() {
       )}
 
       {/* Run a client's scenario with the same questionnaire clients use */}
-      <details className="rounded-lg border border-border bg-background shadow-sm">
-        <summary className="cursor-pointer px-4 py-3 font-medium">
+      <details className="rounded-lg border border-border bg-background shadow-sm print:rounded-none print:border-0 print:shadow-none">
+        <summary className="cursor-pointer px-4 py-3 font-medium print:hidden">
           🧮 Run a client&apos;s scenario
           <span className="ml-2 text-sm font-normal text-muted-foreground">
             — see what a specific buyer would match
           </span>
         </summary>
-        <div className="border-t border-border p-4">
-          <AssistanceFinder counties={counties} />
+        <div className="border-t border-border p-4 print:border-0 print:p-0">
+          <AssistanceFinder counties={counties} staff />
         </div>
       </details>
 
-      {canManage && <RefreshPanel />}
+      {canManage && (
+        <div className="print:hidden">
+          <RefreshPanel />
+        </div>
+      )}
 
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 print:hidden">
         {programs.map((p) => (
           <Link key={p.id} href={`/assistance/${p.id}`} className="block">
             <Card className="h-full space-y-2 p-4 transition hover:border-brand-rose hover:shadow-md">
