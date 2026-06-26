@@ -5,6 +5,7 @@ import { computeReports, moduleCompletionCsv } from "@/lib/reports/metrics";
 import { Card } from "@/components/ui/card";
 import { BarList } from "@/components/reports/bar-list";
 import { ExportButton } from "@/components/reports/export-button";
+import { PrintButton } from "@/components/reports/print-button";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,10 @@ export default async function ReportsPage() {
             Participation, outcomes, content distribution, and feedback across {report.totalParticipants} clients.
           </p>
         </div>
-        <ExportButton csv={csv} filename="module-completion.csv" />
+        <div className="flex gap-2">
+          <PrintButton />
+          <ExportButton csv={csv} filename="module-completion.csv" />
+        </div>
       </div>
 
       {/* Top stats */}

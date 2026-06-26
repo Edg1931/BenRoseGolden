@@ -35,14 +35,55 @@ function fullName(p: Participant): string {
   return [p.firstName, p.lastName].filter(Boolean).join(" ");
 }
 
+/** Stages where a client is active and silence means they may be slipping away. */
+const ACTIVE_STAGES: ParticipantStage[] = ["lead", "enrolled", "in-progress"];
+const FOLLOW_UP_DAYS = 30;
+
+/** Most recent communication date (ISO), or null if never contacted. */
+function lastContactISO(p: Participant): string | null {
+  if (!p.communications.length) return null;
+  return p.communications.reduce((max, c) => (c.date > max ? c.date : max), p.communications[0].date);
+}
+
+function daysSince(iso: string): number {
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
+}
+
+/** Active client we haven't talked to in a while (or ever) — surface for follow-up. */
+function needsFollowUp(p: Participant): boolean {
+  if (!ACTIVE_STAGES.includes(p.stage)) return false;
+  const last = lastContactISO(p);
+  return last == null || daysSince(last) > FOLLOW_UP_DAYS;
+}
+
+function lastContactLabel(p: Participant): string {
+  const last = lastContactISO(p);
+  if (last == null) return "No contact yet";
+  const d = daysSince(last);
+  if (d <= 0) return "Today";
+  if (d === 1) return "Yesterday";
+  if (d < 30) return `${d}d ago`;
+  if (d < 365) return `${Math.round(d / 30)}mo ago`;
+  return `${Math.round(d / 365)}y ago`;
+}
+
+type SortKey = "updated" | "name" | "follow-up";
+
 export function CrmTable({ participants }: { participants: Participant[] }) {
   const [q, setQ] = useState("");
   const [stage, setStage] = useState("");
   const [track, setTrack] = useState("");
+  const [sort, setSort] = useState<SortKey>("updated");
+  const [onlyFollowUp, setOnlyFollowUp] = useState(false);
+
+  const followUpCount = useMemo(
+    () => participants.filter(needsFollowUp).length,
+    [participants],
+  );
 
   const filtered = useMemo(() => {
     const needle = q.toLowerCase().trim();
-    return participants.filter((p) => {
+    const rows = participants.filter((p) => {
       const matchesQ =
         !needle ||
         fullName(p).toLowerCase().includes(needle) ||
@@ -52,9 +93,26 @@ export function CrmTable({ participants }: { participants: Participant[] }) {
         p.tags.some((t) => t.toLowerCase().includes(needle));
       const matchesStage = !stage || p.stage === stage;
       const matchesTrack = !track || p.tracks.includes(track as Track);
-      return matchesQ && matchesStage && matchesTrack;
+      const matchesFollowUp = !onlyFollowUp || needsFollowUp(p);
+      return matchesQ && matchesStage && matchesTrack && matchesFollowUp;
     });
-  }, [participants, q, stage, track]);
+
+    const staleness = (p: Participant) => {
+      const last = lastContactISO(p);
+      return last == null ? Infinity : daysSince(last); // never-contacted first
+    };
+    return [...rows].sort((a, b) => {
+      if (sort === "name") return fullName(a).localeCompare(fullName(b));
+      if (sort === "follow-up") {
+        // Active clients needing follow-up first, stalest at the top.
+        const fa = needsFollowUp(a) ? 1 : 0;
+        const fb = needsFollowUp(b) ? 1 : 0;
+        if (fa !== fb) return fb - fa;
+        return staleness(b) - staleness(a);
+      }
+      return b.lastUpdated.localeCompare(a.lastUpdated); // "updated" (default)
+    });
+  }, [participants, q, stage, track, sort, onlyFollowUp]);
 
   const selectClass = "rounded-md border border-input bg-background px-2 py-2 text-sm";
 
@@ -79,13 +137,31 @@ export function CrmTable({ participants }: { participants: Participant[] }) {
             <option key={v} value={v}>{l}</option>
           ))}
         </select>
+        <select className={selectClass} value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
+          <option value="updated">Sort: Recently updated</option>
+          <option value="follow-up">Sort: Needs follow-up</option>
+          <option value="name">Sort: Name (A–Z)</option>
+        </select>
+        {followUpCount > 0 && (
+          <button
+            onClick={() => setOnlyFollowUp((v) => !v)}
+            className={`rounded-md px-3 py-2 text-sm font-medium ring-1 ${
+              onlyFollowUp
+                ? "bg-brand-gold/15 text-amber-700 ring-brand-gold/40"
+                : "text-muted-foreground ring-border hover:bg-muted"
+            }`}
+            title={`${followUpCount} active client(s) not contacted in ${FOLLOW_UP_DAYS}+ days`}
+          >
+            ⏰ Needs follow-up · {followUpCount}
+          </button>
+        )}
         <span className="text-sm text-muted-foreground">
           {filtered.length} of {participants.length}
         </span>
       </div>
 
       <div className="overflow-x-auto rounded-lg border border-border bg-background">
-        <table className="w-full min-w-[44rem] text-sm">
+        <table className="w-full min-w-[52rem] text-sm">
           <thead className="border-b border-border bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
               <th className="px-4 py-2 font-medium">Client</th>
@@ -93,6 +169,7 @@ export function CrmTable({ participants }: { participants: Participant[] }) {
               <th className="px-4 py-2 font-medium">Needs</th>
               <th className="px-4 py-2 font-medium">Language</th>
               <th className="px-4 py-2 font-medium">Location</th>
+              <th className="px-4 py-2 font-medium">Last contact</th>
               <th className="px-4 py-2 font-medium">Progress</th>
             </tr>
           </thead>
@@ -135,6 +212,14 @@ export function CrmTable({ participants }: { participants: Participant[] }) {
                   {p.address?.city ?? "—"}
                 </td>
                 <td className="px-4 py-3">
+                  <span className="text-muted-foreground">{lastContactLabel(p)}</span>
+                  {needsFollowUp(p) && (
+                    <span className="ml-2 whitespace-nowrap rounded-full bg-brand-gold/15 px-1.5 py-0.5 text-[11px] font-medium text-amber-700">
+                      follow up
+                    </span>
+                  )}
+                </td>
+                <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
                     <ProgressBar value={progressPercent(p)} className="w-24" />
                     <span className="text-xs text-muted-foreground">{progressPercent(p)}%</span>
@@ -144,7 +229,7 @@ export function CrmTable({ participants }: { participants: Participant[] }) {
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-10 text-center text-sm text-muted-foreground">
+                <td colSpan={7} className="px-4 py-10 text-center text-sm text-muted-foreground">
                   No clients match your filters.
                 </td>
               </tr>
