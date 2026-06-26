@@ -29,7 +29,16 @@ const T = {
   taxes: { en: "Property taxes (est.)", es: "Impuestos (aprox.)", ar: "ضرائب العقار (تقديري)" },
   ins: { en: "Home insurance (est.)", es: "Seguro (aprox.)", ar: "تأمين المنزل (تقديري)" },
   pmi: { en: "PMI (under 20% down)", es: "PMI (menos de 20%)", ar: "تأمين PMI (أقل من 20%)" },
+  mip: { en: "FHA MIP (annual)", es: "MIP de FHA (anual)", ar: "تأمين FHA السنوي (MIP)" },
   loanAmt: { en: "Loan amount", es: "Monto del préstamo", ar: "مبلغ القرض" },
+  loanType: { en: "Loan type", es: "Tipo de préstamo", ar: "نوع القرض" },
+  conventional: { en: "Conventional", es: "Convencional", ar: "تقليدي" },
+  fha: { en: "FHA", es: "FHA", ar: "FHA" },
+  fhaNote: {
+    en: "FHA lets you put down as little as 3.5% with a 580+ score. It adds a 1.75% upfront premium (UFMIP, financed into the loan) plus ~0.55%/yr annual MIP — and with under 10% down, MIP lasts the life of the loan. Great for getting in; refinancing later can remove it.",
+    es: "FHA permite dar tan poco como 3.5% con puntaje de 580+. Agrega una prima inicial de 1.75% (UFMIP, financiada en el préstamo) más ~0.55%/año de MIP anual, y con menos del 10% de inicial, el MIP dura toda la vida del préstamo. Ideal para empezar; refinanciar después puede quitarlo.",
+    ar: "يتيح قرض FHA دفعة أولى تصل إلى 3.5% بدرجة ائتمان 580 أو أكثر. يضيف قسطاً مقدّماً بنسبة 1.75% (UFMIP يُموَّل ضمن القرض) إضافة إلى ~0.55% سنوياً - وبدفعة أقل من 10% يستمر التأمين طوال مدة القرض. ممتاز للبداية؛ وإعادة التمويل لاحقاً قد تزيله.",
+  },
   note: {
     en: "Estimates use ~1.4% taxes, ~0.5% insurance, and ~0.6% PMI per year. Your real numbers vary by county and lender — but notice how taxes and insurance can add hundreds a month.",
     es: "Las estimaciones usan ~1.4% de impuestos, ~0.5% de seguro y ~0.6% de PMI al año. Tus números reales varían por condado y prestamista, pero nota cómo impuestos y seguro suman cientos al mes.",
@@ -42,6 +51,7 @@ export function MortgageCalculator({ lang }: { lang: LearnLang }) {
   const [downPct, setDownPct] = useState(5);
   const [rate, setRate] = useState(6.5);
   const [term, setTerm] = useState(30);
+  const [isFha, setIsFha] = useState(false);
 
   const money = (n: number) =>
     new Intl.NumberFormat(lang === "es" ? "es-US" : lang === "ar" ? "ar" : "en-US", {
@@ -50,20 +60,26 @@ export function MortgageCalculator({ lang }: { lang: LearnLang }) {
       maximumFractionDigits: 0,
     }).format(Math.round(n));
 
-  const loan = price * (1 - downPct / 100);
+  // FHA: 1.75% upfront premium (UFMIP) is financed on top of the base loan.
+  const baseLoan = price * (1 - downPct / 100);
+  const ufmip = isFha ? baseLoan * 0.0175 : 0;
+  const loan = baseLoan + ufmip;
   const r = rate / 100 / 12;
   const n = term * 12;
   const pi = r > 0 ? (loan * r) / (1 - Math.pow(1 + r, -n)) : loan / n;
   const taxes = (price * 0.014) / 12;
   const ins = (price * 0.005) / 12;
-  const pmi = downPct < 20 ? (loan * 0.006) / 12 : 0;
-  const total = pi + taxes + ins + pmi;
+  // FHA annual MIP (~0.55%/yr) vs conventional PMI (~0.6%/yr, drops at 20% equity).
+  const mip = isFha ? (baseLoan * 0.0055) / 12 : 0;
+  const pmi = !isFha && downPct < 20 ? (baseLoan * 0.006) / 12 : 0;
+  const total = pi + taxes + ins + pmi + mip;
 
   const rows = [
     { label: T.pi[lang], value: pi, color: "bg-brand-rose" },
     { label: T.taxes[lang], value: taxes, color: "bg-brand-gold" },
     { label: T.ins[lang], value: ins, color: "bg-emerald-500" },
     ...(pmi > 0 ? [{ label: T.pmi[lang], value: pmi, color: "bg-slate-400" }] : []),
+    ...(mip > 0 ? [{ label: T.mip[lang], value: mip, color: "bg-slate-400" }] : []),
   ];
 
   return (
@@ -104,7 +120,26 @@ export function MortgageCalculator({ lang }: { lang: LearnLang }) {
             ))}
           </div>
         </div>
+        <div>
+          <span className="text-sm font-medium">{T.loanType[lang]}</span>
+          <div className="mt-1 flex gap-2">
+            <button
+              onClick={() => setIsFha(false)}
+              className={`rounded-md px-3 py-2 text-sm ${!isFha ? "bg-brand-rose text-white" : "border border-input hover:bg-muted"}`}>
+              {T.conventional[lang]}
+            </button>
+            <button
+              onClick={() => { setIsFha(true); if (downPct < 4) setDownPct(4); }}
+              className={`rounded-md px-3 py-2 text-sm ${isFha ? "bg-brand-rose text-white" : "border border-input hover:bg-muted"}`}>
+              🏛️ {T.fha[lang]}
+            </button>
+          </div>
+        </div>
       </div>
+
+      {isFha && (
+        <p className="mt-3 rounded-md bg-brand-blush/40 p-3 text-xs text-brand-plum">{T.fhaNote[lang]}</p>
+      )}
 
       <div className="mt-5 rounded-lg bg-muted/50 p-4 text-center">
         <p className="text-xs text-muted-foreground">{T.monthly[lang]} · {T.loanAmt[lang]} {money(loan)}</p>

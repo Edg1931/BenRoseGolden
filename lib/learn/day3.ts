@@ -454,6 +454,7 @@ export const DAY3_LESSONS: Lesson[] = [
         ar: "نعم - يجب أن تطابق أرقامك تقدير قرضك، ولك الحق في قراءة كل صفحة.",
       },
     },
+    calculator: "closing-cost",
   },
   {
     id: "shopping-professionals",

@@ -71,7 +71,8 @@ export interface Lesson {
     | "debt-payoff"
     | "mortgage"
     | "credit-utilization"
-    | "rent-vs-buy";
+    | "rent-vs-buy"
+    | "closing-cost";
   /** Named hands-on activity widget rendered inside the lesson. */
   activity?:
     | "expense-classifier"

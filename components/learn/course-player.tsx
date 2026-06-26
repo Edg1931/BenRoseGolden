@@ -18,6 +18,7 @@ import { LoanEstimateExhibit } from "@/components/learn/loan-estimate-exhibit";
 import { InspectionChecklist, MaintenancePlanner } from "@/components/learn/interactive-checklist";
 import { CreditUtilizationCalculator } from "@/components/learn/credit-utilization-calculator";
 import { RentVsBuy } from "@/components/learn/rent-vs-buy";
+import { ClosingCostEstimator } from "@/components/learn/closing-cost-estimator";
 import { LoanTypeMatcher } from "@/components/learn/loan-type-matcher";
 import { VideoPlayer } from "@/components/learn/video-player";
 import { KnowledgeCheck } from "@/components/learn/knowledge-check";
@@ -350,6 +351,7 @@ export function CoursePlayer({
               {lesson.calculator === "mortgage" && <MortgageCalculator lang={lang} />}
               {lesson.calculator === "credit-utilization" && <CreditUtilizationCalculator lang={lang} />}
               {lesson.calculator === "rent-vs-buy" && <RentVsBuy lang={lang} />}
+              {lesson.calculator === "closing-cost" && <ClosingCostEstimator lang={lang} />}
               {lesson.activity === "expense-classifier" && <ExpenseClassifier lang={lang} />}
               {lesson.activity === "sample-credit-report" && <SampleCreditReport lang={lang} />}
               {lesson.activity === "loan-estimate" && <LoanEstimateExhibit lang={lang} />}
