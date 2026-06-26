@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
-import { ReviewsSection } from "@/components/marketing/reviews-section";
 import seed from "@/data/programs.seed.json";
 
 export const metadata = {
@@ -211,19 +210,30 @@ export default function WelcomePage() {
               </div>
             </div>
             <div className="rounded-2xl bg-gradient-to-br from-brand-blush to-brand-gold/10 p-8">
-              <blockquote className="font-serif text-xl font-medium text-brand-plum">
-                &ldquo;I took the class in Spanish, on audio, while I worked. I passed every module
-                and bought my first home with help I didn&apos;t know existed.&rdquo;
-              </blockquote>
-              <p className="mt-3 text-sm text-muted-foreground">— A Benjamin Rose graduate</p>
+              <h3 className="font-serif text-xl font-bold text-brand-plum">
+                Built for real life
+              </h3>
+              <ul className="mt-4 space-y-3 text-sm text-brand-plum/90">
+                <li className="flex gap-2">
+                  <span aria-hidden>🌐</span>
+                  <span>Take every class in <strong>English, Spanish, or Arabic</strong> — read it or listen on audio.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span aria-hidden>⏱️</span>
+                  <span>Learn <strong>at your own pace</strong>, on your phone, around work and family.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span aria-hidden>🤖</span>
+                  <span>Ask the <strong>AI coach</strong> a question anytime, then keep going.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span aria-hidden>🎓</span>
+                  <span>Earn the <strong>certificate</strong> that unlocks down-payment assistance.</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Reviews — live Google when configured, platform CTAs otherwise */}
-      <section className="bg-white">
-        <ReviewsSection variant="compact" />
       </section>
 
       {/* CTA */}
