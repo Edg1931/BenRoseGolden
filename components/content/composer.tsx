@@ -19,8 +19,9 @@ import {
   type ParticipantStage,
 } from "@/lib/participants/schema";
 import { CAMPAIGN_TYPES, type CampaignType } from "@/lib/content/schema";
+import type { FeedItem } from "@/lib/content/feed";
 
-export function Composer() {
+export function Composer({ sources = [] }: { sources?: FeedItem[] }) {
   const router = useRouter();
   const [type, setType] = useState<CampaignType>("newsletter");
   const [topic, setTopic] = useState("");
@@ -29,6 +30,7 @@ export function Composer() {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [highlights, setHighlights] = useState("");
   const [instructions, setInstructions] = useState("");
+  const [picked, setPicked] = useState<string[]>([]);
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [source, setSource] = useState<"ai" | "template" | null>(null);
@@ -38,6 +40,19 @@ export function Composer() {
 
   function toggle<T>(list: T[], v: T, set: (x: T[]) => void) {
     set(list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
+  }
+
+  const pickedSources = sources.filter((s) => picked.includes(s.url));
+
+  /** Append the chosen Benjamin Rose links to the draft as a Markdown section. */
+  function insertLinks() {
+    if (!pickedSources.length) { setMsg("Pick an article to insert first."); return; }
+    const section =
+      "\n\n## More from Benjamin Rose\n\n" +
+      pickedSources
+        .map((s) => `- [${s.title}](${s.url})${s.excerpt ? ` — ${s.excerpt}` : ""}`)
+        .join("\n");
+    setBody((b) => (b.trim() ? b.trimEnd() + section : section.trimStart()));
   }
 
   async function draft() {
@@ -55,6 +70,7 @@ export function Composer() {
           audience: { stages, tracks, language },
           highlights: highlights.split("\n").map((h) => h.trim()).filter(Boolean),
           instructions: instructions || undefined,
+          sources: pickedSources.length ? pickedSources : undefined,
         }),
       });
       const data = await res.json();
@@ -154,6 +170,50 @@ export function Composer() {
             {drafting ? "Drafting with Claude…" : "✨ Draft with AI"}
           </button>
         </Card>
+
+        {sources.length > 0 && (
+          <Card className="space-y-3 p-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold">📰 Pull from Benjamin Rose</h3>
+              {picked.length > 0 && <Badge variant="muted">{picked.length} selected</Badge>}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Pick recent articles and resources to feature. Selected items are woven into the AI
+              draft, or insert them as links with one click.
+            </p>
+            <ul className="space-y-2">
+              {sources.map((s) => {
+                const on = picked.includes(s.url);
+                return (
+                  <li key={s.url}>
+                    <label className={`flex cursor-pointer gap-2 rounded-md border p-2 text-sm ${on ? "border-brand-rose bg-brand-rose/5" : "border-border hover:bg-muted/50"}`}>
+                      <input
+                        type="checkbox"
+                        checked={on}
+                        onChange={() => toggle(picked, s.url, setPicked)}
+                        className="mt-0.5 accent-brand-rose"
+                      />
+                      <span className="min-w-0">
+                        <span className="flex flex-wrap items-center gap-1.5">
+                          <span className="font-medium">{s.title}</span>
+                          <Badge variant="muted">{s.source}</Badge>
+                        </span>
+                        {s.excerpt && <span className="mt-0.5 block text-xs text-muted-foreground">{s.excerpt}</span>}
+                      </span>
+                    </label>
+                  </li>
+                );
+              })}
+            </ul>
+            <button
+              onClick={insertLinks}
+              disabled={picked.length === 0}
+              className="w-full rounded-md border border-input px-4 py-2 text-sm font-medium disabled:opacity-50"
+            >
+              Insert {picked.length || ""} as links ↓
+            </button>
+          </Card>
+        )}
       </div>
 
       {/* Editor + preview */}

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Composer } from "@/components/content/composer";
+import { getNewsletterSources } from "@/lib/content/feed";
 
-export default function ComposePage() {
+export default async function ComposePage() {
+  const sources = await getNewsletterSources();
   return (
     <div className="space-y-4">
       <div>
@@ -13,7 +15,7 @@ export default function ComposePage() {
           Describe what you want; Claude drafts an on-brand newsletter or flyer you can edit and save.
         </p>
       </div>
-      <Composer />
+      <Composer sources={sources} />
     </div>
   );
 }

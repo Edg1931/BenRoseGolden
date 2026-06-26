@@ -23,6 +23,7 @@ export async function POST(request: Request) {
       language: body.language ?? "en",
       highlights: body.highlights,
       instructions: body.instructions,
+      sources: Array.isArray(body.sources) ? body.sources : undefined,
     });
     return NextResponse.json(result);
   } catch (err) {

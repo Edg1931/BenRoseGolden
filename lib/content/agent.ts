@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { LANGUAGE_LABELS, TRACK_LABELS } from "@/lib/participants/curriculum";
 import { STAGE_LABELS } from "@/lib/participants/schema";
+import type { FeedItem } from "./feed";
 import type { Audience, CampaignType } from "./schema";
 
 /**
@@ -22,6 +23,17 @@ export interface DraftRequest {
   language: string; // language code
   highlights?: string[];
   instructions?: string;
+  /** Recent Benjamin Rose articles / resources to weave into the draft. */
+  sources?: FeedItem[];
+}
+
+/** A "More from Benjamin Rose" markdown section linking the chosen sources. */
+function sourcesSection(sources?: FeedItem[]): string {
+  if (!sources?.length) return "";
+  const links = sources
+    .map((s) => `- [${s.title}](${s.url})${s.excerpt ? ` — ${s.excerpt}` : ""}`)
+    .join("\n");
+  return `\n\n## More from Benjamin Rose\n\n${links}`;
 }
 
 export interface DraftResult {
@@ -58,6 +70,11 @@ export async function draftCampaign(req: DraftRequest): Promise<DraftResult> {
     `Audience: ${audienceDescription(req.audience)}.`,
     `Write it in ${langName}.`,
     req.highlights?.length ? `Highlight these points:\n- ${req.highlights.join("\n- ")}` : "",
+    req.sources?.length
+      ? `Weave in and link these recent Benjamin Rose articles/resources where they fit naturally, using Markdown links. End with a short "More from Benjamin Rose" list of any you didn't link inline:\n${req.sources
+          .map((s) => `- ${s.title} (${s.url})${s.excerpt ? ` — ${s.excerpt}` : ""}`)
+          .join("\n")}`
+      : "",
     req.instructions ? `Extra instructions: ${req.instructions}` : "",
     req.type === "newsletter"
       ? "Also propose a short email subject line on the first line prefixed exactly with 'SUBJECT: '."
@@ -105,15 +122,17 @@ function templateDraft(req: DraftRequest): DraftResult {
     .map((h) => `- ${h}`)
     .join("\n");
 
+  const more = sourcesSection(req.sources);
+
   if (req.type === "flyer") {
     return {
       source: "template",
-      bodyMarkdown: `# ${req.topic}\n\n**Benjamin Rose is here to help you reach a stable home.**\n\n${bullets}\n\n**Ready to start?** Call or visit us today — _[add phone / address / signup link]_.`,
+      bodyMarkdown: `# ${req.topic}\n\n**Benjamin Rose is here to help you reach a stable home.**\n\n${bullets}\n\n**Ready to start?** Call or visit us today — _[add phone / address / signup link]_.${more}`,
     };
   }
   return {
     source: "template",
     subject: `Benjamin Rose: ${req.topic}`,
-    bodyMarkdown: `# ${req.topic}\n\nHello! This update is for ${aud}.\n\nBenjamin Rose offers:\n\n${bullets}\n\nWe meet you where you are — in the language and format that works best for you. **Reply or call to take the next step.**`,
+    bodyMarkdown: `# ${req.topic}\n\nHello! This update is for ${aud}.\n\nBenjamin Rose offers:\n\n${bullets}\n\nWe meet you where you are — in the language and format that works best for you. **Reply or call to take the next step.**${more}`,
   };
 }
