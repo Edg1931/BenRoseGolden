@@ -111,7 +111,11 @@ export function CourseMap() {
                   {d.title}
                 </h2>
                 <p className="mt-2 flex-1 text-sm text-muted-foreground">{d.blurb}</p>
-                <span className="mt-4 inline-block text-sm font-medium text-brand-rose">
+                <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                  <span>⏱ ~{Math.round(d.minutes / 60)} hr</span>
+                  <span>📘 {d.lessons.length} lessons</span>
+                </div>
+                <span className="mt-3 inline-block text-sm font-medium text-brand-rose">
                   {status === "passed" ? "Review class →" : status === "in-progress" ? "Continue →" : "Start class →"}
                 </span>
               </Card>

@@ -28,6 +28,7 @@ export default function LearnHome() {
         <span className="rounded-full bg-brand-gold/10 px-3 py-1 text-brand-gold">🎙️ Podcast</span>
         <span className="rounded-full bg-brand-gold/10 px-3 py-1 text-brand-gold">🤖 AI coach</span>
         <span className="rounded-full bg-brand-gold/10 px-3 py-1 text-brand-gold">🔊 Audio</span>
+        <span className="rounded-full bg-brand-blush px-3 py-1 text-brand-rose">⏱ ~8 hours total · ~2 hr per class</span>
       </div>
 
       <div className="mt-8">

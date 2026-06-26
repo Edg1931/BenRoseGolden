@@ -25,6 +25,12 @@ export const UI: Record<string, Localized> = {
   startClass: { en: "Start class", es: "Comenzar clase", ar: "ابدأ الدرس" },
   comingSoon: { en: "Coming soon", es: "Próximamente", ar: "قريباً" },
   minutes: { en: "min", es: "min", ar: "دقيقة" },
+  estTime: {
+    // "About {min} min" — set the learner's time expectation per day.
+    en: "About {min} min",
+    es: "Unos {min} min",
+    ar: "حوالي {min} دقيقة",
+  },
 
   // Player chrome
   language: { en: "Language", es: "Idioma", ar: "اللغة" },

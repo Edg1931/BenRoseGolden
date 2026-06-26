@@ -20,6 +20,12 @@ export interface CourseDay {
   /** Original class slide deck (public path) — viewable & downloadable. */
   pdf: string;
   /**
+   * Approximate time to complete the day, in minutes. HUD requires ~8 hours of
+   * homebuyer education across the course, so each day targets ~120 minutes.
+   * Shown on the course map and the day header to set expectations.
+   */
+  minutes: number;
+  /**
    * Optional teaching video for the "Watch" tab. Set to a YouTube/Vimeo link
    * (e.g. "https://youtu.be/abc123") or a self-hosted file under /public
    * (e.g. "/videos/day-1.mp4"). When omitted, the Video tab shows a placeholder.
@@ -37,6 +43,7 @@ export const COURSE_DAYS: CourseDay[] = [
     blurb: "Build a budget, understand your expenses, and learn how credit reports and scores really work.",
     icon: "💰",
     pdf: "/materials/day-1-money-management-credit.pdf",
+    minutes: 120,
     sections: DAY1_SECTIONS,
     lessons: DAY1_LESSONS,
   },
@@ -47,6 +54,7 @@ export const COURSE_DAYS: CourseDay[] = [
     blurb: "How mortgages work, what you can afford (the 29/41 rule), the homebuying team, and your rights as a borrower.",
     icon: "🏦",
     pdf: "/materials/day-2-mortgage-rights.pdf",
+    minutes: 120,
     sections: DAY2_SECTIONS,
     lessons: DAY2_LESSONS,
   },
@@ -57,6 +65,7 @@ export const COURSE_DAYS: CourseDay[] = [
     blurb: "House-hunting with a plan, making an offer, escrow, and what the inspection protects you from.",
     icon: "🔍",
     pdf: "/materials/day-3-shopping-inspection.pdf",
+    minutes: 120,
     sections: DAY3_SECTIONS,
     lessons: DAY3_LESSONS,
   },
@@ -67,6 +76,7 @@ export const COURSE_DAYS: CourseDay[] = [
     blurb: "Protect your investment with the right insurance, a seasonal maintenance routine, and smart improvements.",
     icon: "🛡️",
     pdf: "/materials/day-4-insurance-maintenance.pdf",
+    minutes: 120,
     sections: DAY4_SECTIONS,
     lessons: DAY4_LESSONS,
   },

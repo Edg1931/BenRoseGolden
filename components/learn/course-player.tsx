@@ -104,6 +104,7 @@ export function CoursePlayer({
   questions,
   pdf,
   video,
+  minutes,
 }: {
   daySlug: string;
   sections: Record<string, Localized>;
@@ -111,6 +112,7 @@ export function CoursePlayer({
   questions: PublicQuizQuestion[];
   pdf?: string;
   video?: string;
+  minutes?: number;
 }) {
   const [lang, setLang] = useState<LearnLang>("en");
   const [tab, setTab] = useState<Tab>("lessons");
@@ -250,9 +252,14 @@ export function CoursePlayer({
         </div>
       </div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2 print:hidden">
-        {dayTitle && (
-          <p className="font-serif text-sm font-semibold text-brand-plum">{dayTitle[lang]}</p>
-        )}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          {dayTitle && (
+            <p className="font-serif text-sm font-semibold text-brand-plum">{dayTitle[lang]}</p>
+          )}
+          {minutes ? (
+            <span className="text-xs text-muted-foreground">⏱ {fill(t("estTime"), { min: minutes })}</span>
+          ) : null}
+        </div>
         {pdf && (
           <a
             href={pdf}
