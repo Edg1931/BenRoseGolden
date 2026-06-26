@@ -11,6 +11,9 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             <Logo suffix="Housing" />
           </Link>
           <nav className="flex items-center gap-4 text-sm">
+            <Link href="/reviews" className="hidden text-muted-foreground hover:text-foreground sm:inline">
+              Reviews
+            </Link>
             <Link
               href="/learn"
               className="rounded-md bg-brand-rose px-4 py-1.5 font-medium text-white hover:bg-brand-plum"
@@ -40,6 +43,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               <li><Link href="/assistance" className="hover:text-white">Down-payment assistance</Link></li>
               <li><Link href="/welcome" className="hover:text-white">Foreclosure prevention</Link></li>
               <li><Link href="/welcome" className="hover:text-white">Credit &amp; financial coaching</Link></li>
+              <li><Link href="/reviews" className="hover:text-white">Reviews</Link></li>
             </ul>
           </div>
           <div className="text-sm">

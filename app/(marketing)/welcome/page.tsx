@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
+import { ReviewsSection } from "@/components/marketing/reviews-section";
 import seed from "@/data/programs.seed.json";
 
 export const metadata = {
@@ -218,6 +219,11 @@ export default function WelcomePage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Reviews — live Google when configured, platform CTAs otherwise */}
+      <section className="bg-white">
+        <ReviewsSection variant="compact" />
       </section>
 
       {/* CTA */}
