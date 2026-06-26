@@ -89,7 +89,7 @@ export default async function DashboardPage() {
             <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
               Recently updated
             </h2>
-            <Link href="/contacts" className="text-sm text-blue-600 hover:underline">View all</Link>
+            <Link href="/contacts" className="text-sm text-brand-rose hover:underline">View all</Link>
           </div>
           <div className="divide-y divide-border">
             {recent.map((p) => {

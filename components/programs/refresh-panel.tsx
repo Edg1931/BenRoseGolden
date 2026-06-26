@@ -247,7 +247,7 @@ function CandidateRow({
             href={c.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-blue-600 underline"
+            className="text-xs text-brand-rose underline"
           >
             Source
           </a>

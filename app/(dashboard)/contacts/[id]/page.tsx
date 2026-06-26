@@ -172,7 +172,7 @@ export default async function ProfilePage({
                   {m.reasons.length > 0 && (
                     <div className="mt-1 text-xs text-emerald-700">You qualify because {m.reasons.slice(0, 2).join(", and ")}.</div>
                   )}
-                  <a href={m.link} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-xs text-blue-600 underline">
+                  <a href={m.link} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-xs text-brand-rose underline">
                     Program details
                   </a>
                 </div>
