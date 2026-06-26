@@ -371,4 +371,203 @@ export const QUIZ_I18N: Record<string, QuizI18n> = {
       { en: "Only a problem in old homes", es: "Solo un problema de casas viejas", ar: "مشكلة في المنازل القديمة فقط" },
     ],
   },
+  // ── Day 1 (new lessons) ──────────────────────────────────────────────────
+  "day1-1": {
+    question: {
+      en: "A good guideline for credit utilization is to keep it…",
+      es: "Una buena guía para el uso del crédito es mantenerlo…",
+      ar: "من القواعد الجيدة لمعدّل استخدام الائتمان أن تُبقيه…",
+    },
+    options: [
+      { en: "Above 50% of your limits", es: "Por encima del 50% de tus límites", ar: "أعلى من 50% من حدودك" },
+      { en: "Under about 30% of your limits", es: "Por debajo de cerca del 30% de tus límites", ar: "أقل من نحو 30% من حدودك" },
+      { en: "At exactly 100%", es: "Exactamente en 100%", ar: "عند 100% بالضبط" },
+      { en: "It doesn't matter", es: "No importa", ar: "لا يهم" },
+    ],
+  },
+  "day1-2": {
+    question: {
+      en: "A SMART savings goal is best described as…",
+      es: "Una meta de ahorro SMART se describe mejor como…",
+      ar: "هدف الادخار SMART يُوصف على أفضل وجه بأنه…",
+    },
+    options: [
+      { en: "'Save more money someday'", es: "'Ahorrar más dinero algún día'", ar: "«ادّخار المزيد يوماً ما»" },
+      { en: "Specific, Measurable, Achievable, Relevant, and Time-bound", es: "Específica, medible, alcanzable, relevante y con plazo", ar: "محدد وقابل للقياس وقابل للتحقيق وذو صلة ومحدّد بوقت" },
+      { en: "Only about cutting out all spending", es: "Solo sobre eliminar todo gasto", ar: "فقط عن إلغاء كل الإنفاق" },
+      { en: "A loan you take from the bank", es: "Un préstamo que tomas del banco", ar: "قرض تأخذه من البنك" },
+    ],
+  },
+  "day1-3": {
+    question: {
+      en: "If you spot an error on your credit report, the best move is to…",
+      es: "Si detectas un error en tu informe de crédito, lo mejor es…",
+      ar: "إذا اكتشفت خطأً في تقرير ائتمانك، فالأفضل أن…",
+    },
+    options: [
+      { en: "Ignore it", es: "Ignorarlo", ar: "تتجاهله" },
+      { en: "Dispute it with the credit bureau", es: "Disputarlo con la agencia de crédito", ar: "تعترض عليه لدى وكالة الائتمان" },
+      { en: "Close all your accounts", es: "Cerrar todas tus cuentas", ar: "تغلق كل حساباتك" },
+      { en: "Open a new credit card to offset it", es: "Abrir una tarjeta nueva para compensarlo", ar: "تفتح بطاقة جديدة لتعويضه" },
+    ],
+  },
+  "day1-4": {
+    question: {
+      en: "Before pouring savings into a down payment, it's smart to first build…",
+      es: "Antes de volcar ahorros en el pago inicial, es inteligente primero crear…",
+      ar: "قبل توجيه المدّخرات إلى الدفعة الأولى، من الذكاء أن تبني أولاً…",
+    },
+    options: [
+      { en: "A small emergency fund", es: "Un pequeño fondo de emergencia", ar: "صندوق طوارئ صغيراً" },
+      { en: "A bigger entertainment budget", es: "Un presupuesto de entretenimiento más grande", ar: "ميزانية ترفيه أكبر" },
+      { en: "A second car loan", es: "Un segundo préstamo de auto", ar: "قرض سيارة ثانياً" },
+      { en: "Nothing — put every dollar toward the home", es: "Nada: pon cada dólar en la casa", ar: "لا شيء - وجّه كل دولار للمنزل" },
+    ],
+  },
+  // ── Day 2 (new lessons + FHA) ────────────────────────────────────────────
+  "day2m-1": {
+    question: {
+      en: "With a credit score of 580 or higher, the minimum FHA down payment is…",
+      es: "Con un puntaje de 580 o más, el pago inicial mínimo de FHA es…",
+      ar: "بدرجة ائتمانية 580 أو أعلى، الحد الأدنى لدفعة FHA الأولى هو…",
+    },
+    options: [
+      { en: "0%", es: "0%", ar: "0%" },
+      { en: "3.5%", es: "3.5%", ar: "3.5%" },
+      { en: "10%", es: "10%", ar: "10%" },
+      { en: "20%", es: "20%", ar: "20%" },
+    ],
+  },
+  "day2m-2": {
+    question: {
+      en: "FHA loans charge an upfront mortgage insurance premium (UFMIP) of about…",
+      es: "Los préstamos FHA cobran una prima inicial de seguro hipotecario (UFMIP) de cerca de…",
+      ar: "تفرض قروض FHA قسط تأمين رهن مقدّماً (UFMIP) بنحو…",
+    },
+    options: [
+      { en: "0.25% of the loan", es: "0.25% del préstamo", ar: "0.25% من القرض" },
+      { en: "1.75% of the loan", es: "1.75% del préstamo", ar: "1.75% من القرض" },
+      { en: "10% of the loan", es: "10% del préstamo", ar: "10% من القرض" },
+      { en: "There is no upfront premium", es: "No hay prima inicial", ar: "لا يوجد قسط مقدّم" },
+    ],
+  },
+  "day2m-3": {
+    question: {
+      en: "When the housing ratio and the debt-to-income ratio give different limits, a lender uses…",
+      es: "Cuando la proporción de vivienda y la de deuda-ingreso dan límites distintos, el prestamista usa…",
+      ar: "عندما تعطي نسبة السكن ونسبة الدين إلى الدخل حدّين مختلفين، يستخدم المُقرض…",
+    },
+    options: [
+      { en: "The higher of the two", es: "El mayor de los dos", ar: "الأعلى منهما" },
+      { en: "The lower of the two", es: "El menor de los dos", ar: "الأقل منهما" },
+      { en: "Only the housing ratio", es: "Solo la proporción de vivienda", ar: "نسبة السكن فقط" },
+      { en: "Neither — only your credit score", es: "Ninguna: solo tu puntaje", ar: "لا شيء - درجتك فقط" },
+    ],
+  },
+  "day2m-4": {
+    question: {
+      en: "A VA loan is notable because eligible veterans often pay…",
+      es: "Un préstamo VA destaca porque los veteranos elegibles a menudo pagan…",
+      ar: "قرض VA مميز لأن المحاربين المؤهلين غالباً يدفعون…",
+    },
+    options: [
+      { en: "A 20% down payment", es: "Un pago inicial del 20%", ar: "دفعة أولى 20%" },
+      { en: "0% down with no monthly mortgage insurance", es: "0% inicial sin seguro hipotecario mensual", ar: "دفعة 0% بلا تأمين رهن شهري" },
+      { en: "Double the interest rate", es: "El doble de la tasa de interés", ar: "ضعف سعر الفائدة" },
+      { en: "An extra inspection fee", es: "Una tarifa extra de inspección", ar: "رسم فحص إضافي" },
+    ],
+  },
+  "day2m-5": {
+    question: {
+      en: "A common guideline for annual home-maintenance savings is about…",
+      es: "Una guía común para el ahorro anual de mantenimiento es cerca de…",
+      ar: "من القواعد الشائعة للادخار السنوي لصيانة المنزل نحو…",
+    },
+    options: [
+      { en: "1% of the home's value per year", es: "1% del valor de la casa al año", ar: "1% من قيمة المنزل سنوياً" },
+      { en: "50% of your income", es: "50% de tu ingreso", ar: "50% من دخلك" },
+      { en: "Nothing — repairs are rare", es: "Nada: las reparaciones son raras", ar: "لا شيء - الإصلاحات نادرة" },
+      { en: "10% of the home's value every month", es: "10% del valor de la casa cada mes", ar: "10% من قيمة المنزل كل شهر" },
+    ],
+  },
+  // ── Day 3 (new lessons) ──────────────────────────────────────────────────
+  "day3-1": {
+    question: {
+      en: "A dual agent in a real estate deal represents…",
+      es: "Un agente dual en una operación inmobiliaria representa…",
+      ar: "الوكيل المزدوج في صفقة عقارية يمثّل…",
+    },
+    options: [
+      { en: "Only the buyer", es: "Solo al comprador", ar: "المشتري فقط" },
+      { en: "Only the seller", es: "Solo al vendedor", ar: "البائع فقط" },
+      { en: "Both the buyer and the seller", es: "Tanto al comprador como al vendedor", ar: "المشتري والبائع معاً" },
+      { en: "The bank", es: "Al banco", ar: "البنك" },
+    ],
+  },
+  "day3-2": {
+    question: {
+      en: "Under the current rules, the Buyer Representation Agreement is signed…",
+      es: "Con las reglas actuales, el Acuerdo de Representación del Comprador se firma…",
+      ar: "وفق القواعد الحالية، تُوقَّع اتفاقية تمثيل المشتري…",
+    },
+    options: [
+      { en: "After closing", es: "Después del cierre", ar: "بعد الإتمام" },
+      { en: "Before the agent provides services", es: "Antes de que el agente preste servicios", ar: "قبل أن يقدّم الوكيل الخدمات" },
+      { en: "Only if you buy a foreclosure", es: "Solo si compras una ejecución hipotecaria", ar: "فقط إذا اشتريت عقاراً محبوس الرهن" },
+      { en: "Never — it's optional", es: "Nunca: es opcional", ar: "أبداً - فهي اختيارية" },
+    ],
+  },
+  "day3-3": {
+    question: {
+      en: "While touring a home, fresh paint in just one spot may…",
+      es: "Al recorrer una casa, pintura fresca en un solo lugar puede…",
+      ar: "أثناء تفقّد منزل، طلاء جديد في بقعة واحدة قد…",
+    },
+    options: [
+      { en: "Always be meaningless", es: "Siempre no significar nada", ar: "لا يعني شيئاً دائماً" },
+      { en: "Hide a problem like a water stain — worth asking about", es: "Ocultar un problema como una mancha de agua — vale preguntar", ar: "يخفي مشكلة كبقعة ماء - يستحق السؤال" },
+      { en: "Mean the home is brand new", es: "Significar que la casa es nueva", ar: "يعني أن المنزل جديد تماماً" },
+      { en: "Automatically lower the price", es: "Bajar el precio automáticamente", ar: "يخفّض السعر تلقائياً" },
+    ],
+  },
+  // ── Day 4 (new lessons) ──────────────────────────────────────────────────
+  "day4-5": {
+    question: {
+      en: "Replacement-cost coverage pays…",
+      es: "La cobertura de costo de reposición paga…",
+      ar: "تغطية تكلفة الإحلال تدفع…",
+    },
+    options: [
+      { en: "Only the depreciated value of an item", es: "Solo el valor depreciado de un artículo", ar: "القيمة المُستهلَكة للغرض فقط" },
+      { en: "Enough to buy the item new today", es: "Lo suficiente para comprar el artículo nuevo hoy", ar: "ما يكفي لشراء الغرض جديداً اليوم" },
+      { en: "Nothing for electronics", es: "Nada por electrónicos", ar: "لا شيء للإلكترونيات" },
+      { en: "Only for the structure, never belongings", es: "Solo la estructura, nunca las pertenencias", ar: "الهيكل فقط، لا الممتلكات" },
+    ],
+  },
+  "day4-6": {
+    question: {
+      en: "In Ohio, owning a dog the state classifies as 'vicious' requires liability coverage of at least…",
+      es: "En Ohio, tener un perro que el estado clasifica como 'peligroso' exige cobertura de responsabilidad de al menos…",
+      ar: "في أوهايو، امتلاك كلب تصنّفه الولاية 'شرساً' يتطلب تغطية مسؤولية لا تقل عن…",
+    },
+    options: [
+      { en: "$1,000", es: "$1,000", ar: "1,000 دولار" },
+      { en: "$10,000", es: "$10,000", ar: "10,000 دولار" },
+      { en: "$100,000", es: "$100,000", ar: "100,000 دولار" },
+      { en: "No coverage is required", es: "No se exige cobertura", ar: "لا تُطلب تغطية" },
+    ],
+  },
+  "day4-7": {
+    question: {
+      en: "The best time to line up homeowner's insurance is…",
+      es: "El mejor momento para contratar el seguro de vivienda es…",
+      ar: "أفضل وقت لترتيب تأمين المنزل هو…",
+    },
+    options: [
+      { en: "A year after moving in", es: "Un año después de mudarte", ar: "بعد عام من الانتقال" },
+      { en: "As soon as you sign the purchase contract", es: "En cuanto firmes el contrato de compra", ar: "بمجرد توقيع عقد الشراء" },
+      { en: "Only after a disaster", es: "Solo después de un desastre", ar: "فقط بعد كارثة" },
+      { en: "It's optional, so never", es: "Es opcional, así que nunca", ar: "اختياري، فلا داعي أبداً" },
+    ],
+  },
 };

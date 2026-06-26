@@ -20,8 +20,142 @@ const DAY_MODULES: Record<string, string[]> = {
   "day-4": [],
 };
 
-/** Local banks for days without a curriculum module quiz. */
+/** Local banks: questions authored here (in addition to the curriculum module
+ *  banks) so each day test also covers that day's newer lessons. */
 const LOCAL_QUESTIONS: Record<string, QuizQuestion[]> = {
+  "day-1": [
+    {
+      id: "day1-1",
+      text: "A good guideline for credit utilization is to keep it…",
+      options: [
+        "Above 50% of your limits",
+        "Under about 30% of your limits",
+        "At exactly 100%",
+        "It doesn't matter",
+      ],
+      correctIndex: 1,
+    },
+    {
+      id: "day1-2",
+      text: "A SMART savings goal is best described as…",
+      options: [
+        "'Save more money someday'",
+        "Specific, Measurable, Achievable, Relevant, and Time-bound",
+        "Only about cutting out all spending",
+        "A loan you take from the bank",
+      ],
+      correctIndex: 1,
+    },
+    {
+      id: "day1-3",
+      text: "If you spot an error on your credit report, the best move is to…",
+      options: [
+        "Ignore it",
+        "Dispute it with the credit bureau",
+        "Close all your accounts",
+        "Open a new credit card to offset it",
+      ],
+      correctIndex: 1,
+    },
+    {
+      id: "day1-4",
+      text: "Before pouring savings into a down payment, it's smart to first build…",
+      options: [
+        "A small emergency fund",
+        "A bigger entertainment budget",
+        "A second car loan",
+        "Nothing — put every dollar toward the home",
+      ],
+      correctIndex: 0,
+    },
+  ],
+  "day-2": [
+    {
+      id: "day2m-1",
+      text: "With a credit score of 580 or higher, the minimum FHA down payment is…",
+      options: ["0%", "3.5%", "10%", "20%"],
+      correctIndex: 1,
+    },
+    {
+      id: "day2m-2",
+      text: "FHA loans charge an upfront mortgage insurance premium (UFMIP) of about…",
+      options: [
+        "0.25% of the loan",
+        "1.75% of the loan",
+        "10% of the loan",
+        "There is no upfront premium",
+      ],
+      correctIndex: 1,
+    },
+    {
+      id: "day2m-3",
+      text: "When the housing ratio and the debt-to-income ratio give different limits, a lender uses…",
+      options: [
+        "The higher of the two",
+        "The lower of the two",
+        "Only the housing ratio",
+        "Neither — only your credit score",
+      ],
+      correctIndex: 1,
+    },
+    {
+      id: "day2m-4",
+      text: "A VA loan is notable because eligible veterans often pay…",
+      options: [
+        "A 20% down payment",
+        "0% down with no monthly mortgage insurance",
+        "Double the interest rate",
+        "An extra inspection fee",
+      ],
+      correctIndex: 1,
+    },
+    {
+      id: "day2m-5",
+      text: "A common guideline for annual home-maintenance savings is about…",
+      options: [
+        "1% of the home's value per year",
+        "50% of your income",
+        "Nothing — repairs are rare",
+        "10% of the home's value every month",
+      ],
+      correctIndex: 0,
+    },
+  ],
+  "day-3": [
+    {
+      id: "day3-1",
+      text: "A dual agent in a real estate deal represents…",
+      options: [
+        "Only the buyer",
+        "Only the seller",
+        "Both the buyer and the seller",
+        "The bank",
+      ],
+      correctIndex: 2,
+    },
+    {
+      id: "day3-2",
+      text: "Under the current rules, the Buyer Representation Agreement is signed…",
+      options: [
+        "After closing",
+        "Before the agent provides services",
+        "Only if you buy a foreclosure",
+        "Never — it's optional",
+      ],
+      correctIndex: 1,
+    },
+    {
+      id: "day3-3",
+      text: "While touring a home, fresh paint in just one spot may…",
+      options: [
+        "Always be meaningless",
+        "Hide a problem like a water stain — worth asking about",
+        "Mean the home is brand new",
+        "Automatically lower the price",
+      ],
+      correctIndex: 1,
+    },
+  ],
   "day-4": [
     {
       id: "day4-1",
@@ -64,6 +198,34 @@ const LOCAL_QUESTIONS: Record<string, QuizQuestion[]> = {
         "Warning signs of fixable problems like insulation gaps or moisture",
         "Reasons to file an insurance claim immediately",
         "Only a problem in old homes",
+      ],
+      correctIndex: 1,
+    },
+    {
+      id: "day4-5",
+      text: "Replacement-cost coverage pays…",
+      options: [
+        "Only the depreciated value of an item",
+        "Enough to buy the item new today",
+        "Nothing for electronics",
+        "Only for the structure, never belongings",
+      ],
+      correctIndex: 1,
+    },
+    {
+      id: "day4-6",
+      text: "In Ohio, owning a dog the state classifies as 'vicious' requires liability coverage of at least…",
+      options: ["$1,000", "$10,000", "$100,000", "No coverage is required"],
+      correctIndex: 2,
+    },
+    {
+      id: "day4-7",
+      text: "The best time to line up homeowner's insurance is…",
+      options: [
+        "A year after moving in",
+        "As soon as you sign the purchase contract",
+        "Only after a disaster",
+        "It's optional, so never",
       ],
       correctIndex: 1,
     },

@@ -67,6 +67,7 @@ const LESSON_ICON: Record<string, string> = {
   "mortgage-types-pmi": "📈",
   "mortgage-affordability": "🧮",
   "loan-types": "🏷️",
+  "loan-fha-ohio": "🏛️",
   "mortgage-murphy": "👪",
   "mortgage-upfront-monthly": "💵",
   "process-steps-team": "🗺️",

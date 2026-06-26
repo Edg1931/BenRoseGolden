@@ -722,4 +722,71 @@ export const DAY2_LESSONS: Lesson[] = [
       },
     },
   },
+  {
+    id: "loan-fha-ohio",
+    section: "mortgages",
+    title: {
+      en: "FHA Loans & OHFA in Ohio",
+      es: "Préstamos FHA y OHFA en Ohio",
+      ar: "قروض FHA وOHFA في أوهايو",
+    },
+    body: [
+      {
+        en: "The FHA loan — insured by the Federal Housing Administration — is one of the most popular paths for first-time and lower-credit buyers. The headline numbers: you can put down just 3.5% with a credit score of 580 or higher (if your score is 500–579, the minimum is 10%). FHA is also more forgiving on debt, often allowing a back-end DTI around 43%, and higher with strong compensating factors.",
+        es: "El préstamo FHA —asegurado por la Administración Federal de Vivienda— es uno de los caminos más populares para compradores primerizos o con crédito más bajo. Los números clave: puedes dar solo 3.5% con un puntaje de 580 o más (si es 500–579, el mínimo es 10%). FHA también es más flexible con la deuda, a menudo permitiendo un DTI cercano al 43%, y más con factores compensatorios fuertes.",
+        ar: "قرض FHA - المؤمَّن من الإدارة الفيدرالية للإسكان - من أكثر المسارات شيوعاً للمشترين لأول مرة أو ذوي الائتمان الأقل. الأرقام الأساسية: يمكنك دفع 3.5% فقط بدرجة ائتمانية 580 أو أعلى (وإن كانت 500–579 فالحد الأدنى 10%). وFHA أكثر تسامحاً مع الديون، إذ يسمح غالباً بنسبة دين إلى دخل قرابة 43%، وأعلى مع عوامل تعويضية قوية.",
+      },
+      {
+        en: "The trade-off is mortgage insurance, called MIP. You pay an upfront premium of about 1.75% of the loan (usually rolled into the loan) plus an annual premium (commonly around 0.55%, paid monthly). Important: if you put down less than 10%, that annual MIP lasts the life of the loan — many owners later refinance to a conventional loan to shed it once they have 20% equity. With 10% down, the MIP drops off after 11 years.",
+        es: "El intercambio es el seguro hipotecario, llamado MIP. Pagas una prima inicial de cerca del 1.75% del préstamo (normalmente incluida en el préstamo) más una prima anual (comúnmente cerca del 0.55%, pagada mensual). Importante: si das menos del 10%, ese MIP anual dura toda la vida del préstamo —muchos luego refinancian a un convencional para quitarlo al llegar al 20% de plusvalía—. Con 10% de inicial, el MIP termina a los 11 años.",
+        ar: "المقابل هو تأمين الرهن، ويُسمى MIP. تدفع قسطاً مقدماً بنحو 1.75% من القرض (يُدمج عادةً في القرض) إضافةً إلى قسط سنوي (غالباً نحو 0.55%، يُدفع شهرياً). المهم: إن دفعت أقل من 10%، يدوم هذا القسط السنوي طوال عمر القرض - وكثيرون يعيدون التمويل لاحقاً إلى قرض تقليدي للتخلّص منه عند بلوغ 20% ملكية. وبدفعة 10% ينتهي التأمين بعد 11 عاماً.",
+      },
+      {
+        en: "FHA sets a maximum loan amount by county. For 2025, most Ohio counties use the national 'floor' of about $524,000 for a single-family home, with higher-cost areas (like the Columbus metro) somewhat higher — always check the current limit for your county. The big Ohio advantage: FHA pairs with OHFA (Ohio Housing Finance Agency) down-payment assistance and its mortgage tax credit. OHFA generally looks for about a 640 score (650 for FHA). An OHFA-approved lender or a Benjamin Rose counselor (216-791-8000) can help you stack these.",
+        es: "FHA fija un monto máximo de préstamo por condado. Para 2025, la mayoría de los condados de Ohio usan el 'piso' nacional de cerca de $524,000 para una casa unifamiliar, con zonas de mayor costo (como el área de Columbus) algo más altas; revisa siempre el límite actual de tu condado. La gran ventaja en Ohio: FHA se combina con la ayuda para el pago inicial de OHFA (Agencia de Financiamiento de Vivienda de Ohio) y su crédito fiscal hipotecario. OHFA busca cerca de 640 de puntaje (650 para FHA). Un prestamista aprobado por OHFA o un asesor de Benjamin Rose (216-791-8000) puede ayudarte a combinarlos.",
+        ar: "يحدّد FHA حداً أقصى للقرض حسب المقاطعة. وفي 2025، تستخدم معظم مقاطعات أوهايو 'الحد الأدنى' الوطني البالغ نحو 524,000 دولار للمنزل المفرد، مع كون المناطق الأعلى تكلفة (كمنطقة كولومبوس) أعلى قليلاً - تحقّق دائماً من الحد الحالي لمقاطعتك. والميزة الكبرى في أوهايو: يقترن FHA بمساعدة الدفعة الأولى من OHFA (وكالة تمويل الإسكان في أوهايو) وائتمانها الضريبي العقاري. وتبحث OHFA عن درجة قرابة 640 (650 لـFHA). ويمكن لمُقرض معتمد من OHFA أو مستشار من Benjamin Rose (216-791-8000) مساعدتك على تجميعها.",
+      },
+    ],
+    keyTerms: [
+      {
+        term: { en: "MIP (Mortgage Insurance Premium)", es: "MIP (prima de seguro hipotecario)", ar: "MIP (قسط تأمين الرهن)" },
+        def: {
+          en: "FHA's insurance — a 1.75% upfront premium plus an annual premium paid monthly.",
+          es: "El seguro de FHA: una prima inicial del 1.75% más una prima anual pagada mensual.",
+          ar: "تأمين FHA - قسط مقدّم 1.75% إضافةً إلى قسط سنوي يُدفع شهرياً.",
+        },
+      },
+      {
+        term: { en: "FHA loan limit", es: "Límite de préstamo FHA", ar: "حد قرض FHA" },
+        def: {
+          en: "The most FHA will insure in your county — about $524,000 in most of Ohio for 2025.",
+          es: "Lo máximo que FHA asegura en tu condado: cerca de $524,000 en gran parte de Ohio en 2025.",
+          ar: "أقصى ما يؤمّنه FHA في مقاطعتك - نحو 524,000 دولار في معظم أوهايو لعام 2025.",
+        },
+      },
+    ],
+    whyItMatters: {
+      en: "FHA paired with OHFA assistance is the most common path to a home for Ohio first-time buyers with modest savings and growing credit.",
+      es: "FHA combinado con la ayuda de OHFA es el camino más común a una casa para compradores primerizos de Ohio con ahorros modestos y crédito en crecimiento.",
+      ar: "FHA مع مساعدة OHFA هو المسار الأكثر شيوعاً نحو منزل لمشتري أوهايو لأول مرة بمدّخرات متواضعة وائتمان متنامٍ.",
+    },
+    check: {
+      question: {
+        en: "Quick check: with a 580+ credit score, the minimum FHA down payment is…",
+        es: "Repaso rápido: con un puntaje de 580+, el pago inicial mínimo de FHA es…",
+        ar: "مراجعة سريعة: بدرجة 580+، الحد الأدنى لدفعة FHA الأولى هو…",
+      },
+      options: [
+        { en: "3.5%", es: "3.5%", ar: "3.5%" },
+        { en: "20%", es: "20%", ar: "20%" },
+        { en: "0%", es: "0%", ar: "0%" },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — 3.5% down at 580+, or 10% down for scores of 500–579.",
+        es: "Correcto: 3.5% con 580+, o 10% para puntajes de 500–579.",
+        ar: "صحيح - 3.5% عند 580+، أو 10% للدرجات بين 500–579.",
+      },
+    },
+  },
 ];
