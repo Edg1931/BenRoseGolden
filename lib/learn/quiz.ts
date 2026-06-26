@@ -229,6 +229,17 @@ const LOCAL_QUESTIONS: Record<string, QuizQuestion[]> = {
       ],
       correctIndex: 1,
     },
+    {
+      id: "day4-8",
+      text: "A simple, low-cost habit that prevents some of the most expensive home repairs is…",
+      options: [
+        "Cleaning gutters and directing water away from the foundation",
+        "Repainting the whole house every year",
+        "Turning the heat off all winter",
+        "Never changing the furnace filter",
+      ],
+      correctIndex: 0,
+    },
   ],
 };
 

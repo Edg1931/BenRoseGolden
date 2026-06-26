@@ -375,6 +375,36 @@ export const DAY3_LESSONS: Lesson[] = [
       es: "El avalúo evita que pagues de más; la búsqueda de título mantiene la casa realmente tuya. Ambos protegen tu dinero.",
       ar: "التقييم يمنعك من الدفع الزائد؛ والبحث في الملكية يُبقي المنزل لك حقاً. وكلاهما يحمي مالك بهدوء.",
     },
+    check: {
+      question: {
+        en: "Quick check: if the appraisal comes in LOWER than your offer price, you can…",
+        es: "Repaso rápido: si el avalúo sale MÁS BAJO que tu precio de oferta, puedes…",
+        ar: "مراجعة سريعة: إذا جاء التقييم أقل من سعر عرضك، يمكنك أن…",
+      },
+      options: [
+        {
+          en: "Renegotiate the price, pay the difference, or sometimes walk away",
+          es: "Renegociar el precio, pagar la diferencia o, a veces, retirarte",
+          ar: "تعيد التفاوض على السعر أو تدفع الفرق أو أحياناً تنسحب",
+        },
+        {
+          en: "Nothing — you must pay the original price no matter what",
+          es: "Nada: debes pagar el precio original sin importar nada",
+          ar: "لا شيء - عليك دفع السعر الأصلي مهما حدث",
+        },
+        {
+          en: "Skip the loan and pay no closing costs",
+          es: "Saltarte el préstamo y no pagar costos de cierre",
+          ar: "تتخطى القرض ولا تدفع أي تكاليف إتمام",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — a low appraisal is leverage: you can renegotiate, cover the gap in cash, or use an appraisal contingency to walk away.",
+        es: "Correcto: un avalúo bajo es una ventaja: puedes renegociar, cubrir la diferencia en efectivo o usar una contingencia de avalúo para retirarte.",
+        ar: "صحيح - التقييم المنخفض ورقة تفاوض: يمكنك إعادة التفاوض أو تغطية الفرق نقداً أو استخدام شرط التقييم للانسحاب.",
+      },
+    },
   },
   {
     id: "closing-day",

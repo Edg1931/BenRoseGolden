@@ -250,6 +250,36 @@ export const DAY1_LESSONS: Lesson[] = [
       es: "Los hábitos, no solo los ingresos, deciden si alcanzas tu meta de ahorro.",
       ar: "العادات، وليس الدخل وحده، هي ما يُقرّر إن كنت ستبلغ هدف ادّخارك.",
     },
+    check: {
+      question: {
+        en: "Quick check: a helpful habit for sticking to a budget is…",
+        es: "Repaso rápido: un hábito útil para cumplir un presupuesto es…",
+        ar: "مراجعة سريعة: عادة مفيدة للالتزام بالميزانية هي…",
+      },
+      options: [
+        {
+          en: "Knowing your spending triggers and shopping with a list",
+          es: "Conocer tus disparadores de gasto y comprar con una lista",
+          ar: "معرفة محفّزات إنفاقك والتسوّق بقائمة",
+        },
+        {
+          en: "Shopping whenever you feel stressed or bored",
+          es: "Comprar cada vez que te sientes estresado o aburrido",
+          ar: "التسوّق كلما شعرت بالتوتر أو الملل",
+        },
+        {
+          en: "Never telling anyone your money goals",
+          es: "No contarle a nadie tus metas de dinero",
+          ar: "عدم إخبار أحد بأهدافك المالية",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Right — knowing your triggers and planning ahead (a list, an accountability partner) keeps impulse spending in check.",
+        es: "Correcto: conocer tus disparadores y planear con anticipación (una lista, un compañero de apoyo) mantiene a raya el gasto impulsivo.",
+        ar: "صحيح - معرفة محفّزاتك والتخطيط المسبق (قائمة، شريك مساءلة) يكبح الإنفاق الاندفاعي.",
+      },
+    },
   },
   {
     id: "budgeting-money-tight",
@@ -490,6 +520,36 @@ export const DAY1_LESSONS: Lesson[] = [
       en: "Your credit report is the first thing a mortgage lender looks at — knowing it puts you in control.",
       es: "Tu informe de crédito es lo primero que mira un prestamista hipotecario; conocerlo te da el control.",
       ar: "تقرير ائتمانك هو أول ما يطّلع عليه مُقرض الرهن العقاري - ومعرفته تضعك في موضع التحكّم.",
+    },
+    check: {
+      question: {
+        en: "Quick check: how often can you get a free credit report from each bureau?",
+        es: "Repaso rápido: ¿con qué frecuencia puedes obtener un informe de crédito gratis de cada agencia?",
+        ar: "مراجعة سريعة: كم مرة يمكنك الحصول على تقرير ائتمان مجاني من كل وكالة؟",
+      },
+      options: [
+        {
+          en: "At least once a year at AnnualCreditReport.com — and it won't hurt your score",
+          es: "Al menos una vez al año en AnnualCreditReport.com, y no daña tu puntaje",
+          ar: "مرة واحدة سنوياً على الأقل عبر AnnualCreditReport.com - ولا يضرّ بدرجتك",
+        },
+        {
+          en: "Never — credit reports are not available to you",
+          es: "Nunca: los informes de crédito no están disponibles para ti",
+          ar: "أبداً - تقارير الائتمان غير متاحة لك",
+        },
+        {
+          en: "Only by paying each bureau a large fee",
+          es: "Solo pagando una tarifa alta a cada agencia",
+          ar: "فقط بدفع رسوم كبيرة لكل وكالة",
+        },
+      ],
+      correctIndex: 0,
+      explain: {
+        en: "Correct — you're entitled to a free report from Equifax, Experian, and TransUnion at least yearly, and checking your own doesn't lower your score.",
+        es: "Correcto: tienes derecho a un informe gratis de Equifax, Experian y TransUnion al menos una vez al año, y revisar el tuyo no baja tu puntaje.",
+        ar: "صحيح - يحق لك تقرير مجاني من إكويفاكس وإكسبيريان وترانس يونيون مرة سنوياً على الأقل، والاطّلاع على تقريرك لا يخفض درجتك.",
+      },
     },
   },
   {

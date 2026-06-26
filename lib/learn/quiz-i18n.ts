@@ -570,4 +570,33 @@ export const QUIZ_I18N: Record<string, QuizI18n> = {
       { en: "It's optional, so never", es: "Es opcional, así que nunca", ar: "اختياري، فلا داعي أبداً" },
     ],
   },
+  "day4-8": {
+    question: {
+      en: "A simple, low-cost habit that prevents some of the most expensive home repairs is…",
+      es: "Un hábito sencillo y económico que evita algunas de las reparaciones más costosas es…",
+      ar: "عادة بسيطة ومنخفضة التكلفة تمنع بعض أغلى إصلاحات المنزل هي…",
+    },
+    options: [
+      {
+        en: "Cleaning gutters and directing water away from the foundation",
+        es: "Limpiar las canaletas y alejar el agua de los cimientos",
+        ar: "تنظيف المزاريب وتوجيه المياه بعيداً عن الأساس",
+      },
+      {
+        en: "Repainting the whole house every year",
+        es: "Repintar toda la casa cada año",
+        ar: "إعادة طلاء المنزل بالكامل كل عام",
+      },
+      {
+        en: "Turning the heat off all winter",
+        es: "Apagar la calefacción todo el invierno",
+        ar: "إطفاء التدفئة طوال الشتاء",
+      },
+      {
+        en: "Never changing the furnace filter",
+        es: "Nunca cambiar el filtro de la calefacción",
+        ar: "عدم تغيير فلتر الفرن أبداً",
+      },
+    ],
+  },
 };
