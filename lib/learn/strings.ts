@@ -170,7 +170,26 @@ export const UI: Record<string, Localized> = {
   // Tabs
   tabLessons: { en: "Lessons", es: "Lecciones", ar: "الدروس" },
   tabPodcast: { en: "Podcast", es: "Pódcast", ar: "بودكاست" },
+  tabVideo: { en: "Video", es: "Video", ar: "فيديو" },
   tabCoach: { en: "Ask AI", es: "Pregunta a la IA", ar: "اسأل الذكاء الاصطناعي" },
+
+  // Video tab
+  videoTitle: { en: "Watch the class", es: "Mira la clase", ar: "شاهد الصف" },
+  videoIntro: {
+    en: "Prefer to watch? See an instructor teach this day's material.",
+    es: "¿Prefieres ver? Mira a un instructor enseñar el material de este día.",
+    ar: "تفضّل المشاهدة؟ شاهد مدرّباً يشرح مادة هذا اليوم.",
+  },
+  videoComingSoon: {
+    en: "A teaching video for this class is coming soon.",
+    es: "Pronto habrá un video de esta clase.",
+    ar: "فيديو تعليمي لهذا الصف قادم قريباً.",
+  },
+  videoFallback: {
+    en: "In the meantime, use the Lessons, Podcast, or Ask AI tabs to learn this material.",
+    es: "Mientras tanto, usa las pestañas de Lecciones, Pódcast o Pregunta a la IA para aprender este material.",
+    ar: "في هذه الأثناء، استخدم تبويبات الدروس أو البودكاست أو اسأل الذكاء الاصطناعي لتعلّم هذه المادة.",
+  },
 
   // Podcast
   podcastTitle: {

@@ -19,6 +19,7 @@ import { InspectionChecklist, MaintenancePlanner } from "@/components/learn/inte
 import { CreditUtilizationCalculator } from "@/components/learn/credit-utilization-calculator";
 import { RentVsBuy } from "@/components/learn/rent-vs-buy";
 import { LoanTypeMatcher } from "@/components/learn/loan-type-matcher";
+import { VideoPlayer } from "@/components/learn/video-player";
 import { KnowledgeCheck } from "@/components/learn/knowledge-check";
 import { StepSorter } from "@/components/learn/step-sorter";
 import {
@@ -35,7 +36,7 @@ import { QUIZ_I18N } from "@/lib/learn/quiz-i18n";
 import { addXp, loadProgress, markPassed, markViewed } from "@/lib/learn/progress-store";
 import type { PublicQuizQuestion } from "@/lib/participants/quiz";
 
-type Tab = "lessons" | "podcast" | "coach";
+type Tab = "lessons" | "podcast" | "video" | "coach";
 type Phase = "lessons" | "testIntro" | "test" | "done";
 
 interface Outcome {
@@ -102,12 +103,14 @@ export function CoursePlayer({
   lessons,
   questions,
   pdf,
+  video,
 }: {
   daySlug: string;
   sections: Record<string, Localized>;
   lessons: Lesson[];
   questions: PublicQuizQuestion[];
   pdf?: string;
+  video?: string;
 }) {
   const [lang, setLang] = useState<LearnLang>("en");
   const [tab, setTab] = useState<Tab>("lessons");
@@ -216,6 +219,7 @@ export function CoursePlayer({
   const TABS: { id: Tab; label: string; icon: string }[] = [
     { id: "lessons", label: t("tabLessons"), icon: "📖" },
     { id: "podcast", label: t("tabPodcast"), icon: "🎙️" },
+    { id: "video", label: t("tabVideo"), icon: "🎬" },
     { id: "coach", label: t("tabCoach"), icon: "🤖" },
   ];
 
@@ -280,6 +284,7 @@ export function CoursePlayer({
       {tab === "podcast" && (
         <PodcastPlayer daySlug={daySlug} lang={lang} onAsk={() => setTab("coach")} />
       )}
+      {tab === "video" && <VideoPlayer video={video} dayTitle={dayTitle?.[lang]} lang={lang} />}
       {tab === "coach" && <CoachPanel lang={lang} />}
 
       {tab === "lessons" && (

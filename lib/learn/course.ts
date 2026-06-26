@@ -19,6 +19,12 @@ export interface CourseDay {
   icon: string;
   /** Original class slide deck (public path) — viewable & downloadable. */
   pdf: string;
+  /**
+   * Optional teaching video for the "Watch" tab. Set to a YouTube/Vimeo link
+   * (e.g. "https://youtu.be/abc123") or a self-hosted file under /public
+   * (e.g. "/videos/day-1.mp4"). When omitted, the Video tab shows a placeholder.
+   */
+  video?: string;
   sections: Record<string, Localized>;
   lessons: Lesson[];
 }
