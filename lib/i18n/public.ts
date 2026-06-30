@@ -61,7 +61,95 @@ export const PUB: Record<string, L> = {
     ar: "Benjamin Rose منظمة غير ربحية. تُستخدم معلوماتك لدعم أهدافك السكنية - ولا تُباع أبداً.",
   },
   somethingWrong: { en: "Something went wrong", es: "Algo salió mal", ar: "حدث خطأ ما" },
+
+  // ── Marketing header / footer ─────────────────────────────────────────────
+  navResources: { en: "Resources", es: "Recursos", ar: "موارد" },
+  navTakeClasses: { en: "Take the classes", es: "Tomar las clases", ar: "ابدأ الدروس" },
+  navStaff: { en: "Staff sign in →", es: "Acceso del personal →", ar: "دخول الموظفين →" },
+  footerBlurb: {
+    en: "A nonprofit helping Ohioans reach and keep stable housing — serving the community since 1908.",
+    es: "Una organización sin fines de lucro que ayuda a los habitantes de Ohio a lograr y mantener una vivienda estable, sirviendo a la comunidad desde 1908.",
+    ar: "منظمة غير ربحية تساعد سكان أوهايو على بلوغ سكن مستقر والحفاظ عليه - نخدم المجتمع منذ عام 1908.",
+  },
+  footerPrograms: { en: "Programs", es: "Programas", ar: "البرامج" },
+  footerProgEd: { en: "Homebuyer education", es: "Educación para compradores", ar: "تعليم مشتري المنازل" },
+  footerProgDpa: { en: "Down-payment assistance", es: "Ayuda para el pago inicial", ar: "المساعدة في الدفعة الأولى" },
+  footerProgResources: { en: "Housing resources", es: "Recursos de vivienda", ar: "موارد سكنية" },
+  footerProgReviews: { en: "Reviews", es: "Reseñas", ar: "التقييمات" },
+  footerPartnership: { en: "Partnership", es: "Alianza", ar: "الشراكة" },
+  footerPartnershipBody: {
+    en: "In partnership with The Golden Group. HUD-approved housing counseling.",
+    es: "En alianza con The Golden Group. Asesoría de vivienda aprobada por HUD.",
+    ar: "بالشراكة مع The Golden Group. استشارات سكنية معتمدة من HUD.",
+  },
+
+  // ── Homepage ──────────────────────────────────────────────────────────────
+  heroKicker: { en: "Free • Nonprofit • HUD-approved", es: "Gratis • Sin fines de lucro • Aprobado por HUD", ar: "مجاني • غير ربحي • معتمد من HUD" },
+  heroTitle: {
+    en: "A stable home is within reach — and we'll help you get there.",
+    es: "Un hogar estable está a tu alcance, y te ayudaremos a lograrlo.",
+    ar: "السكن المستقر في متناولك - وسنساعدك على الوصول إليه.",
+  },
+  heroSub: {
+    en: "Benjamin Rose gives Ohioans the education, coaching, and connections to buy a home, keep the one they have, and build lasting financial stability — in your language and the way you learn best.",
+    es: "Benjamin Rose ofrece a los habitantes de Ohio la educación, el acompañamiento y las conexiones para comprar una casa, conservar la que tienen y construir estabilidad financiera duradera, en tu idioma y como mejor aprendas.",
+    ar: "يقدّم Benjamin Rose لسكان أوهايو التعليم والإرشاد والصلات لشراء منزل، والحفاظ على منزلهم الحالي، وبناء استقرار مالي دائم - بلغتك وبالطريقة التي تتعلّم بها أفضل.",
+  },
+  heroCtaStart: { en: "Start the free classes →", es: "Comenzar las clases gratis →", ar: "ابدأ الدروس المجانية →" },
+  heroCtaSee: { en: "See assistance programs", es: "Ver programas de ayuda", ar: "اطّلع على برامج المساعدة" },
+  heroChip1: { en: "✓ Free classes", es: "✓ Clases gratis", ar: "✓ دروس مجانية" },
+  heroChip2: { en: "✓ Unlock down-payment help", es: "✓ Desbloquea ayuda inicial", ar: "✓ افتح المساعدة في الدفعة" },
+  heroChip3: { en: "✓ One-on-one counseling", es: "✓ Asesoría personalizada", ar: "✓ استشارة فردية" },
+
+  statPrograms: { en: "Ohio assistance programs we track for you", es: "Programas de ayuda de Ohio que seguimos para ti", ar: "برامج مساعدة في أوهايو نتابعها لك" },
+  statHelp: { en: "in down-payment help available", es: "en ayuda para el pago inicial disponible", ar: "متاحة كمساعدة في الدفعة الأولى" },
+  statEdRequired: { en: "programs require homebuyer education — our classes are the key", es: "programas requieren educación para compradores: nuestras clases son la clave", ar: "برامج تتطلب تعليم مشتري المنازل - دروسنا هي المفتاح" },
+  stat1908: { en: "serving the community ever since", es: "sirviendo a la comunidad desde entonces", ar: "نخدم المجتمع منذ ذلك الحين" },
+
+  stepsTitle: { en: "Your path to the front door", es: "Tu camino hacia la puerta de tu casa", ar: "طريقك إلى باب منزلك" },
+  step1Title: { en: "Take the free classes", es: "Toma las clases gratis", ar: "خذ الدروس المجانية" },
+  step1Body: { en: "Four short, self-paced classes — read or listen, in English, Spanish, or Arabic — with an AI coach to help you prepare.", es: "Cuatro clases breves a tu ritmo —lee o escucha, en inglés, español o árabe— con un coach de IA que te ayuda a prepararte.", ar: "أربعة دروس قصيرة وفق وتيرتك - اقرأ أو استمع، بالإنجليزية أو الإسبانية أو العربية - مع مدرّب ذكاء اصطناعي يساعدك على الاستعداد." },
+  step2Title: { en: "Earn your certificate", es: "Obtén tu certificado", ar: "احصل على شهادتك" },
+  step2Body: { en: "Pass each class quiz to earn your homebuyer education certificate — the document assistance programs ask for.", es: "Aprueba la prueba de cada clase para obtener tu certificado de educación para compradores, el documento que piden los programas de ayuda.", ar: "اجتَز اختبار كل درس للحصول على شهادة تعليم مشتري المنازل - الوثيقة التي تطلبها برامج المساعدة." },
+  step3Title: { en: "Unlock assistance & buy", es: "Desbloquea ayuda y compra", ar: "افتح المساعدة واشترِ" },
+  step3Body: { en: "Get matched to the Ohio down-payment programs you qualify for — and connect with a trusted agent.", es: "Encuentra los programas de pago inicial de Ohio para los que calificas y conéctate con un agente de confianza.", ar: "احصل على البرامج المناسبة لك في أوهايو للدفعة الأولى - وتواصل مع وكيل موثوق." },
+  beginCta: { en: "Begin Day 1 — it's free →", es: "Comienza el Día 1 — es gratis →", ar: "ابدأ اليوم الأول - مجاناً →" },
+
+  benefitsTitle: { en: "Why thousands of families start with Benjamin Rose", es: "Por qué miles de familias empiezan con Benjamin Rose", ar: "لماذا تبدأ آلاف العائلات مع Benjamin Rose" },
+  benefit1Title: { en: "Free homebuyer education", es: "Educación gratuita para compradores", ar: "تعليم مجاني لمشتري المنازل" },
+  benefit1Body: { en: "HUD-approved classes that unlock down-payment assistance worth thousands.", es: "Clases aprobadas por HUD que desbloquean miles en ayuda para el pago inicial.", ar: "دروس معتمدة من HUD تفتح آلافاً من المساعدة في الدفعة الأولى." },
+  benefit2Title: { en: "Foreclosure prevention", es: "Prevención de ejecución hipotecaria", ar: "منع حبس الرهن" },
+  benefit2Body: { en: "One-on-one counseling and a plan to keep you in your home.", es: "Asesoría personalizada y un plan para mantenerte en tu casa.", ar: "استشارة فردية وخطة لإبقائك في منزلك." },
+  benefit3Title: { en: "Credit & financial coaching", es: "Coaching de crédito y finanzas", ar: "إرشاد الائتمان والمال" },
+  benefit3Body: { en: "Practical steps to raise your score and build savings toward a home.", es: "Pasos prácticos para subir tu puntaje y ahorrar para una casa.", ar: "خطوات عملية لرفع درجتك وبناء مدخرات نحو منزل." },
+  benefit4Title: { en: "A trusted partner", es: "Un socio de confianza", ar: "شريك موثوق" },
+  benefit4Body: { en: "Graduate and get matched with a Golden Group agent ready to help you buy.", es: "Gradúate y conéctate con un agente de Golden Group listo para ayudarte a comprar.", ar: "تخرّج وتواصل مع وكيل من Golden Group مستعد لمساعدتك على الشراء." },
+
+  tracksTitle: { en: "Wherever you're starting, there's a path", es: "Dondequiera que empieces, hay un camino", ar: "أينما بدأت، هناك طريق" },
+  track1Title: { en: "I want to buy my first home", es: "Quiero comprar mi primera casa", ar: "أريد شراء منزلي الأول" },
+  track1Body: { en: "Learn the whole process — budgeting, credit, mortgages, and closing — then get matched with assistance programs and an agent.", es: "Aprende todo el proceso —presupuesto, crédito, hipotecas y cierre— y luego conéctate con programas de ayuda y un agente.", ar: "تعلّم العملية كاملة - الميزانية والائتمان والرهن والإتمام - ثم تواصل مع برامج المساعدة ووكيل." },
+  track2Title: { en: "I'm worried about losing my home", es: "Me preocupa perder mi casa", ar: "أخشى فقدان منزلي" },
+  track2Body: { en: "Talk to a counselor today. We'll review your options with your servicer and build a plan to stay housed.", es: "Habla con un asesor hoy. Revisaremos tus opciones con tu prestamista y crearemos un plan para mantenerte con vivienda.", ar: "تحدّث مع مستشار اليوم. سنراجع خياراتك مع جهة الإقراض ونبني خطة لبقائك في سكنك." },
+  track3Title: { en: "I need to fix my credit first", es: "Primero necesito arreglar mi crédito", ar: "أحتاج أولاً إلى إصلاح ائتماني" },
+  track3Body: { en: "A coach helps you raise your score step by step, until you're ready to qualify for a mortgage and DPA.", es: "Un coach te ayuda a subir tu puntaje paso a paso, hasta que puedas calificar para una hipoteca y ayuda inicial.", ar: "يساعدك مدرّب على رفع درجتك خطوة بخطوة، حتى تصبح مؤهلاً للرهن والمساعدة في الدفعة." },
+
+  a11yTitle: { en: "Learn the way that works for you", es: "Aprende de la manera que mejor te funcione", ar: "تعلّم بالطريقة التي تناسبك" },
+  a11yBody: { en: "Everyone deserves housing information they can actually use. We deliver every module in multiple languages and formats — so you can listen, watch, read, or attend in person and pass each step with confidence.", es: "Todos merecen información de vivienda que realmente puedan usar. Entregamos cada módulo en varios idiomas y formatos, para que puedas escuchar, ver, leer o asistir en persona y avanzar con confianza.", ar: "يستحق الجميع معلومات سكنية يمكنهم استخدامها فعلاً. نقدّم كل وحدة بعدة لغات وصيغ - لتستمع أو تشاهد أو تقرأ أو تحضر شخصياً وتتخطّى كل خطوة بثقة." },
+  formatsLabel: { en: "Formats", es: "Formatos", ar: "الصيغ" },
+  languagesLabel: { en: "Languages", es: "Idiomas", ar: "اللغات" },
+
+  ctaTitle: { en: "Ready to take the first step?", es: "¿Listo para dar el primer paso?", ar: "مستعد لاتخاذ الخطوة الأولى؟" },
+  ctaBody: {
+    en: "Ohio assistance programs are waiting — and every one starts with the education you can begin today. Join our newsletter for class schedules and the assistance you may qualify for.",
+    es: "Los programas de ayuda de Ohio te esperan, y cada uno comienza con la educación que puedes empezar hoy. Únete a nuestro boletín para conocer horarios de clases y la ayuda a la que puedes calificar.",
+    ar: "برامج المساعدة في أوهايو بانتظارك - وكلٌّ منها يبدأ بالتعليم الذي يمكنك بدؤه اليوم. اشترك في نشرتنا لمعرفة مواعيد الدروس والمساعدة التي قد تتأهل لها.",
+  },
 };
+
+/** Fill {token} placeholders in a translated string. */
+export function fillPub(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`));
+}
 
 export function t(lang: LearnLang, key: keyof typeof PUB): string {
   return PUB[key]?.[lang] ?? PUB[key]?.en ?? String(key);
