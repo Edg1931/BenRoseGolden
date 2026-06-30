@@ -32,6 +32,7 @@ import {
   type Localized,
 } from "@/lib/learn/content";
 import { DAY_TITLES } from "@/lib/learn/course";
+import type { Tailoring } from "@/lib/learn/tailoring";
 import { UI, fill } from "@/lib/learn/strings";
 import { QUIZ_I18N } from "@/lib/learn/quiz-i18n";
 import { addXp, loadProgress, markPassed, markViewed } from "@/lib/learn/progress-store";
@@ -106,6 +107,7 @@ export function CoursePlayer({
   pdf,
   video,
   minutes,
+  tailoring,
 }: {
   daySlug: string;
   sections: Record<string, Localized>;
@@ -114,6 +116,7 @@ export function CoursePlayer({
   pdf?: string;
   video?: string;
   minutes?: number;
+  tailoring?: Tailoring;
 }) {
   const [lang, setLang] = useState<LearnLang>("en");
   const [tab, setTab] = useState<Tab>("lessons");
@@ -199,6 +202,16 @@ export function CoursePlayer({
             date: new Date().toISOString(),
           }).xp,
         );
+        // Sync the pass to the learner's CRM record (no-op if signed out).
+        fetch("/api/learn/progress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            daySlug,
+            score: out.result.score,
+            certificateId: out.certificateId,
+          }),
+        }).catch(() => {});
       }
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Could not submit test");
@@ -272,6 +285,23 @@ export function CoursePlayer({
           </a>
         )}
       </div>
+
+      {/* Personalized to the learner's situation (from their profile) */}
+      {tailoring && tailoring.tips.length > 0 && (
+        <div className="mb-6 rounded-lg border border-brand-gold/40 bg-brand-gold/5 p-4 print:hidden">
+          <p className="text-sm font-semibold text-brand-plum">
+            {lang === "es" ? `Para tu situación, ${tailoring.firstName}` : lang === "ar" ? `لوضعك يا ${tailoring.firstName}` : `For your situation, ${tailoring.firstName}`}
+          </p>
+          <ul className="mt-2 space-y-1.5">
+            {tailoring.tips.map((tip) => (
+              <li key={tip.id} className="flex gap-2 text-sm text-foreground/90">
+                <span aria-hidden>{tip.icon}</span>
+                <span>{tip.text[lang] ?? tip.text.en}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Tab bar */}
       <div className="mb-6 flex gap-1 rounded-lg bg-muted p-1 print:hidden">

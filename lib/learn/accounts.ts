@@ -1,0 +1,254 @@
+import "server-only";
+import { cookies } from "next/headers";
+import {
+  createHmac,
+  randomBytes,
+  scryptSync,
+  timingSafeEqual,
+} from "crypto";
+import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import {
+  enrollLearner,
+  findLearnerByAuthId,
+  findLearnerByEmail,
+  findLearnerById,
+  patchLearner,
+} from "@/lib/participants/repository";
+import type { Participant } from "@/lib/participants/schema";
+
+/**
+ * Learner accounts: the public homebuyer classes are gated behind a profile, so
+ * everyone who starts becomes a Benjamin Rose lead in the CRM with their progress
+ * and financial snapshot tracked. Email + password.
+ *
+ * When Supabase is configured, accounts are real Supabase Auth users (linked to
+ * the CRM record by authUserId). Without Supabase (local/demo), credentials are
+ * kept in memory (scrypt-hashed) so the full flow still works. Either way the
+ * session is a signed, httpOnly cookie pointing at the learner's CRM record.
+ */
+
+const COOKIE = "br_learner";
+const SECRET = process.env.LEARNER_SESSION_SECRET || "dev-insecure-learner-secret-change-me";
+
+// ── In-memory credential store (only used when Supabase isn't configured) ──
+const credentials = new Map<string, { participantId: string; hash: string }>();
+
+function hashPassword(password: string): string {
+  const salt = randomBytes(16).toString("hex");
+  const derived = scryptSync(password, salt, 64).toString("hex");
+  return `${salt}:${derived}`;
+}
+
+function verifyPassword(password: string, stored: string): boolean {
+  const [salt, hash] = stored.split(":");
+  if (!salt || !hash) return false;
+  const derived = scryptSync(password, salt, 64);
+  const expected = Buffer.from(hash, "hex");
+  return derived.length === expected.length && timingSafeEqual(derived, expected);
+}
+
+// ── Signed session cookie ──
+function sign(value: string): string {
+  const mac = createHmac("sha256", SECRET).update(value).digest("hex").slice(0, 32);
+  return `${value}.${mac}`;
+}
+
+function unsign(signed: string): string | null {
+  const i = signed.lastIndexOf(".");
+  if (i < 0) return null;
+  const value = signed.slice(0, i);
+  const mac = signed.slice(i + 1);
+  const expected = createHmac("sha256", SECRET).update(value).digest("hex").slice(0, 32);
+  const a = Buffer.from(mac);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b) ? value : null;
+}
+
+async function setSession(participantId: string) {
+  const store = await cookies();
+  store.set(COOKIE, sign(participantId), {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 180, // 180 days
+  });
+}
+
+async function clearSession() {
+  const store = await cookies();
+  store.delete(COOKIE);
+}
+
+export interface LearnerSignupInput {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName?: string;
+  phone?: string;
+  preferredLanguage?: Participant["preferredLanguage"];
+  address?: Participant["address"];
+  household?: Participant["household"];
+  tracks?: Participant["tracks"];
+}
+
+export class LearnerAuthError extends Error {}
+
+/** Create a learner account + linked CRM lead, and start their session. */
+export async function signUpLearner(input: LearnerSignupInput): Promise<Participant> {
+  const email = input.email.trim().toLowerCase();
+  if (!email || !input.password) throw new LearnerAuthError("Email and password are required.");
+  if (input.password.length < 8)
+    throw new LearnerAuthError("Password must be at least 8 characters.");
+  if (!input.firstName?.trim()) throw new LearnerAuthError("Please enter your name.");
+
+  const profile = {
+    firstName: input.firstName.trim(),
+    lastName: input.lastName?.trim() || undefined,
+    email,
+    phone: input.phone?.trim() || undefined,
+    preferredLanguage: input.preferredLanguage,
+    address: input.address,
+    household: input.household,
+    tracks: input.tracks ?? [],
+  };
+
+  if (isSupabaseConfigured()) {
+    const supabase = await getSupabaseServerClient();
+    const { data, error } = await supabase!.auth.signUp({
+      email,
+      password: input.password,
+    });
+    if (error) throw new LearnerAuthError(error.message);
+    const learner = await enrollLearner({ ...profile, authUserId: data.user?.id });
+    await setSession(learner.id);
+    return learner;
+  }
+
+  // Dev / in-memory
+  if (credentials.has(email) || (await findLearnerByEmail(email))) {
+    throw new LearnerAuthError("An account with this email already exists. Try signing in.");
+  }
+  const learner = await enrollLearner(profile);
+  credentials.set(email, { participantId: learner.id, hash: hashPassword(input.password) });
+  await setSession(learner.id);
+  return learner;
+}
+
+/** Sign in an existing learner and start their session. */
+export async function signInLearner(emailRaw: string, password: string): Promise<Participant> {
+  const email = emailRaw.trim().toLowerCase();
+
+  if (isSupabaseConfigured()) {
+    const supabase = await getSupabaseServerClient();
+    const { data, error } = await supabase!.auth.signInWithPassword({ email, password });
+    if (error || !data.user) throw new LearnerAuthError("Invalid email or password.");
+    const learner =
+      (await findLearnerByAuthId(data.user.id)) ?? (await findLearnerByEmail(email));
+    if (!learner) throw new LearnerAuthError("No learner profile found for this account.");
+    await setSession(learner.id);
+    return learner;
+  }
+
+  const cred = credentials.get(email);
+  if (!cred || !verifyPassword(password, cred.hash)) {
+    throw new LearnerAuthError("Invalid email or password.");
+  }
+  const learner = await findLearnerById(cred.participantId);
+  if (!learner) throw new LearnerAuthError("Profile not found.");
+  await setSession(learner.id);
+  return learner;
+}
+
+export async function signOutLearner(): Promise<void> {
+  if (isSupabaseConfigured()) {
+    const supabase = await getSupabaseServerClient();
+    await supabase?.auth.signOut();
+  }
+  await clearSession();
+}
+
+/** The signed-in learner's CRM record, or null. Safe to call in server components. */
+export async function getCurrentLearner(): Promise<Participant | null> {
+  try {
+    if (isSupabaseConfigured()) {
+      const supabase = await getSupabaseServerClient();
+      const {
+        data: { user },
+      } = await supabase!.auth.getUser();
+      if (!user) return null;
+      return (
+        (await findLearnerByAuthId(user.id)) ??
+        (user.email ? await findLearnerByEmail(user.email) : null)
+      );
+    }
+    const store = await cookies();
+    const raw = store.get(COOKIE)?.value;
+    if (!raw) return null;
+    const id = unsign(raw);
+    return id ? await findLearnerById(id) : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Update the signed-in learner's own profile (financial snapshot, etc.). */
+export async function updateLearnerProfile(
+  patch: Parameters<typeof patchLearner>[1],
+): Promise<Participant> {
+  const learner = await getCurrentLearner();
+  if (!learner) throw new LearnerAuthError("Not signed in.");
+  return patchLearner(learner.id, patch);
+}
+
+/** Curriculum modules each course day maps to (mirrors quiz.ts DAY_MODULES). */
+const DAY_MODULE_IDS: Record<string, string[]> = {
+  "day-1": ["budgeting", "credit-basics"],
+  "day-2": ["mortgages"],
+  "day-3": ["shopping", "closing"],
+  "day-4": [],
+};
+
+/**
+ * Record a passed day test on the learner's CRM record: marks the day's modules
+ * completed (with the score), advances a brand-new lead to "in-progress", and
+ * adds the certificate. No-op (returns null) for anonymous visitors.
+ */
+export async function recordDayPass(
+  daySlug: string,
+  score: number,
+  certificateId?: string | null,
+): Promise<Participant | null> {
+  const learner = await getCurrentLearner();
+  if (!learner) return null;
+
+  const now = new Date().toISOString();
+  const moduleIds = DAY_MODULE_IDS[daySlug] ?? [];
+  const progress = [...learner.moduleProgress];
+  for (const moduleId of moduleIds) {
+    const existing = progress.find((m) => m.moduleId === moduleId);
+    const entry = {
+      moduleId,
+      status: "completed" as const,
+      completedDate: now,
+      score: Math.round(score),
+    };
+    if (existing) Object.assign(existing, entry);
+    else progress.push(entry);
+  }
+
+  const certificates = [...learner.certificates];
+  if (!certificates.some((c) => c.phase === daySlug)) {
+    certificates.push({
+      name: `Homebuyer Education — ${daySlug.replace("day-", "Day ")}`,
+      issuedDate: now.slice(0, 10),
+      phase: daySlug,
+    });
+  }
+
+  return patchLearner(learner.id, {
+    moduleProgress: progress,
+    certificates,
+    stage: learner.stage === "lead" ? "in-progress" : learner.stage,
+  });
+}

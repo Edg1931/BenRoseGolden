@@ -130,6 +130,89 @@ export async function updateParticipant(
   return next;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────
+ * Learner self-service (no staff AuthUser). A learner who creates their own
+ * profile via the public classes becomes a Benjamin Rose "lead". These helpers
+ * are unscoped by design — callers MUST first verify the learner session owns
+ * the record (see lib/learn/accounts.ts).
+ * ──────────────────────────────────────────────────────────────────────── */
+
+/** Create a self-enrolled learner as a Benjamin Rose lead from the web. */
+export async function enrollLearner(input: CreateParticipantInput): Promise<Participant> {
+  const participant = buildParticipant({
+    ...input,
+    org: "benjamin-rose",
+    source: "web",
+    stage: input.stage ?? "lead",
+  });
+  const supabase = await getSupabaseServerClient();
+  if (supabase) {
+    const { data, error } = await supabase
+      .from("participants")
+      .insert(participant)
+      .select("*")
+      .single();
+    if (error) throw error;
+    return participantSchema.parse(data);
+  }
+  memory.unshift(participant);
+  return participant;
+}
+
+async function findLearnerBy(field: "id" | "email" | "authUserId", value: string) {
+  const supabase = await getSupabaseServerClient();
+  if (supabase) {
+    const { data, error } = await supabase
+      .from("participants")
+      .select("*")
+      .eq(field, value)
+      .maybeSingle();
+    if (error) throw error;
+    return data ? participantSchema.parse(data) : null;
+  }
+  const found = memory.find((p) => p[field] === value) ?? null;
+  return found;
+}
+
+export const findLearnerById = (id: string) => findLearnerBy("id", id);
+export const findLearnerByEmail = (email: string) =>
+  findLearnerBy("email", email.trim().toLowerCase());
+export const findLearnerByAuthId = (authUserId: string) =>
+  findLearnerBy("authUserId", authUserId);
+
+/** Update a learner's own record (financial snapshot, progress, certificates). */
+export async function patchLearner(
+  id: string,
+  input: UpdateParticipantInput,
+): Promise<Participant> {
+  const existing = await findLearnerById(id);
+  if (!existing) throw new Error("Participant not found");
+  const patch = updateParticipantSchema.parse(input);
+  const now = new Date().toISOString();
+  const next = participantSchema.parse({
+    ...existing,
+    ...patch,
+    id: existing.id,
+    dateAdded: existing.dateAdded,
+    stageSince: existing.stageSince ?? existing.dateAdded,
+    lastUpdated: now,
+  });
+  const supabase = await getSupabaseServerClient();
+  if (supabase) {
+    const { data, error } = await supabase
+      .from("participants")
+      .update(next)
+      .eq("id", id)
+      .select("*")
+      .single();
+    if (error) throw error;
+    return participantSchema.parse(data);
+  }
+  const idx = memory.findIndex((p) => p.id === id);
+  if (idx >= 0) memory[idx] = next;
+  return next;
+}
+
 export interface BulkImportResult {
   inserted: number;
   failed: number;

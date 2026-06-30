@@ -96,6 +96,9 @@ export type Household = z.infer<typeof householdSchema>;
 export const participantSchema = z.object({
   id: z.string().uuid(),
   org: z.enum(["benjamin-rose", "esop"]).default("benjamin-rose"),
+  /** Links a self-enrolled learner's account (Supabase Auth user id) to this CRM
+   *  record. Set when someone creates their own profile via the public classes. */
+  authUserId: z.string().optional(),
 
   firstName: z.string().min(1).max(80),
   lastName: z.string().max(80).optional(),
@@ -143,7 +146,8 @@ export type Participant = z.infer<typeof participantSchema>;
 export const createParticipantSchema = participantSchema
   .omit({ id: true, lastUpdated: true })
   .partial({ dateAdded: true, stage: true });
-export type CreateParticipantInput = z.infer<typeof createParticipantSchema>;
+// Input type (pre-parse): fields with schema defaults are optional at call sites.
+export type CreateParticipantInput = z.input<typeof createParticipantSchema>;
 
 export const updateParticipantSchema = participantSchema
   .omit({ id: true, lastUpdated: true, dateAdded: true })

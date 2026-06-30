@@ -1,45 +1,96 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { CourseMap } from "@/components/learn/course-map";
+import { LearnerProfilePanel } from "@/components/learn/learner-profile-panel";
+import { getCurrentLearner } from "@/lib/learn/accounts";
+import { buildTailoring } from "@/lib/learn/tailoring";
+import { matchedPrograms } from "@/lib/participants/eligibility";
+import { loadAllPrograms } from "@/lib/programs/sources";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Homebuyer Classes — Benjamin Rose Housing",
+  title: "Your Homebuyer Classes — Benjamin Rose Housing",
   description:
-    "Free, self-paced HUD-approved homebuyer education in English, Spanish, and Arabic. Lessons, interactive podcast, AI coach, quizzes, and certificates.",
+    "Your personalized HUD-approved homebuyer education — progress, certificates, and the down-payment assistance you may qualify for.",
 };
 
-export default function LearnHome() {
+export default async function LearnHome() {
+  // Classes are gated behind a learner profile so progress and eligibility are tracked.
+  const learner = await getCurrentLearner();
+  if (!learner) redirect("/learn/start");
+
+  const tailoring = buildTailoring(learner);
+  const programs = await loadAllPrograms();
+  const matches = matchedPrograms(learner, programs);
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-12">
       <p className="text-xs font-semibold uppercase tracking-wide text-brand-rose">
         Free • HUD-Approved Homebuyer Education
       </p>
       <h1 className="mt-2 font-serif text-3xl font-bold text-brand-plum sm:text-4xl">
-        Homebuyer Education — learn at your own pace
+        Welcome, {learner.firstName} — let&apos;s get you to the front door
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">
-        Four short classes take you from managing money to protecting your new home. Read the
-        lessons, listen to the podcast, ask the AI coach anything — then pass each test to earn
-        your certificates.
+        Your progress is saved to your profile. Finish all four classes to earn your certificate and
+        unlock the down-payment assistance you may qualify for.
       </p>
-      <div className="mt-4 flex flex-wrap gap-2 text-sm">
-        <span className="rounded-full bg-brand-blush px-3 py-1 text-brand-rose">English</span>
-        <span className="rounded-full bg-brand-blush px-3 py-1 text-brand-rose">Español</span>
-        <span className="rounded-full bg-brand-blush px-3 py-1 text-brand-rose">العربية</span>
-        <span className="rounded-full bg-brand-gold/10 px-3 py-1 text-brand-gold">🎙️ Podcast</span>
-        <span className="rounded-full bg-brand-gold/10 px-3 py-1 text-brand-gold">🤖 AI coach</span>
-        <span className="rounded-full bg-brand-gold/10 px-3 py-1 text-brand-gold">🔊 Audio</span>
-        <span className="rounded-full bg-brand-blush px-3 py-1 text-brand-rose">⏱ ~8 hours total · ~2 hr per class</span>
-      </div>
 
-      <div className="mt-8">
-        <CourseMap />
-      </div>
+      {/* Personalized tips from their profile */}
+      {tailoring.tips.length > 0 && (
+        <div className="mt-6 rounded-xl border border-brand-gold/40 bg-brand-gold/5 p-5">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-brand-plum">
+            Tailored to your situation
+          </h2>
+          <ul className="mt-2 space-y-1.5">
+            {tailoring.tips.map((tip) => (
+              <li key={tip.id} className="flex gap-2 text-sm text-foreground/90">
+                <span aria-hidden>{tip.icon}</span>
+                <span>{tip.text.en}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-      <div className="mt-8 rounded-xl border border-border bg-white p-5 text-sm text-muted-foreground">
-        Done learning?{" "}
-        <Link href="/assistance" className="font-medium text-brand-rose underline">
-          See which Ohio down-payment-assistance programs you may qualify for →
-        </Link>
+      <div className="mt-8 grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <CourseMap />
+        </div>
+
+        <div className="space-y-4">
+          {/* Assistance teaser from their profile */}
+          <div className="rounded-xl border border-border bg-white p-5">
+            <h2 className="font-semibold text-brand-plum">Your assistance matches</h2>
+            {matches.length > 0 ? (
+              <>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Based on your profile, you may qualify for{" "}
+                  <span className="font-semibold text-brand-rose">{matches.length}</span> Ohio program
+                  {matches.length === 1 ? "" : "s"}.
+                </p>
+                <ul className="mt-2 space-y-1 text-sm">
+                  {matches.slice(0, 3).map((m) => (
+                    <li key={m.program.id} className="text-foreground/90">• {m.program.name}</li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p className="mt-1 text-sm text-muted-foreground">
+                Add your income, location, and credit below to see the help you may qualify for.
+              </p>
+            )}
+            <Link
+              href="/assistance"
+              className="mt-3 inline-block text-sm font-medium text-brand-rose hover:underline"
+            >
+              Explore assistance programs →
+            </Link>
+          </div>
+
+          <LearnerProfilePanel learner={learner} startOpen={tailoring.needsProfile} />
+        </div>
       </div>
     </main>
   );

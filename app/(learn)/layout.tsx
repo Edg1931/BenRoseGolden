@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
+import { LearnerNav } from "@/components/learn/learner-nav";
+import { getCurrentLearner } from "@/lib/learn/accounts";
 
 /**
  * Public, self-serve learner shell for the homebuyer course. Separate from the
  * marketing and staff dashboard shells. Header/footer are hidden when printing
  * so a learner's certificate prints on its own.
  */
-export default function LearnLayout({ children }: { children: React.ReactNode }) {
+export default async function LearnLayout({ children }: { children: React.ReactNode }) {
+  const learner = await getCurrentLearner();
   return (
     <div className="min-h-screen bg-brand-cream">
       <header className="border-b border-border bg-white print:hidden">
@@ -14,9 +17,7 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
           <Link href="/welcome">
             <Logo suffix="Housing" />
           </Link>
-          <Link href="/learn" className="text-sm text-muted-foreground hover:text-foreground">
-            All classes
-          </Link>
+          <LearnerNav firstName={learner?.firstName} />
         </div>
       </header>
       {children}
