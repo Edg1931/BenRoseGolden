@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { LearnerNav } from "@/components/learn/learner-nav";
+import { SkipLink } from "@/components/ui/skip-link";
 import { getCurrentLearner } from "@/lib/learn/accounts";
 
 /**
@@ -12,6 +13,7 @@ export default async function LearnLayout({ children }: { children: React.ReactN
   const learner = await getCurrentLearner();
   return (
     <div className="min-h-screen bg-brand-cream">
+      <SkipLink />
       <header className="border-b border-border bg-white print:hidden">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-3.5">
           <Link href="/welcome">
@@ -20,7 +22,7 @@ export default async function LearnLayout({ children }: { children: React.ReactN
           <LearnerNav firstName={learner?.firstName} />
         </div>
       </header>
-      {children}
+      <div id="main-content">{children}</div>
       <footer className="border-t border-border bg-white print:hidden">
         <div className="mx-auto max-w-5xl px-6 py-8 text-sm text-muted-foreground">
           <p>Benjamin Rose — free HUD-approved homebuyer education, in your language.</p>

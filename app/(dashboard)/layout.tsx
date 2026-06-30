@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth/session";
 import { Badge } from "@/components/ui/badge";
 import { Logo } from "@/components/ui/logo";
+import { SkipLink } from "@/components/ui/skip-link";
 
 /**
  * Shared app shell for both modules: top nav, brand, and the signed-in user's
@@ -23,6 +24,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen">
+      <SkipLink />
       <header className="border-b border-border bg-background print:hidden">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
           <div className="flex items-center justify-between gap-3">
@@ -48,7 +50,7 @@ export default async function DashboardLayout({
           </nav>
         </div>
       </header>
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6">{children}</main>
+      <main id="main-content" className="mx-auto max-w-7xl px-4 py-6 sm:px-6">{children}</main>
     </div>
   );
 }

@@ -15,3 +15,25 @@ body {
 body {
   @apply bg-muted text-foreground antialiased;
 }
+
+@layer base {
+  /* Visible keyboard-focus ring on every interactive element (brand-rose),
+     so keyboard and screen-reader users can always see where they are. */
+  :focus-visible {
+    outline: 2px solid hsl(349 80% 47%);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+}
+
+/* Respect users who prefer reduced motion — disable animations/transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

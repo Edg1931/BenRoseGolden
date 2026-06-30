@@ -17,6 +17,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
           key={l}
           onClick={() => setLang(l)}
           aria-pressed={lang === l}
+          aria-label={PUBLIC_LANG_LABELS[l]}
           className={`rounded px-2 py-1 font-medium transition ${
             lang === l ? "bg-brand-rose text-white" : "text-muted-foreground hover:bg-muted"
           }`}

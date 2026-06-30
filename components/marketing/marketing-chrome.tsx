@@ -10,18 +10,18 @@ export function MarketingHeader() {
   const { lang } = useLang();
   return (
     <header className="border-b border-border bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-6 py-3.5">
-        <Link href="/welcome">
-          <Logo suffix="Housing" />
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3.5 sm:gap-3 sm:px-6">
+        <Link href="/welcome" className="shrink-0">
+          <Logo suffix="Housing" imgClassName="h-8 sm:h-11" />
         </Link>
-        <nav className="flex items-center gap-3 text-sm sm:gap-4">
+        <nav className="flex items-center gap-2 text-sm sm:gap-4">
           <LanguageSwitcher />
           <Link href="/resources" className="hidden text-muted-foreground hover:text-foreground sm:inline">
             {t(lang, "navResources")}
           </Link>
           <Link
             href="/learn"
-            className="rounded-md bg-brand-rose px-4 py-1.5 font-medium text-white hover:bg-brand-plum"
+            className="whitespace-nowrap rounded-md bg-brand-rose px-3 py-1.5 font-medium text-white hover:bg-brand-plum sm:px-4"
           >
             {t(lang, "navTakeClasses")}
           </Link>
