@@ -14,7 +14,7 @@ import {
   findLearnerById,
   patchLearner,
 } from "@/lib/participants/repository";
-import type { Participant } from "@/lib/participants/schema";
+import { participantSchema, type Participant } from "@/lib/participants/schema";
 
 /**
  * Learner accounts: the public homebuyer classes are gated behind a profile, so
@@ -64,15 +64,44 @@ function unsign(signed: string): string | null {
   return a.length === b.length && timingSafeEqual(a, b) ? value : null;
 }
 
-async function setSession(participantId: string) {
+/**
+ * The session cookie carries a SIGNED, trimmed snapshot of the learner's record
+ * — not just an id — so their hub and progress survive even when there's no
+ * shared database (e.g. Vercel serverless without Supabase, where each request
+ * may hit a fresh instance with empty memory). Heavy fields are dropped to keep
+ * the cookie small.
+ */
+function serializeLearner(p: Participant): string {
+  const trimmed = { ...p, communications: [], notes: undefined };
+  return Buffer.from(JSON.stringify(trimmed)).toString("base64url");
+}
+
+function deserializeLearner(b64: string): Participant | null {
+  try {
+    return participantSchema.parse(JSON.parse(Buffer.from(b64, "base64url").toString("utf8")));
+  } catch {
+    return null;
+  }
+}
+
+async function setSession(p: Participant) {
   const store = await cookies();
-  store.set(COOKIE, sign(participantId), {
+  store.set(COOKIE, sign(serializeLearner(p)), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path: "/",
     maxAge: 60 * 60 * 24 * 180, // 180 days
   });
+}
+
+/** The learner snapshot stored in the (signed) session cookie, or null. */
+async function readSessionLearner(): Promise<Participant | null> {
+  const store = await cookies();
+  const raw = store.get(COOKIE)?.value;
+  if (!raw) return null;
+  const value = unsign(raw);
+  return value ? deserializeLearner(value) : null;
 }
 
 async function clearSession() {
@@ -121,7 +150,7 @@ export async function signUpLearner(input: LearnerSignupInput): Promise<Particip
     });
     if (error) throw new LearnerAuthError(error.message);
     const learner = await enrollLearner({ ...profile, authUserId: data.user?.id });
-    await setSession(learner.id);
+    await setSession(learner);
     return learner;
   }
 
@@ -131,7 +160,7 @@ export async function signUpLearner(input: LearnerSignupInput): Promise<Particip
   }
   const learner = await enrollLearner(profile);
   credentials.set(email, { participantId: learner.id, hash: hashPassword(input.password) });
-  await setSession(learner.id);
+  await setSession(learner);
   return learner;
 }
 
@@ -146,7 +175,7 @@ export async function signInLearner(emailRaw: string, password: string): Promise
     const learner =
       (await findLearnerByAuthId(data.user.id)) ?? (await findLearnerByEmail(email));
     if (!learner) throw new LearnerAuthError("No learner profile found for this account.");
-    await setSession(learner.id);
+    await setSession(learner);
     return learner;
   }
 
@@ -156,7 +185,7 @@ export async function signInLearner(emailRaw: string, password: string): Promise
   }
   const learner = await findLearnerById(cred.participantId);
   if (!learner) throw new LearnerAuthError("Profile not found.");
-  await setSession(learner.id);
+  await setSession(learner);
   return learner;
 }
 
@@ -182,14 +211,22 @@ export async function getCurrentLearner(): Promise<Participant | null> {
         (user.email ? await findLearnerByEmail(user.email) : null)
       );
     }
-    const store = await cookies();
-    const raw = store.get(COOKIE)?.value;
-    if (!raw) return null;
-    const id = unsign(raw);
-    return id ? await findLearnerById(id) : null;
+    // No database: the cookie snapshot IS the source of truth.
+    return await readSessionLearner();
   } catch {
     return null;
   }
+}
+
+/** Merge a partial patch onto a learner record and re-validate. */
+function applyPatch(learner: Participant, patch: Parameters<typeof patchLearner>[1]): Participant {
+  return participantSchema.parse({
+    ...learner,
+    ...patch,
+    id: learner.id,
+    dateAdded: learner.dateAdded,
+    lastUpdated: new Date().toISOString(),
+  });
 }
 
 /** Update the signed-in learner's own profile (financial snapshot, etc.). */
@@ -198,7 +235,11 @@ export async function updateLearnerProfile(
 ): Promise<Participant> {
   const learner = await getCurrentLearner();
   if (!learner) throw new LearnerAuthError("Not signed in.");
-  return patchLearner(learner.id, patch);
+  if (isSupabaseConfigured()) return patchLearner(learner.id, patch);
+  // No database: update the cookie snapshot in place.
+  const next = applyPatch(learner, patch);
+  await setSession(next);
+  return next;
 }
 
 /** Curriculum modules each course day maps to (mirrors quiz.ts DAY_MODULES). */
@@ -246,9 +287,14 @@ export async function recordDayPass(
     });
   }
 
-  return patchLearner(learner.id, {
+  const patch = {
     moduleProgress: progress,
     certificates,
-    stage: learner.stage === "lead" ? "in-progress" : learner.stage,
-  });
+    stage: learner.stage === "lead" ? ("in-progress" as const) : learner.stage,
+  };
+  if (isSupabaseConfigured()) return patchLearner(learner.id, patch);
+  // No database: persist progress into the cookie snapshot.
+  const next = applyPatch(learner, patch);
+  await setSession(next);
+  return next;
 }

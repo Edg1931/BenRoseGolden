@@ -4,6 +4,7 @@ import { CourseMap } from "@/components/learn/course-map";
 import { LearnerProfilePanel } from "@/components/learn/learner-profile-panel";
 import { getCurrentLearner } from "@/lib/learn/accounts";
 import { buildTailoring } from "@/lib/learn/tailoring";
+import { COURSE_DAYS } from "@/lib/learn/course";
 import { matchedPrograms } from "@/lib/participants/eligibility";
 import { loadAllPrograms } from "@/lib/programs/sources";
 
@@ -31,6 +32,10 @@ export default async function LearnHome() {
     if (c.phase && /^day-\d$/.test(c.phase)) serverPassed[c.phase] = null;
   }
 
+  // The next class to take: first day not yet passed (or all done).
+  const nextDay = COURSE_DAYS.find((d) => !(d.slug in serverPassed));
+  const started = Object.keys(serverPassed).length > 0;
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-12">
       <p className="text-xs font-semibold uppercase tracking-wide text-brand-rose">
@@ -43,6 +48,28 @@ export default async function LearnHome() {
         Your progress is saved to your profile. Finish all four classes to earn your certificate and
         unlock the down-payment assistance you may qualify for.
       </p>
+
+      {/* Primary next-step CTA */}
+      <div className="mt-5 flex flex-wrap items-center gap-3">
+        {nextDay ? (
+          <Link
+            href={`/learn/${nextDay.slug}`}
+            className="rounded-md bg-brand-rose px-6 py-3 text-sm font-semibold text-white hover:bg-brand-plum"
+          >
+            {started ? `Continue: ${nextDay.title} →` : `Start Day 1: ${nextDay.title} →`}
+          </Link>
+        ) : (
+          <Link
+            href="/assistance"
+            className="rounded-md bg-brand-rose px-6 py-3 text-sm font-semibold text-white hover:bg-brand-plum"
+          >
+            🎉 You finished — find your assistance →
+          </Link>
+        )}
+        <span className="text-sm text-muted-foreground">
+          {Object.keys(serverPassed).length} / {COURSE_DAYS.length} classes passed
+        </span>
+      </div>
 
       {/* Personalized tips from their profile */}
       {tailoring.tips.length > 0 && (

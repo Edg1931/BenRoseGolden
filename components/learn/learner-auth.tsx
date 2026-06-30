@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { LANGUAGES, LANGUAGE_LABELS, type LanguageCode } from "@/lib/participants/curriculum";
 import { CREDIT_BANDS, CREDIT_BAND_LABELS } from "@/lib/participants/schema";
 import { useLang } from "@/components/i18n/lang-provider";
@@ -17,7 +16,6 @@ import { t } from "@/lib/i18n/public";
  * fields are optional so we capture data without losing anyone.
  */
 export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signin"; next?: string }) {
-  const router = useRouter();
   const { lang } = useLang();
   const isSignup = mode === "signup";
 
@@ -65,8 +63,8 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? t(lang, "somethingWrong"));
-      router.push(next);
-      router.refresh();
+      // Hard navigation so the freshly-set session cookie is used to render the hub.
+      window.location.assign(next);
     } catch (e) {
       setErr(e instanceof Error ? e.message : t(lang, "somethingWrong"));
       setBusy(false);
