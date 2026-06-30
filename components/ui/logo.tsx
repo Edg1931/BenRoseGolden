@@ -20,10 +20,10 @@ export function Logo({
     <span className={cn("flex items-center gap-2.5", className)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/brand/benjamin-rose-logo.jpg"
+        src="/brand/benjamin-rose-logo.png"
         alt="Benjamin Rose"
         width={397}
-        height={254}
+        height={242}
         className={cn("h-11 w-auto", imgClassName)}
       />
       {suffix && (
