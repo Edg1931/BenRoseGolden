@@ -23,7 +23,7 @@ export function Logo({
         src="/brand/benjamin-rose-logo.png"
         alt="Benjamin Rose"
         width={397}
-        height={242}
+        height={180}
         className={cn("h-11 w-auto", imgClassName)}
       />
       {suffix && (
