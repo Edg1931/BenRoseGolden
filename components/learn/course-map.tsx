@@ -11,14 +11,18 @@ import { loadProgress, type LearnerProgress } from "@/lib/learn/progress-store";
  * in-progress, not started), XP and badges, overall progress, and a celebration
  * card once all four days are passed.
  */
-export function CourseMap() {
+export function CourseMap({ serverPassed }: { serverPassed?: Record<string, number | null> }) {
   const [progress, setProgress] = useState<LearnerProgress | null>(null);
 
   useEffect(() => {
     setProgress(loadProgress());
   }, []);
 
-  const passedCount = progress ? Object.keys(progress.passed).length : 0;
+  // A day counts as passed if THIS device's localStorage says so OR the learner's
+  // saved CRM record does — so progress follows them across devices once signed in.
+  const isPassed = (slug: string) =>
+    Boolean(progress?.passed[slug]) || (serverPassed != null && slug in serverPassed);
+  const passedCount = COURSE_DAYS.filter((d) => isPassed(d.slug)).length;
   const allDone = passedCount === COURSE_DAYS.length;
 
   return (
@@ -34,8 +38,8 @@ export function CourseMap() {
               {COURSE_DAYS.map((d) => (
                 <span
                   key={d.slug}
-                  title={`${d.title} ${progress.passed[d.slug] ? "passed" : "not passed yet"}`}
-                  className={`text-xl ${progress.passed[d.slug] ? "" : "opacity-25 grayscale"}`}
+                  title={`${d.title} ${isPassed(d.slug) ? "passed" : "not passed yet"}`}
+                  className={`text-xl ${isPassed(d.slug) ? "" : "opacity-25 grayscale"}`}
                 >
                   🎓
                 </span>
@@ -82,7 +86,10 @@ export function CourseMap() {
         {COURSE_DAYS.map((d) => {
           const pass = progress?.passed[d.slug];
           const viewedCount = progress?.viewed[d.slug]?.length ?? 0;
-          const status = pass ? "passed" : viewedCount > 0 ? "in-progress" : "new";
+          const passed = isPassed(d.slug);
+          // Prefer this device's recorded score; fall back to the CRM score if any.
+          const passScore = pass?.score ?? serverPassed?.[d.slug] ?? null;
+          const status = passed ? "passed" : viewedCount > 0 ? "in-progress" : "new";
           return (
             <Link key={d.slug} href={`/learn/${d.slug}`}>
               <Card className="flex h-full flex-col p-6 transition hover:shadow-md">
@@ -92,7 +99,7 @@ export function CourseMap() {
                   </span>
                   {status === "passed" && (
                     <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
-                      ✓ Passed · {pass!.score}%
+                      ✓ Passed{passScore != null ? ` · ${passScore}%` : ""}
                     </span>
                   )}
                   {status === "in-progress" && (

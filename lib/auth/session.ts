@@ -27,14 +27,20 @@ export async function getCurrentUser(): Promise<AuthUser> {
       .from("profiles")
       .select("role, org, name")
       .eq("id", user.id)
-      .single();
+      .maybeSingle();
+
+    // No staff profile = not staff (e.g. a self-enrolled learner account). Deny
+    // staff access — never default an authenticated user into a staff role.
+    if (!profile) {
+      throw new Error("Not authorized: no staff profile for this account");
+    }
 
     return {
       id: user.id,
       email: user.email ?? "",
-      role: (profile?.role as Role) ?? "benjamin-rose",
-      org: profile?.org ?? undefined,
-      name: profile?.name ?? undefined,
+      role: profile.role as Role,
+      org: profile.org ?? undefined,
+      name: profile.name ?? undefined,
     };
   }
 

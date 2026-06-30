@@ -24,6 +24,13 @@ export default async function LearnHome() {
   const programs = await loadAllPrograms();
   const matches = matchedPrograms(learner, programs);
 
+  // Days this learner has passed per their saved record (so progress follows
+  // them across devices, not just this browser's localStorage).
+  const serverPassed: Record<string, number | null> = {};
+  for (const c of learner.certificates) {
+    if (c.phase && /^day-\d$/.test(c.phase)) serverPassed[c.phase] = null;
+  }
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-12">
       <p className="text-xs font-semibold uppercase tracking-wide text-brand-rose">
@@ -56,7 +63,7 @@ export default async function LearnHome() {
 
       <div className="mt-8 grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <CourseMap />
+          <CourseMap serverPassed={serverPassed} />
         </div>
 
         <div className="space-y-4">
