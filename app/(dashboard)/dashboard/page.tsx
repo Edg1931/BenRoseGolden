@@ -2,8 +2,8 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth/session";
 import { listParticipants } from "@/lib/participants/repository";
 import { computeCrmMetrics, formatPct } from "@/lib/participants/metrics";
+import { recentActivity, relativeDay } from "@/lib/participants/activity";
 import { STAGE_LABELS, PARTICIPANT_STAGES } from "@/lib/participants/schema";
-import { Avatar } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { ProgressBar } from "@/components/ui/progress";
 
@@ -13,9 +13,7 @@ export default async function DashboardPage() {
   const user = await getCurrentUser();
   const participants = await listParticipants(user);
   const m = computeCrmMetrics(participants);
-  const recent = [...participants]
-    .sort((a, b) => b.lastUpdated.localeCompare(a.lastUpdated))
-    .slice(0, 6);
+  const activity = recentActivity(participants, 7);
   const maxLang = Math.max(1, ...m.byLanguage.map((l) => l.count));
 
   return (
@@ -87,24 +85,31 @@ export default async function DashboardPage() {
         <Card className="p-5 lg:col-span-2">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-              Recently updated
+              Recent learner activity
             </h2>
-            <Link href="/contacts" className="text-sm text-brand-rose hover:underline">View all</Link>
+            <Link href="/contacts" className="text-sm text-brand-rose hover:underline">View all clients</Link>
           </div>
-          <div className="divide-y divide-border">
-            {recent.map((p) => {
-              const name = [p.firstName, p.lastName].filter(Boolean).join(" ");
-              return (
-                <Link key={p.id} href={`/contacts/${p.id}`} className="flex items-center gap-3 py-2 hover:bg-muted/30">
-                  <Avatar name={name} size="sm" />
-                  <span className="flex-1">
-                    <span className="text-sm font-medium">{name}</span>
-                    <span className="block text-xs text-muted-foreground">{STAGE_LABELS[p.stage]} · {p.address?.city ?? "—"}</span>
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
+          {activity.length === 0 ? (
+            <p className="py-6 text-center text-sm text-muted-foreground">
+              No activity yet — sign-ups and class completions will appear here.
+            </p>
+          ) : (
+            <ul className="divide-y divide-border">
+              {activity.map((e) => (
+                <li key={e.id}>
+                  <Link href={`/contacts/${e.participantId}`} className="flex items-center gap-3 py-2.5 hover:bg-muted/30">
+                    <span className="text-lg" aria-hidden>{e.icon}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="text-sm">
+                        <span className="font-medium">{e.name}</span> {e.text}
+                      </span>
+                    </span>
+                    <span className="shrink-0 text-xs text-muted-foreground">{relativeDay(e.date)}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </Card>
 
         <Card className="space-y-2 p-5">
