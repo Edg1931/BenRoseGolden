@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { LearnerAuth } from "@/components/learn/learner-auth";
+import { LangProvider } from "@/components/i18n/lang-provider";
 import { getCurrentLearner } from "@/lib/learn/accounts";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +20,9 @@ export default async function StartPage({
   const safeNext = next && next.startsWith("/learn") ? next : "/learn";
   return (
     <main className="mx-auto max-w-5xl px-6 py-12">
-      <LearnerAuth mode="signup" next={safeNext} />
+      <LangProvider>
+        <LearnerAuth mode="signup" next={safeNext} />
+      </LangProvider>
     </main>
   );
 }

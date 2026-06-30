@@ -1,19 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LANGUAGES, LANGUAGE_LABELS, type LanguageCode } from "@/lib/participants/curriculum";
 import { CREDIT_BANDS, CREDIT_BAND_LABELS } from "@/lib/participants/schema";
+import { useLang } from "@/components/i18n/lang-provider";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
+import { t } from "@/lib/i18n/public";
 
 /**
  * Learner sign-up / sign-in. Creating a profile is how someone enters the
  * Benjamin Rose database — so the classes, progress, and the financial snapshot
- * that drives assistance matching are all tracked. Financial fields are optional
- * (framed as "unlock your matches") so we capture data without losing anyone.
+ * that drives assistance matching are all tracked. Trilingual (EN/ES/AR) with a
+ * language switcher, so the front door speaks the visitor's language. Financial
+ * fields are optional so we capture data without losing anyone.
  */
 export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signin"; next?: string }) {
   const router = useRouter();
+  const { lang } = useLang();
   const isSignup = mode === "signup";
 
   const [firstName, setFirstName] = useState("");
@@ -22,6 +27,13 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [preferredLanguage, setPreferredLanguage] = useState<LanguageCode>("en");
+  const [langTouched, setLangTouched] = useState(false);
+
+  // Default the profile language to the funnel language they chose (until they
+  // explicitly pick a different one).
+  useEffect(() => {
+    if (!langTouched) setPreferredLanguage(lang as LanguageCode);
+  }, [lang, langTouched]);
 
   const [showMatch, setShowMatch] = useState(false);
   const [city, setCity] = useState("");
@@ -43,8 +55,7 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
       const payload = isSignup
         ? {
             firstName, lastName, email, password, phone, preferredLanguage,
-            city, county, householdSize, annualIncome,
-            creditBand, firstTimeBuyer,
+            city, county, householdSize, annualIncome, creditBand, firstTimeBuyer,
           }
         : { email, password };
       const res = await fetch(url, {
@@ -53,11 +64,11 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Something went wrong");
+      if (!res.ok) throw new Error(data.error ?? t(lang, "somethingWrong"));
       router.push(next);
       router.refresh();
     } catch (e) {
-      setErr(e instanceof Error ? e.message : "Something went wrong");
+      setErr(e instanceof Error ? e.message : t(lang, "somethingWrong"));
       setBusy(false);
     }
   }
@@ -68,34 +79,35 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
   return (
     <div className="mx-auto max-w-md">
       <div className="rounded-2xl border border-border bg-white p-6 shadow-sm sm:p-8">
+        <div className="mb-4 flex justify-end">
+          <LanguageSwitcher />
+        </div>
         <h1 className="font-serif text-2xl font-bold text-brand-plum">
-          {isSignup ? "Create your free profile" : "Welcome back"}
+          {isSignup ? t(lang, "authSignupTitle") : t(lang, "authSigninTitle")}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          {isSignup
-            ? "Save your progress across all four classes, earn your certificate, and see the down-payment assistance you may qualify for."
-            : "Sign in to pick up your classes where you left off."}
+          {isSignup ? t(lang, "authSignupSub") : t(lang, "authSigninSub")}
         </p>
 
         <form onSubmit={submit} className="mt-5 space-y-4">
           {isSignup && (
             <div className="grid gap-3 sm:grid-cols-2">
               <label className="block">
-                <span className={label}>First name</span>
+                <span className={label}>{t(lang, "firstName")}</span>
                 <input className={field} value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
               </label>
               <label className="block">
-                <span className={label}>Last name</span>
+                <span className={label}>{t(lang, "lastName")}</span>
                 <input className={field} value={lastName} onChange={(e) => setLastName(e.target.value)} />
               </label>
             </div>
           )}
           <label className="block">
-            <span className={label}>Email</span>
+            <span className={label}>{t(lang, "email")}</span>
             <input type="email" autoComplete="email" className={field} value={email} onChange={(e) => setEmail(e.target.value)} required />
           </label>
           <label className="block">
-            <span className={label}>Password</span>
+            <span className={label}>{t(lang, "password")}</span>
             <input
               type="password"
               autoComplete={isSignup ? "new-password" : "current-password"}
@@ -105,19 +117,23 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
               required
               minLength={isSignup ? 8 : undefined}
             />
-            {isSignup && <span className="mt-1 block text-xs text-muted-foreground">At least 8 characters.</span>}
+            {isSignup && <span className="mt-1 block text-xs text-muted-foreground">{t(lang, "passwordHint")}</span>}
           </label>
 
           {isSignup && (
             <>
               <div className="grid gap-3 sm:grid-cols-2">
                 <label className="block">
-                  <span className={label}>Phone <span className="font-normal text-muted-foreground">(optional)</span></span>
+                  <span className={label}>{t(lang, "phone")} <span className="font-normal text-muted-foreground">{t(lang, "optional")}</span></span>
                   <input className={field} value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </label>
                 <label className="block">
-                  <span className={label}>Language</span>
-                  <select className={field} value={preferredLanguage} onChange={(e) => setPreferredLanguage(e.target.value as LanguageCode)}>
+                  <span className={label}>{t(lang, "language")}</span>
+                  <select
+                    className={field}
+                    value={preferredLanguage}
+                    onChange={(e) => { setLangTouched(true); setPreferredLanguage(e.target.value as LanguageCode); }}
+                  >
                     {LANGUAGES.map((l) => <option key={l} value={l}>{LANGUAGE_LABELS[l]}</option>)}
                   </select>
                 </label>
@@ -128,48 +144,46 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
                 <button
                   type="button"
                   onClick={() => setShowMatch((v) => !v)}
-                  className="flex w-full items-center justify-between text-left text-sm font-semibold text-brand-plum"
+                  className="flex w-full items-center justify-between gap-2 text-start text-sm font-semibold text-brand-plum"
                 >
-                  <span>🏠 Unlock your assistance matches (optional)</span>
+                  <span>🏠 {t(lang, "unlockMatches")}</span>
                   <span className="text-brand-rose">{showMatch ? "–" : "+"}</span>
                 </button>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Tell us a little and we&apos;ll show the down-payment help you may qualify for. You can add this later, too.
-                </p>
+                <p className="mt-1 text-xs text-muted-foreground">{t(lang, "unlockHelp")}</p>
                 {showMatch && (
                   <div className="mt-3 grid gap-3 sm:grid-cols-2">
                     <label className="block">
-                      <span className={label}>City</span>
+                      <span className={label}>{t(lang, "city")}</span>
                       <input className={field} value={city} onChange={(e) => setCity(e.target.value)} />
                     </label>
                     <label className="block">
-                      <span className={label}>County</span>
+                      <span className={label}>{t(lang, "county")}</span>
                       <input className={field} value={county} onChange={(e) => setCounty(e.target.value)} />
                     </label>
                     <label className="block">
-                      <span className={label}>Household size</span>
+                      <span className={label}>{t(lang, "householdSize")}</span>
                       <input type="number" min={1} className={field} value={householdSize} onChange={(e) => setHouseholdSize(e.target.value)} />
                     </label>
                     <label className="block">
-                      <span className={label}>Annual income</span>
+                      <span className={label}>{t(lang, "annualIncome")}</span>
                       <input type="number" min={0} step={1000} className={field} value={annualIncome} onChange={(e) => setAnnualIncome(e.target.value)} />
                     </label>
                     <label className="block">
-                      <span className={label}>Credit (estimate)</span>
+                      <span className={label}>{t(lang, "creditEstimate")}</span>
                       <select className={field} value={creditBand} onChange={(e) => setCreditBand(e.target.value as typeof creditBand)}>
                         {CREDIT_BANDS.map((c) => <option key={c} value={c}>{CREDIT_BAND_LABELS[c]}</option>)}
                       </select>
                     </label>
                     <label className="block">
-                      <span className={label}>First-time buyer?</span>
+                      <span className={label}>{t(lang, "firstTimeBuyerQ")}</span>
                       <select
                         className={field}
                         value={firstTimeBuyer === undefined ? "" : firstTimeBuyer ? "yes" : "no"}
                         onChange={(e) => setFirstTimeBuyer(e.target.value === "" ? undefined : e.target.value === "yes")}
                       >
-                        <option value="">Not sure</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
+                        <option value="">{t(lang, "notSure")}</option>
+                        <option value="yes">{t(lang, "yes")}</option>
+                        <option value="no">{t(lang, "no")}</option>
                       </select>
                     </label>
                   </div>
@@ -185,21 +199,19 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
             disabled={busy}
             className="w-full rounded-md bg-brand-rose px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-plum disabled:opacity-60"
           >
-            {busy ? "Please wait…" : isSignup ? "Create profile & start →" : "Sign in →"}
+            {busy ? t(lang, "pleaseWait") : isSignup ? t(lang, "createStart") : t(lang, "signInBtn")}
           </button>
         </form>
 
         <p className="mt-4 text-center text-sm text-muted-foreground">
           {isSignup ? (
-            <>Already have a profile? <Link href="/learn/signin" className="font-medium text-brand-rose hover:underline">Sign in</Link></>
+            <>{t(lang, "haveProfile")} <Link href="/learn/signin" className="font-medium text-brand-rose hover:underline">{t(lang, "signInLink")}</Link></>
           ) : (
-            <>New here? <Link href="/learn/start" className="font-medium text-brand-rose hover:underline">Create your free profile</Link></>
+            <>{t(lang, "newHere")} <Link href="/learn/start" className="font-medium text-brand-rose hover:underline">{t(lang, "createLink")}</Link></>
           )}
         </p>
       </div>
-      <p className="mt-3 text-center text-xs text-muted-foreground">
-        Benjamin Rose is a nonprofit. Your information is used to support your housing goals — never sold.
-      </p>
+      <p className="mt-3 text-center text-xs text-muted-foreground">{t(lang, "nonprofitNote")}</p>
     </div>
   );
 }
