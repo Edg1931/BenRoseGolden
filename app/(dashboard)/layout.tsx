@@ -44,6 +44,7 @@ export default async function DashboardLayout({
             <NavLink href="/contacts">Clients</NavLink>
             <NavLink href="/content">Content</NavLink>
             <NavLink href="/referrals">Referrals</NavLink>
+            <NavLink href="/lenders">Lenders</NavLink>
             <NavLink href="/dpa-finder">Assistance</NavLink>
             <NavLink href="/reports">Reports</NavLink>
             <NavLink href="/learn">Classes ↗</NavLink>
