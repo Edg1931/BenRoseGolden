@@ -49,6 +49,7 @@ export function MarketingFooter() {
             <li><Link href="/learn" className="hover:text-white">{t(lang, "footerProgEd")}</Link></li>
             <li><Link href="/assistance" className="hover:text-white">{t(lang, "footerProgDpa")}</Link></li>
             <li><Link href="/resources" className="hover:text-white">{t(lang, "footerProgResources")}</Link></li>
+            <li><Link href="/partners" className="hover:text-white">{t(lang, "footerProgPartners")}</Link></li>
             <li><Link href="/reviews" className="hover:text-white">{t(lang, "footerProgReviews")}</Link></li>
           </ul>
         </div>

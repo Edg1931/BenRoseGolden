@@ -75,6 +75,7 @@ export const PUB: Record<string, L> = {
   footerProgEd: { en: "Homebuyer education", es: "Educación para compradores", ar: "تعليم مشتري المنازل" },
   footerProgDpa: { en: "Down-payment assistance", es: "Ayuda para el pago inicial", ar: "المساعدة في الدفعة الأولى" },
   footerProgResources: { en: "Housing resources", es: "Recursos de vivienda", ar: "موارد سكنية" },
+  footerProgPartners: { en: "Lending partners", es: "Socios prestamistas", ar: "شركاء الإقراض" },
   footerProgReviews: { en: "Reviews", es: "Reseñas", ar: "التقييمات" },
   footerPartnership: { en: "Partnership", es: "Alianza", ar: "الشراكة" },
   footerPartnershipBody: {

@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Composer } from "@/components/content/composer";
-import { getNewsletterSources } from "@/lib/content/feed";
+import { getNewsletterSources, getLenderFeedItems } from "@/lib/content/feed";
 
 export default async function ComposePage() {
-  const sources = await getNewsletterSources();
+  const [articles, lenders] = await Promise.all([getNewsletterSources(), getLenderFeedItems()]);
+  const sources = [...articles, ...lenders];
   return (
     <div className="space-y-4">
       <div>

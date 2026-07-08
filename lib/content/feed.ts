@@ -117,6 +117,28 @@ function parseFeed(xml: string, sourceName: string, limit: number): FeedItem[] {
 }
 
 /**
+ * Featured / advertising preferred lenders as newsletter items, so staff can
+ * promote paying partners in a newsletter or flyer with one click.
+ */
+export async function getLenderFeedItems(limit = 4): Promise<FeedItem[]> {
+  try {
+    const { listLenders } = await import("@/lib/lenders/repository");
+    const lenders = await listLenders();
+    return lenders
+      .filter((l) => l.active && (l.tier === "featured" || l.advertising) && l.website)
+      .slice(0, limit)
+      .map((l) => ({
+        title: l.institutionName + (l.contactName ? ` — ${l.contactName}` : ""),
+        url: l.website!,
+        source: "Partner lender",
+        excerpt: l.marketingBlurb ?? (l.programs.map((p) => p.name).join(", ") || undefined),
+      }));
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Returns newsletter source material: live feed posts when NEWS_FEED_URL is
  * configured (followed by the curated links), otherwise the curated links alone.
  * Never throws — falls back to FALLBACK_SOURCES on any error.

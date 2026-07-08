@@ -6,6 +6,7 @@ import { loadAllPrograms } from "@/lib/programs/sources";
 import { listContent } from "@/lib/content/store";
 import { rankContentForParticipant } from "@/lib/content/delivery";
 import { matchedPrograms, recommendations } from "@/lib/participants/eligibility";
+import { lendersForLanguage } from "@/lib/lenders/repository";
 import {
   CONTENT_FORMAT_LABELS,
   LANGUAGE_LABELS,
@@ -36,6 +37,7 @@ export default async function ProfilePage({
   const matches = matchedPrograms(p, programs);
   const recs = recommendations(p, programs);
   const suggestedContent = rankContentForParticipant(p, listContent());
+  const languageLenders = await lendersForLanguage(p.preferredLanguage);
   const fullName = [p.firstName, p.lastName].filter(Boolean).join(" ");
 
   const recTone = { high: "rose", medium: "gold", low: "muted" } as const;
@@ -176,6 +178,28 @@ export default async function ProfilePage({
                     Program details
                   </a>
                 </div>
+              ))
+            )}
+          </Card>
+
+          {/* Language-matched lenders */}
+          <Card className="space-y-2 p-4">
+            <h3 className="text-sm font-semibold">
+              Lenders who speak {LANGUAGE_LABELS[p.preferredLanguage]}
+            </h3>
+            {languageLenders.length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                No preferred lender on file serves {LANGUAGE_LABELS[p.preferredLanguage]} yet.
+              </p>
+            ) : (
+              languageLenders.slice(0, 3).map((l) => (
+                <Link key={l.id} href={`/lenders/${l.id}`} className="block rounded-md border border-border p-2 hover:border-brand-rose">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-sm font-medium">{l.institutionName}</span>
+                    {l.tier !== "standard" && <Badge variant={l.tier === "featured" ? "rose" : "gold"}>{l.tier}</Badge>}
+                  </div>
+                  {l.contactName && <div className="text-xs text-muted-foreground">{l.contactName}{l.phone ? ` · ${l.phone}` : ""}</div>}
+                </Link>
               ))
             )}
           </Card>
