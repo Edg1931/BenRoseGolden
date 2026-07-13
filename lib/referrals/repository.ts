@@ -104,6 +104,31 @@ export async function createReferral(
   return referral;
 }
 
+/**
+ * System-level referral insert with NO user gate — used only by the
+ * participant→referral auto-link (lib/referrals/from-participant), which runs
+ * server-side when a client graduates and has consented. Do not expose to an
+ * HTTP handler without an auth check.
+ */
+export async function insertReferralSystem(input: CreateReferralInput): Promise<Referral> {
+  const parsed = createReferralSchema.parse(input);
+  const now = new Date().toISOString();
+  const referral: Referral = referralSchema.parse({
+    ...parsed,
+    id: randomUUID(),
+    dateReferred: parsed.dateReferred ?? now,
+    lastUpdated: now,
+  });
+  const supabase = await getSupabaseServerClient();
+  if (supabase) {
+    const { data, error } = await supabase.from("referrals").insert(referral).select("*").single();
+    if (error) throw error;
+    return referralSchema.parse(data);
+  }
+  memory.unshift(referral);
+  return referral;
+}
+
 export async function updateReferral(
   user: AuthUser,
   id: string,

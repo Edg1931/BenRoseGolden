@@ -5,11 +5,14 @@ import {
   computePartnershipReport,
   formatMoney,
   formatPct,
+  sponsorshipCsv,
+  type GivebackGroup,
 } from "@/lib/partnership/metrics";
 import { STAGE_LABELS } from "@/lib/referrals/schema";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PrintButton } from "@/components/reports/print-button";
+import { ExportButton } from "@/components/reports/export-button";
 import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +28,7 @@ export default async function PartnershipPage() {
     .filter((r) => r.deal && (r.stage === "closed" || r.stage === "under-contract"))
     .sort((a, b) => (b.deal?.salePrice ?? 0) - (a.deal?.salePrice ?? 0));
   const maxObstacle = Math.max(1, ...obstacles.map((o) => o.count));
+  const csv = sponsorshipCsv(referrals);
 
   return (
     <div className="space-y-6">
@@ -37,7 +41,10 @@ export default async function PartnershipPage() {
             Benjamin Rose. Built for board-level transparency between both partners.
           </p>
         </div>
-        <PrintButton />
+        <div className="flex gap-2">
+          <PrintButton />
+          <ExportButton csv={csv} filename="benjamin-rose-giveback-statement.csv" />
+        </div>
       </div>
 
       {/* Headline KPIs */}
@@ -161,7 +168,62 @@ export default async function PartnershipPage() {
           </div>
         )}
       </Card>
+
+      {/* Give-back rolled up for sponsorship statements */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <GivebackTable title="Give-back by agent" firstCol="Agent" groups={report.byAgent} showCommission />
+        <GivebackTable title="Give-back by quarter" firstCol="Quarter" groups={report.byQuarter} />
+      </div>
     </div>
+  );
+}
+
+function GivebackTable({ title, firstCol, groups, showCommission }: { title: string; firstCol: string; groups: GivebackGroup[]; showCommission?: boolean }) {
+  const totalBr = groups.reduce((s, g) => s + g.brContribution, 0);
+  return (
+    <Card className="p-5">
+      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{title}</h2>
+      {groups.length === 0 ? (
+        <p className="text-sm text-muted-foreground">No closed deals yet.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th className="py-2 pr-3">{firstCol}</th>
+                <th className="py-2 pr-3 text-right">Closes</th>
+                <th className="py-2 pr-3 text-right">Volume</th>
+                {showCommission && <th className="py-2 pr-3 text-right">Commission</th>}
+                <th className="py-2 text-right">To Benjamin Rose</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groups.map((g) => (
+                <tr key={g.key} className="border-b border-border/60">
+                  <td className="py-2 pr-3 font-medium">{g.label}</td>
+                  <td className="py-2 pr-3 text-right">{g.closes}</td>
+                  <td className="py-2 pr-3 text-right">{formatMoney(g.volume)}</td>
+                  {showCommission && <td className="py-2 pr-3 text-right">{formatMoney(g.commission)}</td>}
+                  <td className="py-2 text-right font-semibold text-brand-rose">
+                    {formatMoney(g.brContribution)}
+                    {g.brPaid < g.brContribution && <span className="ml-1 text-xs font-normal text-muted-foreground">({formatMoney(g.brPaid)} paid)</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="border-t border-border font-semibold">
+                <td className="py-2 pr-3">Total</td>
+                <td className="py-2 pr-3 text-right">{groups.reduce((s, g) => s + g.closes, 0)}</td>
+                <td className="py-2 pr-3 text-right">{formatMoney(groups.reduce((s, g) => s + g.volume, 0))}</td>
+                {showCommission && <td className="py-2 pr-3 text-right">{formatMoney(groups.reduce((s, g) => s + g.commission, 0))}</td>}
+                <td className="py-2 text-right text-brand-rose">{formatMoney(totalBr)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      )}
+    </Card>
   );
 }
 

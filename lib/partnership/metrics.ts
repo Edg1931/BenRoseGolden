@@ -48,14 +48,64 @@ export interface Obstacle {
   count: number;
 }
 
+export interface GivebackGroup {
+  key: string;
+  label: string;
+  closes: number;
+  volume: number;
+  commission: number;
+  brContribution: number;
+  brPaid: number;
+}
+
 export interface PartnershipReport {
   funnel: FunnelStep[];
   money: Money;
   obstacles: Obstacle[];
+  /** Give-back rolled up by agent and by calendar quarter (for sponsorship statements). */
+  byAgent: GivebackGroup[];
+  byQuarter: GivebackGroup[];
   /** Headline conversions for the KPI row. */
   signUpToClose: number; // top of funnel → closed
   graduateToReferral: number; // graduated → handed off
   referralToClose: number; // handed off → closed
+}
+
+function quarterOf(iso: string): { key: string; label: string } | null {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return null;
+  const q = Math.floor(d.getUTCMonth() / 3) + 1;
+  const y = d.getUTCFullYear();
+  return { key: `${y}-Q${q}`, label: `Q${q} ${y}` };
+}
+
+/** Roll closed deals into give-back groups keyed by (agent) and by (quarter). */
+function givebackBreakdowns(referrals: Referral[]): { byAgent: GivebackGroup[]; byQuarter: GivebackGroup[] } {
+  const agents = new Map<string, GivebackGroup>();
+  const quarters = new Map<string, GivebackGroup>();
+  const bump = (map: Map<string, GivebackGroup>, key: string, label: string, r: Referral) => {
+    const d = r.deal!;
+    const g = map.get(key) ?? { key, label, closes: 0, volume: 0, commission: 0, brContribution: 0, brPaid: 0 };
+    g.closes += 1;
+    g.volume += d.salePrice ?? 0;
+    g.commission += d.commissionAmount ?? 0;
+    g.brContribution += d.benjaminRoseContribution ?? 0;
+    if (d.contributionPaid) g.brPaid += d.benjaminRoseContribution ?? 0;
+    map.set(key, g);
+  };
+
+  for (const r of referrals) {
+    if (r.stage !== "closed" || !r.deal) continue;
+    const agent = r.assignedAgent?.trim() || "Unassigned";
+    bump(agents, agent, agent, r);
+    const q = r.deal.closedDate ? quarterOf(r.deal.closedDate) : null;
+    if (q) bump(quarters, q.key, q.label, r);
+  }
+
+  return {
+    byAgent: [...agents.values()].sort((a, b) => b.brContribution - a.brContribution),
+    byQuarter: [...quarters.values()].sort((a, b) => b.key.localeCompare(a.key)),
+  };
 }
 
 function pct(n: number, d: number): number | null {
@@ -168,14 +218,44 @@ export function computePartnershipReport(
     })
     .sort((a, b) => b.count - a.count);
 
+  const { byAgent, byQuarter } = givebackBreakdowns(referrals);
+
   return {
     funnel,
     money,
     obstacles,
+    byAgent,
+    byQuarter,
     signUpToClose: pct(closed, signedUp) ?? 0,
     graduateToReferral: pct(handedOff, grads) ?? 0,
     referralToClose: pct(closed, handedOff) ?? 0,
   };
+}
+
+/** Deal-level give-back statement (CSV) for board / sponsorship reporting. */
+export function sponsorshipCsv(referrals: Referral[]): string {
+  const rows: string[][] = [[
+    "Client", "Agent", "Stage", "Program", "Sale Price", "Commission",
+    "Give-back to Benjamin Rose", "Give-back Status", "Close Date",
+  ]];
+  const deals = referrals
+    .filter((r) => r.deal && (r.stage === "closed" || r.stage === "under-contract"))
+    .sort((a, b) => (b.deal?.salePrice ?? 0) - (a.deal?.salePrice ?? 0));
+  for (const r of deals) {
+    const d = r.deal!;
+    rows.push([
+      `${r.firstName} ${r.lastInitial}.`,
+      r.assignedAgent ?? "Unassigned",
+      r.stage,
+      r.programType,
+      d.salePrice != null ? String(d.salePrice) : "",
+      d.commissionAmount != null ? String(d.commissionAmount) : "",
+      d.benjaminRoseContribution != null ? String(d.benjaminRoseContribution) : "",
+      d.benjaminRoseContribution == null ? "" : d.contributionPaid ? "Paid" : "Pledged",
+      (d.closedDate ?? d.expectedCloseDate ?? "").slice(0, 10),
+    ]);
+  }
+  return rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(",")).join("\n");
 }
 
 export function formatMoney(n: number): string {

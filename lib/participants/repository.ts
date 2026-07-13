@@ -10,6 +10,25 @@ import {
   type UpdateParticipantInput,
 } from "./schema";
 import { seedParticipants } from "./seed";
+import { autoCreateReferral } from "@/lib/referrals/from-participant";
+
+/**
+ * When a participant reaches "graduated" with consent, hand them off: create the
+ * linked Golden Group referral and reflect the hand-off on the record. Best-effort
+ * and idempotent (only fires when there's no referralId yet). Returns the record
+ * to persist (possibly with referralId + stage advanced to "referred").
+ */
+async function withAutoReferral(next: Participant, now: string): Promise<Participant> {
+  const refId = await autoCreateReferral(next);
+  if (!refId) return next;
+  return participantSchema.parse({
+    ...next,
+    referralId: refId,
+    stage: next.stage === "graduated" ? "referred" : next.stage,
+    stageSince: next.stage === "graduated" ? now : next.stageSince ?? next.dateAdded,
+    lastUpdated: now,
+  });
+}
 
 /**
  * Data access for Benjamin Rose participants. Supabase-backed when configured
@@ -76,8 +95,9 @@ export async function createParticipant(
   user: AuthUser,
   input: CreateParticipantInput,
 ): Promise<Participant> {
-  const participant = buildParticipant(input);
+  let participant = buildParticipant(input);
   if (!isGoldenSide(user) && user.org) participant.org = user.org;
+  participant = await withAutoReferral(participant, participant.lastUpdated);
 
   const supabase = await getSupabaseServerClient();
   if (supabase) {
@@ -104,7 +124,7 @@ export async function updateParticipant(
   const patch = updateParticipantSchema.parse(input);
   const now = new Date().toISOString();
   const stageChanged = patch.stage != null && patch.stage !== existing.stage;
-  const next = participantSchema.parse({
+  let next = participantSchema.parse({
     ...existing,
     ...patch,
     id: existing.id,
@@ -113,6 +133,7 @@ export async function updateParticipant(
     stageSince: stageChanged ? now : existing.stageSince ?? existing.dateAdded,
     lastUpdated: now,
   });
+  next = await withAutoReferral(next, now);
 
   const supabase = await getSupabaseServerClient();
   if (supabase) {
@@ -189,7 +210,7 @@ export async function patchLearner(
   if (!existing) throw new Error("Participant not found");
   const patch = updateParticipantSchema.parse(input);
   const now = new Date().toISOString();
-  const next = participantSchema.parse({
+  let next = participantSchema.parse({
     ...existing,
     ...patch,
     id: existing.id,
@@ -197,6 +218,7 @@ export async function patchLearner(
     stageSince: existing.stageSince ?? existing.dateAdded,
     lastUpdated: now,
   });
+  next = await withAutoReferral(next, now);
   const supabase = await getSupabaseServerClient();
   if (supabase) {
     const { data, error } = await supabase
