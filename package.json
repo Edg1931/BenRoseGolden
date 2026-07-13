@@ -10,6 +10,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "check:learn": "node scripts/check-learn-consistency.mjs",
+    "gen:podcast": "tsx scripts/generate-podcast-audio.ts",
     "test": "vitest run"
   },
   "dependencies": {
@@ -30,6 +31,7 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.14",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "vitest": "^4.1.9"
   }
