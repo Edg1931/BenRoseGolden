@@ -12,6 +12,20 @@ import { ROLES, type AuthUser, type Role } from "./roles";
  * with a `dev_role` cookie (admin | golden-agent | benjamin-rose) and a
  * `dev_org` cookie (benjamin-rose | esop) so RBAC can be exercised in the UI.
  */
+/**
+ * Like getCurrentUser but returns null instead of throwing when there's no staff
+ * user. Used to let a signed-in staff member (e.g. a master admin) PREVIEW the
+ * learner classes without creating a learner account. In local dev this always
+ * returns the dev staff user, so previews just work.
+ */
+export async function tryGetCurrentUser(): Promise<AuthUser | null> {
+  try {
+    return await getCurrentUser();
+  } catch {
+    return null;
+  }
+}
+
 export async function getCurrentUser(): Promise<AuthUser> {
   const supabase = await getSupabaseServerClient();
 

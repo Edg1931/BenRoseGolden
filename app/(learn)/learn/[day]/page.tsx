@@ -1,8 +1,10 @@
 import { notFound, redirect } from "next/navigation";
 import { CoursePlayer } from "@/components/learn/course-player";
+import { AdminPreviewBanner } from "@/components/learn/admin-preview-banner";
 import { COURSE_DAYS, getDay } from "@/lib/learn/course";
 import { dayPublicQuestions } from "@/lib/learn/quiz";
 import { getCurrentLearner } from "@/lib/learn/accounts";
+import { tryGetCurrentUser } from "@/lib/auth/session";
 import { buildTailoring } from "@/lib/learn/tailoring";
 
 // Reads the learner session (cookies), so it renders per-request.
@@ -34,19 +36,25 @@ export default async function DayPage({ params }: { params: Promise<{ day: strin
   if (!courseDay) notFound();
 
   // Classes are gated behind a learner profile so progress is tracked to the CRM.
+  // A signed-in staff member (e.g. master admin) may PREVIEW without an account —
+  // no learner record, no progress saved.
   const learner = await getCurrentLearner();
-  if (!learner) redirect(`/learn/start?next=/learn/${day}`);
+  const preview = !learner && (await tryGetCurrentUser()) !== null;
+  if (!learner && !preview) redirect(`/learn/start?next=/learn/${day}`);
 
   return (
-    <CoursePlayer
-      daySlug={courseDay.slug}
-      sections={courseDay.sections}
-      lessons={courseDay.lessons}
-      questions={dayPublicQuestions(courseDay.slug)}
-      pdf={courseDay.pdf}
-      video={courseDay.video}
-      minutes={courseDay.minutes}
-      tailoring={buildTailoring(learner)}
-    />
+    <>
+      {preview && <AdminPreviewBanner />}
+      <CoursePlayer
+        daySlug={courseDay.slug}
+        sections={courseDay.sections}
+        lessons={courseDay.lessons}
+        questions={dayPublicQuestions(courseDay.slug)}
+        pdf={courseDay.pdf}
+        video={courseDay.video}
+        minutes={courseDay.minutes}
+        tailoring={learner ? buildTailoring(learner) : undefined}
+      />
+    </>
   );
 }

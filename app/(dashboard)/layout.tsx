@@ -48,7 +48,7 @@ export default async function DashboardLayout({
             <NavLink href="/lenders">Lenders</NavLink>
             <NavLink href="/dpa-finder">Assistance</NavLink>
             <NavLink href="/reports">Reports</NavLink>
-            <NavLink href="/learn">Classes ↗</NavLink>
+            <NavLink href="/classes">Classes</NavLink>
           </nav>
         </div>
       </header>

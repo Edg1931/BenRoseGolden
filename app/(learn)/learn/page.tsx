@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { CourseMap } from "@/components/learn/course-map";
 import { LearnerProfilePanel } from "@/components/learn/learner-profile-panel";
 import { getCurrentLearner } from "@/lib/learn/accounts";
+import { tryGetCurrentUser } from "@/lib/auth/session";
 import { buildTailoring } from "@/lib/learn/tailoring";
 import { COURSE_DAYS } from "@/lib/learn/course";
 import { matchedPrograms } from "@/lib/participants/eligibility";
@@ -18,8 +19,13 @@ export const metadata = {
 
 export default async function LearnHome() {
   // Classes are gated behind a learner profile so progress and eligibility are tracked.
+  // Signed-in staff without a learner account go to the admin Classes overview,
+  // where they can preview any day exactly as clients see it.
   const learner = await getCurrentLearner();
-  if (!learner) redirect("/learn/start");
+  if (!learner) {
+    const staff = await tryGetCurrentUser();
+    redirect(staff ? "/classes" : "/learn/start");
+  }
 
   const tailoring = buildTailoring(learner);
   const programs = await loadAllPrograms();
