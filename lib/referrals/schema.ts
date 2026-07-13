@@ -76,6 +76,58 @@ export const OUTCOME_LABELS: Record<Outcome, string> = {
   withdrew: "Withdrew",
 };
 
+/**
+ * Structured reason a referral stalled or fell out — powers the "obstacles"
+ * report so the board can see WHY people don't reach close.
+ */
+export const BLOCKER_REASONS = [
+  "credit",
+  "income-debt",
+  "savings",
+  "no-inventory",
+  "financing-fell-through",
+  "lost-to-other-agent",
+  "unresponsive",
+  "not-ready",
+  "life-event",
+  "other",
+] as const;
+export type BlockerReason = (typeof BLOCKER_REASONS)[number];
+
+export const BLOCKER_REASON_LABELS: Record<BlockerReason, string> = {
+  credit: "Credit too low",
+  "income-debt": "Income / debt-to-income",
+  savings: "Not enough savings",
+  "no-inventory": "Couldn't find a home",
+  "financing-fell-through": "Financing fell through",
+  "lost-to-other-agent": "Went with another agent",
+  unresponsive: "Went unresponsive",
+  "not-ready": "Not ready yet",
+  "life-event": "Life event / hardship",
+  other: "Other",
+};
+
+/**
+ * The share of a Golden Group commission pledged back to Benjamin Rose. Used to
+ * pre-fill the give-back when a deal closes; the stored amount is always explicit.
+ */
+export const DEFAULT_GIVEBACK_RATE = 0.1;
+
+/** Deal financials + the Benjamin Rose give-back, captured as a referral closes. */
+export const dealSchema = z.object({
+  /** Purchase price of the home (or accepted-offer price while under contract). */
+  salePrice: z.number().nonnegative().optional(),
+  /** The Golden Group agent's gross commission on the deal. */
+  commissionAmount: z.number().nonnegative().optional(),
+  /** Amount contributed back to Benjamin Rose from this close (sponsorship). */
+  benjaminRoseContribution: z.number().nonnegative().optional(),
+  /** Whether that give-back has actually been remitted to Benjamin Rose. */
+  contributionPaid: z.boolean().default(false),
+  expectedCloseDate: z.string().datetime().optional(),
+  closedDate: z.string().datetime().optional(),
+});
+export type Deal = z.infer<typeof dealSchema>;
+
 /** Contact info — optional, and only ever surfaced when consentToShare is true. */
 export const contactSchema = z.object({
   email: z.string().email().optional(),
@@ -104,6 +156,11 @@ export const referralSchema = z.object({
 
   stage: z.enum(REFERRAL_STAGES).default("referred"),
   assignedAgent: z.string().max(120).optional(),
+
+  /** Deal financials + Benjamin Rose give-back (populated as the deal progresses). */
+  deal: dealSchema.optional(),
+  /** Why a stalled/declined referral fell out — feeds the obstacles report. */
+  blockerReason: z.enum(BLOCKER_REASONS).optional(),
 
   dateReferred: z.string().datetime(),
   lastUpdated: z.string().datetime(),

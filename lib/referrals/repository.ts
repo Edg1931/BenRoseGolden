@@ -153,6 +153,8 @@ function sanitizePatchForUser(
     "assignedAgent",
     "outcome",
     "source",
+    "deal",
+    "blockerReason",
   ];
   const cleaned: UpdateReferralInput = { ...patch };
   for (const field of goldenOwnedFields) delete cleaned[field];
