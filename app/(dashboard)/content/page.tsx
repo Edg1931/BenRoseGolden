@@ -5,7 +5,7 @@ import { listParticipants } from "@/lib/participants/repository";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ContentLibrary } from "@/components/content/content-library";
-import { SendCampaign } from "@/components/content/send-campaign";
+import { MODULE_DAY } from "@/lib/learn/quiz";
 import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -38,30 +38,32 @@ export default async function ContentPage() {
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Campaigns</h2>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {campaigns.map((c) => (
-            <Card key={c.id} className="space-y-2 p-4">
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="font-medium leading-tight">{c.title}</h3>
-                <Badge variant={c.status === "sent" ? "success" : c.status === "ready" ? "gold" : "muted"}>
-                  {c.status}
-                </Badge>
-              </div>
-              <div className="flex flex-wrap gap-1 text-xs">
-                <Badge variant="rose">{c.type}</Badge>
-                <Badge variant="muted">reaches {c.reach}</Badge>
-                {c.emailable > 0 && <Badge variant="muted">{c.emailable} emailable</Badge>}
-              </div>
-              {c.subject && <p className="text-xs text-muted-foreground">{c.subject}</p>}
-              {c.status === "sent" ? (
-                <p className="text-xs text-emerald-700">
-                  ✅ Sent{c.sentCount != null ? ` to ${c.sentCount}` : ""}
-                  {c.sentAt ? ` · ${formatDate(c.sentAt)}` : ""}
-                </p>
-              ) : (
-                c.type === "newsletter" && (
-                  <SendCampaign campaignId={c.id} emailable={c.emailable} />
-                )
-              )}
-            </Card>
+            <Link key={c.id} href={`/content/campaigns/${c.id}`}>
+              <Card className="flex h-full flex-col gap-2 p-4 transition hover:border-brand-rose hover:shadow-md">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-medium leading-tight">{c.title}</h3>
+                  <Badge variant={c.status === "sent" ? "success" : c.status === "ready" ? "gold" : "muted"}>
+                    {c.status}
+                  </Badge>
+                </div>
+                <div className="flex flex-wrap gap-1 text-xs">
+                  <Badge variant="rose">{c.type}</Badge>
+                  <Badge variant="muted">reaches {c.reach}</Badge>
+                  {c.emailable > 0 && <Badge variant="muted">{c.emailable} emailable</Badge>}
+                </div>
+                {c.subject && <p className="text-xs text-muted-foreground">{c.subject}</p>}
+                <div className="mt-auto">
+                  {c.status === "sent" ? (
+                    <p className="text-xs text-emerald-700">
+                      ✅ Sent{c.sentCount != null ? ` to ${c.sentCount}` : ""}
+                      {c.sentAt ? ` · ${formatDate(c.sentAt)}` : ""}
+                    </p>
+                  ) : (
+                    <span className="text-sm font-medium text-brand-rose">Open &amp; preview →</span>
+                  )}
+                </div>
+              </Card>
+            </Link>
           ))}
           {campaigns.length === 0 && (
             <p className="text-sm text-muted-foreground">No campaigns yet — compose your first one.</p>
@@ -72,7 +74,7 @@ export default async function ContentPage() {
       {/* Content library */}
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Content library</h2>
-        <ContentLibrary items={content} />
+        <ContentLibrary items={content} moduleDay={MODULE_DAY} />
       </section>
     </div>
   );

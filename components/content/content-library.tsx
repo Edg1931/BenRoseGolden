@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -13,7 +14,16 @@ import {
 } from "@/lib/participants/curriculum";
 import type { ContentItem } from "@/lib/content/schema";
 
-export function ContentLibrary({ items }: { items: ContentItem[] }) {
+/** Where a content item opens: its own asset URL, the class that teaches it, or
+ *  the class catalog — so every card is clickable to the real thing. */
+function linkFor(item: ContentItem, moduleDay: Record<string, string>): { href: string; external: boolean; label: string } {
+  if (item.url) return { href: item.url, external: true, label: "Open asset ↗" };
+  const day = item.moduleId ? moduleDay[item.moduleId] : undefined;
+  if (day) return { href: `/learn/${day}`, external: false, label: "Open the class →" };
+  return { href: "/classes", external: false, label: "View in Classes →" };
+}
+
+export function ContentLibrary({ items, moduleDay = {} }: { items: ContentItem[]; moduleDay?: Record<string, string> }) {
   const [format, setFormat] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
   const [q, setQ] = useState("");
@@ -46,20 +56,29 @@ export function ContentLibrary({ items }: { items: ContentItem[] }) {
       </div>
 
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((it) => (
-          <Card key={it.id} className="space-y-2 p-4">
-            <div className="flex items-start justify-between gap-2">
-              <h3 className="font-medium leading-tight">{it.title}</h3>
-              <Badge variant="gold">{CONTENT_FORMAT_LABELS[it.format]}</Badge>
-            </div>
-            <p className="text-sm text-muted-foreground">{it.summary}</p>
-            <div className="flex flex-wrap items-center gap-1 text-xs">
-              <Badge variant="muted">{LANGUAGE_LABELS[it.language]}</Badge>
-              {it.durationMin && <Badge variant="muted">{it.durationMin} min</Badge>}
-              {it.tags.map((t) => <span key={t} className="text-muted-foreground">#{t}</span>)}
-            </div>
-          </Card>
-        ))}
+        {filtered.map((it) => {
+          const link = linkFor(it, moduleDay);
+          const inner = (
+            <Card className="flex h-full flex-col gap-2 p-4 transition hover:border-brand-rose hover:shadow-md">
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="font-medium leading-tight">{it.title}</h3>
+                <Badge variant="gold">{CONTENT_FORMAT_LABELS[it.format]}</Badge>
+              </div>
+              <p className="text-sm text-muted-foreground">{it.summary}</p>
+              <div className="mt-auto flex flex-wrap items-center gap-1 text-xs">
+                <Badge variant="muted">{LANGUAGE_LABELS[it.language]}</Badge>
+                {it.durationMin && <Badge variant="muted">{it.durationMin} min</Badge>}
+                {it.tags.map((t) => <span key={t} className="text-muted-foreground">#{t}</span>)}
+              </div>
+              <span className="text-sm font-medium text-brand-rose">{link.label}</span>
+            </Card>
+          );
+          return link.external ? (
+            <a key={it.id} href={link.href} target="_blank" rel="noopener noreferrer">{inner}</a>
+          ) : (
+            <Link key={it.id} href={link.href}>{inner}</Link>
+          );
+        })}
         {filtered.length === 0 && (
           <p className="text-sm text-muted-foreground">No content matches.</p>
         )}

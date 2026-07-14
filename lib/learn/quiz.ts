@@ -20,6 +20,11 @@ const DAY_MODULES: Record<string, string[]> = {
   "day-4": [],
 };
 
+/** Reverse map: which course day teaches a given curriculum module (if any). */
+export const MODULE_DAY: Record<string, string> = Object.fromEntries(
+  Object.entries(DAY_MODULES).flatMap(([day, mods]) => mods.map((m) => [m, day])),
+);
+
 /** Local banks: questions authored here (in addition to the curriculum module
  *  banks) so each day test also covers that day's newer lessons. */
 const LOCAL_QUESTIONS: Record<string, QuizQuestion[]> = {
