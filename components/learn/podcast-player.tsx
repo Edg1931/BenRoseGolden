@@ -203,7 +203,7 @@ export function PodcastPlayer({
                   i === line ? "bg-brand-gold/20 font-medium" : "hover:bg-white/60"
                 }`}
               >
-                <span className={ln.speaker === "maya" ? "text-brand-rose" : "text-brand-gold"}>
+                <span className={ln.speaker === "maya" ? "text-brand-rose" : "text-brand-goldink"}>
                   {HOST_LABELS[ln.speaker]}:
                 </span>{" "}
                 {ln.text[lang]}

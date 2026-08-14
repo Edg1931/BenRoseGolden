@@ -247,7 +247,7 @@ export function CoursePlayer({
           ← {t("continueLater")}
         </Link>
         <div className="flex items-center gap-2">
-          <span className="rounded-full bg-brand-gold/15 px-2.5 py-1 text-xs font-semibold text-brand-gold">
+          <span className="rounded-full bg-brand-gold/15 px-2.5 py-1 text-xs font-semibold text-brand-goldink">
             ⭐ {xp} {t("xp")}
           </span>
           <div className="flex items-center gap-1.5">
@@ -400,7 +400,7 @@ export function CoursePlayer({
               )}
 
               <div className="mt-4 rounded-lg border-s-4 border-brand-gold bg-brand-gold/5 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-brand-gold">
+                <p className="text-xs font-semibold uppercase tracking-wide text-brand-goldink">
                   {t("whyItMatters")}
                 </p>
                 <p className="mt-1">{lesson.whyItMatters[lang]}</p>
@@ -584,7 +584,7 @@ export function CoursePlayer({
               ) : (
                 <Card className="space-y-3 p-6 text-center">
                   <div className="text-4xl">📚</div>
-                  <h1 className="text-2xl font-bold text-brand-gold">{t("notPassed")}</h1>
+                  <h1 className="text-2xl font-bold text-brand-goldink">{t("notPassed")}</h1>
                   <p className="text-sm text-muted-foreground">
                     {fill(UI.correctOf[lang], {
                       correct: outcome.result.correct,

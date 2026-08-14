@@ -149,7 +149,7 @@ export function BudgetPlanner({ lang }: { lang: LearnLang }) {
         {income > 0 && (
           <>
             <Row label={T.savingsRate[lang]} value={`${savingsRate}%`} />
-            <p className={`text-xs ${housingPct <= 30 ? "text-emerald-700" : "text-brand-gold"}`}>
+            <p className={`text-xs ${housingPct <= 30 ? "text-emerald-700" : "text-brand-goldink"}`}>
               {T.housingCheck[lang]} {housingPct}% {housingPct <= 30 ? T.housingOk[lang] : T.housingHigh[lang]}
             </p>
           </>

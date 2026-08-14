@@ -36,7 +36,7 @@ export default async function DpaFinderPage() {
           {programs.length} Ohio programs · most recent verification{" "}
           {freshness.newestVerified ? formatDate(freshness.newestVerified) : "—"}
           {freshness.staleCount > 0 && (
-            <> · <span className="font-medium text-brand-gold">{freshness.staleCount} due for re-check</span> (over {STALE_AFTER_DAYS} days)</>
+            <> · <span className="font-medium text-brand-goldink">{freshness.staleCount} due for re-check</span> (over {STALE_AFTER_DAYS} days)</>
           )}
           . The public finder is at <code>/assistance</code>.
         </p>

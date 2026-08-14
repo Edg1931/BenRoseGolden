@@ -84,7 +84,7 @@ export default async function LenderProfilePage({ params }: { params: Promise<{ 
             <h3 className="text-sm font-semibold">Languages served</h3>
             <div className="flex flex-wrap gap-1">
               {l.languages.map((lang) => (
-                <span key={lang} className="rounded-full bg-brand-blush px-2.5 py-0.5 text-xs text-brand-rose">🗣 {LANGUAGE_LABELS[lang]}</span>
+                <span key={lang} className="rounded-full bg-brand-blush px-2.5 py-0.5 text-xs text-brand-roseink">🗣 {LANGUAGE_LABELS[lang]}</span>
               ))}
             </div>
           </Card>

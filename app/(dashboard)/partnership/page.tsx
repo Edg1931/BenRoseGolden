@@ -72,8 +72,10 @@ export default async function PartnershipPage() {
               <div key={step.key} className="flex items-center gap-3">
                 <div className="w-48 shrink-0 text-sm">{step.label}</div>
                 <div className="flex-1">
-                  <div className={`flex h-8 items-center rounded-md ${isBR ? "bg-brand-rose/85" : "bg-brand-gold/85"} px-2`} style={{ width: `${widthPct}%`, minWidth: "3rem" }}>
-                    <span className="text-sm font-semibold text-white">{step.count}</span>
+                  {/* Full-opacity fills: the tinted versions put the count label
+                      below the AA contrast threshold. Gold carries dark text. */}
+                  <div className={`flex h-8 items-center rounded-md ${isBR ? "bg-brand-rose" : "bg-brand-gold"} px-2`} style={{ width: `${widthPct}%`, minWidth: "3rem" }}>
+                    <span className={`text-sm font-semibold ${isBR ? "text-white" : "text-foreground"}`}>{step.count}</span>
                   </div>
                 </div>
                 <div className="w-28 shrink-0 text-right text-xs text-muted-foreground">

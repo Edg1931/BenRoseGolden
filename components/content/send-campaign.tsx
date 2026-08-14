@@ -56,7 +56,7 @@ export function SendCampaign({
         <button
           onClick={() => setConfirming(true)}
           disabled={busy}
-          className="rounded-md bg-brand-gold px-3 py-1.5 text-xs font-medium text-white disabled:opacity-60"
+          className="rounded-md bg-brand-gold px-3 py-1.5 text-xs font-medium text-foreground disabled:opacity-60"
         >
           ✉️ Send newsletter
         </button>
@@ -65,7 +65,7 @@ export function SendCampaign({
           <button
             onClick={send}
             disabled={busy}
-            className="rounded-md bg-brand-gold px-3 py-1.5 text-xs font-medium text-white disabled:opacity-60"
+            className="rounded-md bg-brand-gold px-3 py-1.5 text-xs font-medium text-foreground disabled:opacity-60"
           >
             {busy ? "Sending…" : `Send to ${emailable}`}
           </button>

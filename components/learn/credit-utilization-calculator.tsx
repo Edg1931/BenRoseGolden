@@ -48,7 +48,7 @@ export function CreditUtilizationCalculator({ lang }: { lang: LearnLang }) {
       : util < 30
         ? { msg: T.good[lang], color: "text-lime-600", bar: "bg-lime-500" }
         : util < 50
-          ? { msg: T.fair[lang], color: "text-brand-gold", bar: "bg-brand-gold" }
+          ? { msg: T.fair[lang], color: "text-brand-goldink", bar: "bg-brand-gold" }
           : { msg: T.high[lang], color: "text-red-600", bar: "bg-red-500" };
 
   return (

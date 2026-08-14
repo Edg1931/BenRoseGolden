@@ -105,7 +105,7 @@ export function DebtPayoffCalculator({ lang }: { lang: LearnLang }) {
         </div>
         <div className="rounded-lg bg-muted/50 px-4 py-3 text-center">
           <p className="text-xs text-muted-foreground">{T.interest[lang]}</p>
-          <p className="font-serif text-2xl font-bold text-brand-gold">
+          <p className="font-serif text-2xl font-bold text-brand-goldink">
             {result.interest == null ? "—" : money(result.interest)}
           </p>
         </div>

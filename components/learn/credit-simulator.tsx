@@ -47,7 +47,7 @@ function band(score: number): { key: keyof typeof T.bands; color: string } {
   if (score >= 800) return { key: "excellent", color: "text-emerald-600" };
   if (score >= 740) return { key: "veryGood", color: "text-emerald-600" };
   if (score >= 670) return { key: "good", color: "text-lime-600" };
-  if (score >= 580) return { key: "fair", color: "text-brand-gold" };
+  if (score >= 580) return { key: "fair", color: "text-brand-goldink" };
   return { key: "poor", color: "text-red-600" };
 }
 

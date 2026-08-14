@@ -53,19 +53,31 @@ export function NewsletterSignup() {
   return (
     <form onSubmit={submit} className="space-y-3 rounded-xl bg-white/10 p-6 backdrop-blur">
       <p className="font-semibold">Get free housing help in your inbox</p>
-      <input className={field} placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-      <input className={field} type="email" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <select className={field} value={interest} onChange={(e) => setInterest(e.target.value)}>
-        {INTERESTS.map((i) => <option key={i.value} value={i.value} className="text-foreground">{i.label}</option>)}
-      </select>
-      <select className={field} value={language} onChange={(e) => setLanguage(e.target.value as LanguageCode)}>
-        {LANGUAGES.map((l) => <option key={l} value={l} className="text-foreground">{LANGUAGE_LABELS[l]}</option>)}
-      </select>
+      <label className="block">
+        <span className="sr-only">First name</span>
+        <input className={field} placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+      </label>
+      <label className="block">
+        <span className="sr-only">Email address</span>
+        <input className={field} type="email" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} required />
+      </label>
+      <label className="block">
+        <span className="sr-only">What are you interested in?</span>
+        <select className={field} value={interest} onChange={(e) => setInterest(e.target.value)}>
+          {INTERESTS.map((i) => <option key={i.value} value={i.value} className="text-foreground">{i.label}</option>)}
+        </select>
+      </label>
+      <label className="block">
+        <span className="sr-only">Preferred language</span>
+        <select className={field} value={language} onChange={(e) => setLanguage(e.target.value as LanguageCode)}>
+          {LANGUAGES.map((l) => <option key={l} value={l} className="text-foreground">{LANGUAGE_LABELS[l]}</option>)}
+        </select>
+      </label>
       {err && <p className="text-sm text-amber-200">{err}</p>}
-      <button disabled={busy} className="w-full rounded-md bg-brand-gold px-4 py-2.5 font-semibold text-white disabled:opacity-60">
+      <button disabled={busy} className="w-full rounded-md bg-brand-gold px-4 py-2.5 font-semibold text-foreground disabled:opacity-60">
         {busy ? "Signing up…" : "Sign me up — it's free"}
       </button>
-      <p className="text-center text-xs text-white/60">Benjamin Rose is a nonprofit. No spam, ever.</p>
+      <p className="text-center text-xs text-white/80">Benjamin Rose is a nonprofit. No spam, ever.</p>
     </form>
   );
 }

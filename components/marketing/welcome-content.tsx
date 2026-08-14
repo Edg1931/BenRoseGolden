@@ -154,13 +154,13 @@ export function WelcomeContent({
               <div className="mt-5">
                 <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t(lang, "formatsLabel")}</div>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {formats.map((f) => <span key={f} className="rounded-full bg-brand-gold/10 px-3 py-1 text-sm text-brand-gold">{f}</span>)}
+                  {formats.map((f) => <span key={f} className="rounded-full bg-brand-gold/10 px-3 py-1 text-sm text-brand-goldink">{f}</span>)}
                 </div>
               </div>
               <div className="mt-5">
                 <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t(lang, "languagesLabel")}</div>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {langs.map((l) => <span key={l} className="rounded-full bg-brand-blush px-3 py-1 text-sm text-brand-rose">{l}</span>)}
+                  {langs.map((l) => <span key={l} className="rounded-full bg-brand-blush px-3 py-1 text-sm text-brand-roseink">{l}</span>)}
                 </div>
               </div>
             </div>

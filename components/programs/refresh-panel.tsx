@@ -123,7 +123,7 @@ export function RefreshPanel() {
           <button
             onClick={runRefresh}
             disabled={loading}
-            className="rounded-md bg-brand-gold px-3 py-1.5 text-sm font-medium text-white disabled:opacity-60"
+            className="rounded-md bg-brand-gold px-3 py-1.5 text-sm font-medium text-foreground disabled:opacity-60"
           >
             {loading ? "Searching…" : "Refresh with AI"}
           </button>

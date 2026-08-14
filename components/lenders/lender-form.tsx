@@ -109,7 +109,7 @@ export function LenderForm({ lender }: { lender?: Lender }) {
           <div className="mt-1 flex flex-wrap gap-1">
             {LANGUAGES.map((l) => (
               <button key={l} type="button" onClick={() => toggle(languages, l, setLanguages)}
-                className={`rounded-full px-2.5 py-1 text-xs ring-1 ${languages.includes(l) ? "bg-brand-blush text-brand-rose ring-brand-rose/30" : "text-muted-foreground ring-border"}`}>
+                className={`rounded-full px-2.5 py-1 text-xs ring-1 ${languages.includes(l) ? "bg-brand-blush text-brand-roseink ring-brand-rose/30" : "text-muted-foreground ring-border"}`}>
                 {LANGUAGE_LABELS[l]}
               </button>
             ))}

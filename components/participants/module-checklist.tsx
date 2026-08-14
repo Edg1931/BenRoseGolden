@@ -93,7 +93,7 @@ export function ModuleChecklist({ participant: p }: { participant: Participant }
           Program progress
         </h2>
         {dirty && (
-          <button onClick={save} disabled={busy} className="rounded-md bg-brand-gold px-3 py-1 text-xs font-medium text-white disabled:opacity-60">
+          <button onClick={save} disabled={busy} className="rounded-md bg-brand-gold px-3 py-1 text-xs font-medium text-foreground disabled:opacity-60">
             {busy ? "Saving…" : "Save progress"}
           </button>
         )}

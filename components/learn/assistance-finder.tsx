@@ -283,7 +283,7 @@ export function AssistanceFinder({ counties, staff = false }: { counties: string
                   <div className="flex flex-wrap items-center gap-2">
                     {i === 0 && <span className="rounded-full bg-brand-rose px-2 py-0.5 text-[11px] font-semibold text-white">{t(lang, "fBestMatch")}</span>}
                     <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">{m.assistanceType}</span>
-                    {m.unlockedByCertificate && <span className="rounded-full bg-brand-gold/15 px-2 py-0.5 text-[11px] font-semibold text-brand-gold">{t(lang, "fUnlocked")}</span>}
+                    {m.unlockedByCertificate && <span className="rounded-full bg-brand-gold/15 px-2 py-0.5 text-[11px] font-semibold text-brand-goldink">{t(lang, "fUnlocked")}</span>}
                   </div>
                   <Link href={`/assistance/${m.id}`} onClick={(e) => e.stopPropagation()} className="mt-1.5 block font-semibold text-brand-plum hover:text-brand-rose hover:underline">{m.name}</Link>
                   <p className="text-xs text-muted-foreground">{m.provider}</p>
@@ -304,7 +304,7 @@ export function AssistanceFinder({ counties, staff = false }: { counties: string
               {m.caveats.length > 0 && (
                 <ul className="mt-2 space-y-1">
                   {m.caveats.map((c) => (
-                    <li key={c} className="flex gap-2 text-sm text-brand-gold"><span aria-hidden>⚠</span><span>{t(lang, "fCheck")} {c}.</span></li>
+                    <li key={c} className="flex gap-2 text-sm text-brand-goldink"><span aria-hidden>⚠</span><span>{t(lang, "fCheck")} {c}.</span></li>
                   ))}
                 </ul>
               )}

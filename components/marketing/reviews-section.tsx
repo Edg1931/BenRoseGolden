@@ -12,9 +12,9 @@ import { fetchGoogleReviews } from "@/lib/reviews/google";
 function Stars({ rating }: { rating: number }) {
   const full = Math.round(rating);
   return (
-    <span aria-label={`${rating} out of 5 stars`} className="text-brand-gold">
+    <span aria-label={`${rating} out of 5 stars`} className="text-brand-goldink">
       {"★".repeat(full)}
-      <span className="text-brand-gold/30">{"★".repeat(Math.max(0, 5 - full))}</span>
+      <span className="text-brand-goldink/30">{"★".repeat(Math.max(0, 5 - full))}</span>
     </span>
   );
 }

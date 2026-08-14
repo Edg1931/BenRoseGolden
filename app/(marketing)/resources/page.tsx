@@ -35,7 +35,7 @@ export default async function ResourcesPage() {
               className="group flex h-full flex-col rounded-xl border border-border bg-white p-5 shadow-sm transition hover:border-brand-rose hover:shadow-md"
             >
               <div className="flex items-center justify-between">
-                <span className="rounded-full bg-brand-blush px-2.5 py-0.5 text-xs font-medium text-brand-rose">
+                <span className="rounded-full bg-brand-blush px-2.5 py-0.5 text-xs font-medium text-brand-roseink">
                   {r.source}
                 </span>
                 {r.date && <span className="text-xs text-muted-foreground">{r.date}</span>}

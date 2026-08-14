@@ -31,7 +31,7 @@ export function CourseMap({ serverPassed }: { serverPassed?: Record<string, numb
       {progress && (progress.xp > 0 || passedCount > 0) && (
         <Card className="mb-6 flex flex-wrap items-center justify-between gap-4 p-4">
           <div className="flex items-center gap-3">
-            <span className="rounded-full bg-brand-gold/15 px-3 py-1 text-sm font-semibold text-brand-gold">
+            <span className="rounded-full bg-brand-gold/15 px-3 py-1 text-sm font-semibold text-brand-goldink">
               ⭐ {progress.xp} XP
             </span>
             <div className="flex items-center gap-1" aria-label="Day badges">
@@ -103,12 +103,12 @@ export function CourseMap({ serverPassed }: { serverPassed?: Record<string, numb
                     </span>
                   )}
                   {status === "in-progress" && (
-                    <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-medium text-brand-gold">
+                    <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-medium text-brand-goldink">
                       In progress
                     </span>
                   )}
                   {status === "new" && (
-                    <span className="rounded-full bg-brand-blush px-2.5 py-0.5 text-xs font-medium text-brand-rose">
+                    <span className="rounded-full bg-brand-blush px-2.5 py-0.5 text-xs font-medium text-brand-roseink">
                       Start now
                     </span>
                   )}

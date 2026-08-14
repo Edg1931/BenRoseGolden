@@ -57,7 +57,7 @@ export function DemoLauncher({
         }
       >
         <span className="block text-sm font-semibold">{busy ? "Opening…" : label}</span>
-        <span className={"block text-xs " + (primary ? "text-white/80" : "text-muted-foreground")}>
+        <span className={"block text-xs " + (primary ? "text-white" : "text-muted-foreground")}>
           {sublabel}
         </span>
       </button>

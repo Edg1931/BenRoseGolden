@@ -158,7 +158,7 @@ export function SampleCreditReport({ lang }: { lang: LearnLang }) {
           <div className="text-sm">
             <div className="flex items-center justify-between">
               <span>Greater Cleveland Mortgage</span>
-              <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] text-brand-gold">Hard · 03/2026</span>
+              <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] text-brand-goldink">Hard · 03/2026</span>
             </div>
           </div>
         </Section>

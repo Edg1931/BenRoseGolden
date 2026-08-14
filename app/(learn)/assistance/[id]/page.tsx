@@ -64,14 +64,14 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
       </Link>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-brand-blush px-2.5 py-0.5 text-xs font-medium text-brand-rose">
+        <span className="rounded-full bg-brand-blush px-2.5 py-0.5 text-xs font-medium text-brand-roseink">
           {ASSISTANCE_TYPE_LABELS[program.assistanceType]}
         </span>
         <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground capitalize">
           {program.level}
         </span>
         {program.requiresHomebuyerEd === true && (
-          <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
+          <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-goldink">
             🎓 Education unlocks this
           </span>
         )}

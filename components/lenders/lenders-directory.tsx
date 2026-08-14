@@ -67,7 +67,7 @@ export function LendersDirectory({ lenders }: { lenders: Lender[] }) {
               </div>
               <div className="flex flex-wrap gap-1">
                 {l.languages.map((lang) => (
-                  <span key={lang} className="rounded-full bg-brand-blush px-2 py-0.5 text-[11px] text-brand-rose">
+                  <span key={lang} className="rounded-full bg-brand-blush px-2 py-0.5 text-[11px] text-brand-roseink">
                     🗣 {LANGUAGE_LABELS[lang]}
                   </span>
                 ))}

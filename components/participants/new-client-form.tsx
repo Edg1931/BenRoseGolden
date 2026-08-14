@@ -51,7 +51,7 @@ interface PreviewMatch {
 
 const input =
   "w-full rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-rose/30";
-const label = "text-xs font-medium text-muted-foreground";
+const label = "block text-xs font-medium text-muted-foreground";
 
 /**
  * Add ONE client, with every field the assistance-matching engine reads.
@@ -285,8 +285,8 @@ export function NewClientForm({ counties }: { counties: string[] }) {
             </select>
           </Field>
           <div className="sm:col-span-3">
-            <div className={label}>Contact by</div>
-            <div className="mt-1 flex flex-wrap gap-2">
+            <div className={label} id="grp-contact-by">Contact by</div>
+            <div role="group" aria-labelledby="grp-contact-by" className="mt-1 flex flex-wrap gap-2">
               {CHANNELS.map((c) => (
                 <Chip key={c} on={channels.includes(c)} onClick={() => toggle(channels, c, setChannels)}>
                   {c}
@@ -386,8 +386,8 @@ export function NewClientForm({ counties }: { counties: string[] }) {
 
         <Section title="What they need">
           <div className="sm:col-span-3">
-            <div className={label}>Situation / track</div>
-            <div className="mt-1 flex flex-wrap gap-2">
+            <div className={label} id="grp-situation--track">Situation / track</div>
+            <div role="group" aria-labelledby="grp-situation--track" className="mt-1 flex flex-wrap gap-2">
               {TRACKS.map((t) => (
                 <Chip key={t} on={tracks.includes(t)} onClick={() => toggle(tracks, t, setTracks)} tone="rose">
                   {TRACK_LABELS[t]}
@@ -396,8 +396,8 @@ export function NewClientForm({ counties }: { counties: string[] }) {
             </div>
           </div>
           <div className="sm:col-span-3">
-            <div className={label}>How they want content delivered</div>
-            <div className="mt-1 flex flex-wrap gap-2">
+            <div className={label} id="grp-how-they-want-content-delivered">How they want content delivered</div>
+            <div role="group" aria-labelledby="grp-how-they-want-content-delivered" className="mt-1 flex flex-wrap gap-2">
               {CONTENT_FORMATS.map((f) => (
                 <Chip key={f} on={formats.includes(f)} onClick={() => toggle(formats, f, setFormats)} tone="gold">
                   {CONTENT_FORMAT_LABELS[f]}
@@ -424,14 +424,14 @@ export function NewClientForm({ counties }: { counties: string[] }) {
                 </span>
               </span>
             </label>
-            <div>
-              <div className={label}>Tags (comma-separated)</div>
+            <label className="block">
+              <span className={label}>Tags (comma-separated)</span>
               <input className={input} value={tags} onChange={(e) => setTags(e.target.value)} />
-            </div>
-            <div>
-              <div className={label}>Notes</div>
+            </label>
+            <label className="block">
+              <span className={label}>Notes</span>
               <textarea className={input} rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} />
-            </div>
+            </label>
           </div>
         </Section>
 
@@ -538,6 +538,11 @@ function Section({
   );
 }
 
+/**
+ * A labelled control. Rendered as a real <label> wrapping its input so the
+ * control gets an accessible name for screen readers, and so tapping the text
+ * focuses the field — which matters on the phones many clients fill this in on.
+ */
 function Field({
   label: text,
   hint,
@@ -548,11 +553,11 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <div className={label}>{text}</div>
+    <label className="block">
+      <span className={label}>{text}</span>
       {children}
-      {hint && <p className="mt-0.5 text-[11px] text-muted-foreground">{hint}</p>}
-    </div>
+      {hint && <span className="mt-0.5 block text-[11px] text-muted-foreground">{hint}</span>}
+    </label>
   );
 }
 

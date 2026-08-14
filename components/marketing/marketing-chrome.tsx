@@ -44,7 +44,7 @@ export function MarketingFooter() {
           <p className="mt-2 text-sm">{t(lang, "footerBlurb")}</p>
         </div>
         <div className="text-sm">
-          <p className="font-semibold uppercase tracking-wide text-white/60">{t(lang, "footerPrograms")}</p>
+          <p className="font-semibold uppercase tracking-wide text-white/85">{t(lang, "footerPrograms")}</p>
           <ul className="mt-2 space-y-1.5">
             <li><Link href="/learn" className="hover:text-white">{t(lang, "footerProgEd")}</Link></li>
             <li><Link href="/assistance" className="hover:text-white">{t(lang, "footerProgDpa")}</Link></li>
@@ -54,7 +54,7 @@ export function MarketingFooter() {
           </ul>
         </div>
         <div className="text-sm">
-          <p className="font-semibold uppercase tracking-wide text-white/60">{t(lang, "footerPartnership")}</p>
+          <p className="font-semibold uppercase tracking-wide text-white/85">{t(lang, "footerPartnership")}</p>
           <p className="mt-2">{t(lang, "footerPartnershipBody")}</p>
           <p className="mt-2">
             <a href="https://www.benrose.org" className="underline hover:text-white">benrose.org</a>
