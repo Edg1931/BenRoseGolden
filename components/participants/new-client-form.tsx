@@ -574,7 +574,7 @@ function Chip({
 }) {
   const active =
     tone === "rose"
-      ? "bg-brand-rose/10 text-brand-rose ring-brand-rose/30"
+      ? "bg-brand-rose/10 text-brand-roseink ring-brand-rose/30"
       : tone === "gold"
         ? "bg-brand-gold/10 text-amber-700 ring-brand-gold/30"
         : "bg-foreground text-white ring-foreground";

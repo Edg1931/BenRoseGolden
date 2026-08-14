@@ -183,7 +183,7 @@ export function Composer({
           <div className="flex gap-2">
             {CAMPAIGN_TYPES.map((t) => (
               <button key={t} onClick={() => setType(t)}
-                className={`rounded-md px-3 py-1.5 text-sm capitalize ring-1 ${type === t ? "bg-brand-rose/10 text-brand-rose ring-brand-rose/30" : "ring-border text-muted-foreground"}`}>
+                className={`rounded-md px-3 py-1.5 text-sm capitalize ring-1 ${type === t ? "bg-brand-rose/10 text-brand-roseink ring-brand-rose/30" : "ring-border text-muted-foreground"}`}>
                 {t}
               </button>
             ))}
@@ -194,7 +194,7 @@ export function Composer({
           </div>
           <div>
             <div className="text-xs font-medium text-muted-foreground">Language</div>
-            <select className={input} value={language} onChange={(e) => setLanguage(e.target.value as LanguageCode)}>
+            <select aria-label="Newsletter language" className={input} value={language} onChange={(e) => setLanguage(e.target.value as LanguageCode)}>
               {LANGUAGES.map((l) => <option key={l} value={l}>{LANGUAGE_LABELS[l]}</option>)}
             </select>
           </div>
@@ -281,7 +281,7 @@ export function Composer({
                 <button
                   key={t}
                   onClick={() => toggle(topics, t, setTopics)}
-                  className={`rounded-full px-2 py-1 text-xs ring-1 ${topics.includes(t) ? "bg-brand-rose/10 text-brand-rose ring-brand-rose/30" : "ring-border text-muted-foreground"}`}
+                  className={`rounded-full px-2 py-1 text-xs ring-1 ${topics.includes(t) ? "bg-brand-rose/10 text-brand-roseink ring-brand-rose/30" : "ring-border text-muted-foreground"}`}
                 >
                   {ARTICLE_TOPIC_LABELS[t]}
                 </button>

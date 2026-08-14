@@ -293,7 +293,7 @@ function EditForm({ p, onClose }: { p: Participant; onClose: () => void }) {
         <div className="mt-1 flex flex-wrap gap-2">
           {TRACKS.map((t) => (
             <button key={t} type="button" onClick={() => toggle(tracks, t, setTracks)}
-              className={`rounded-full px-2 py-1 text-xs ring-1 ${tracks.includes(t) ? "bg-brand-rose/10 text-brand-rose ring-brand-rose/30" : "ring-border text-muted-foreground"}`}>
+              className={`rounded-full px-2 py-1 text-xs ring-1 ${tracks.includes(t) ? "bg-brand-rose/10 text-brand-roseink ring-brand-rose/30" : "ring-border text-muted-foreground"}`}>
               {TRACK_LABELS[t]}
             </button>
           ))}

@@ -222,8 +222,8 @@ function renderSection(s: NewsletterSection): string {
 
     case "classCta":
       return pad(
-        `<h2 style="margin:0 0 10px;font-family:${SERIF};font-size:22px;color:#FFFFFF">${esc(s.title)}</h2>
-         <p style="margin:0;font-family:${FONT};font-size:15px;line-height:1.6;color:#FFE9D6">${esc(s.body)}</p>
+        `<h2 style="margin:0 0 10px;font-family:${SERIF};font-size:22px;color:${BRAND.ink}">${esc(s.title)}</h2>
+         <p style="margin:0;font-family:${FONT};font-size:15px;line-height:1.6;color:${BRAND.ink}">${esc(s.body)}</p>
          ${button(s.buttonLabel, s.url, BRAND.plum)}`,
         "30px 32px",
         BRAND.gold,

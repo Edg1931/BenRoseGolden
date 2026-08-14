@@ -44,11 +44,11 @@ export function ContentLibrary({ items, moduleDay = {} }: { items: ContentItem[]
     <div className="space-y-3">
       <div className="flex flex-wrap items-center gap-2">
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search content…" className="w-full min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm sm:w-auto sm:min-w-[14rem]" />
-        <select className={select} value={format} onChange={(e) => setFormat(e.target.value)}>
+        <select aria-label="Filter by format" className={select} value={format} onChange={(e) => setFormat(e.target.value)}>
           <option value="">All formats</option>
           {CONTENT_FORMATS.map((f) => <option key={f} value={f}>{CONTENT_FORMAT_LABELS[f]}</option>)}
         </select>
-        <select className={select} value={language} onChange={(e) => setLanguage(e.target.value)}>
+        <select aria-label="Filter by language" className={select} value={language} onChange={(e) => setLanguage(e.target.value)}>
           <option value="">All languages</option>
           {LANGUAGES.map((l) => <option key={l} value={l}>{LANGUAGE_LABELS[l]}</option>)}
         </select>

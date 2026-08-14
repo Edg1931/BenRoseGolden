@@ -42,9 +42,12 @@ function esc(s: string): string {
 }
 
 /** The shared footer band: brand + Equal Housing. */
-function footerBar(dark: boolean): string {
-  const fg = dark ? BRAND.white : BRAND.plum;
-  const sub = dark ? "#E8A9B4" : BRAND.inkSoft;
+type FooterTone = "onPlum" | "onLight" | "onGold";
+function footerBar(tone: FooterTone): string {
+  // Every pairing clears WCAG contrast on its background: white/#FFD6DE on
+  // plum, plum/inkSoft on cream & blush, ink on gold.
+  const fg = tone === "onPlum" ? BRAND.white : tone === "onGold" ? BRAND.ink : BRAND.plum;
+  const sub = tone === "onPlum" ? "#FFD6DE" : tone === "onGold" ? BRAND.ink : BRAND.inkSoft;
   return `<div style="display:flex;justify-content:space-between;align-items:center;padding:0 80px;height:120px">
     <div>
       <span style="font-family:${SERIF};font-size:34px;font-weight:bold;color:${fg}">Benjamin Rose</span>
@@ -54,10 +57,10 @@ function footerBar(dark: boolean): string {
   </div>`;
 }
 
-function card(bg: string, inner: string, dark: boolean): string {
+function card(bg: string, inner: string, tone: FooterTone): string {
   return `<div xmlns="http://www.w3.org/1999/xhtml" style="width:1080px;height:1080px;background:${bg};display:flex;flex-direction:column;box-sizing:border-box">
     <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px">${inner}</div>
-    ${footerBar(dark)}
+    ${footerBar(tone)}
   </div>`;
 }
 
@@ -80,7 +83,7 @@ export function deriveSocialCards(design: NewsletterDoc): SocialCard[] {
          <div style="font-family:${SERIF};font-size:76px;line-height:1.12;font-weight:bold;color:${BRAND.white}">${esc(hero.headline)}</div>
          <div style="font-family:${SANS};font-size:32px;line-height:1.5;color:#FFE3E9;margin-top:40px">${esc(hero.intro)}</div>
          ${pill("Free classes → benrose.org", BRAND.rose)}`,
-        true,
+        "onPlum",
       ),
     });
   }
@@ -97,7 +100,7 @@ export function deriveSocialCards(design: NewsletterDoc): SocialCard[] {
            <div style="font-family:${SANS};font-size:44px;font-weight:bold;color:${BRAND.plum};margin-top:36px;line-height:1.3">${esc(stat.label)}</div>
            ${stat.caption ? `<div style="font-family:${SANS};font-size:30px;color:${BRAND.inkSoft};margin-top:24px">${esc(stat.caption)}</div>` : ""}
          </div>`,
-        false,
+        "onLight",
       ),
     });
   }
@@ -116,7 +119,7 @@ export function deriveSocialCards(design: NewsletterDoc): SocialCard[] {
            <div style="display:inline-block;background:${BRAND.gold};color:${BRAND.ink};font-family:${SANS};font-size:38px;font-weight:bold;padding:20px 40px;border-radius:14px;margin-top:40px">${esc(program.amount)}</div>
            <div style="font-family:${SANS};font-size:30px;line-height:1.5;color:${BRAND.ink};margin-top:40px">${esc(program.blurb)}</div>
          </div>`,
-        false,
+        "onLight",
       ),
     });
   }
@@ -128,10 +131,10 @@ export function deriveSocialCards(design: NewsletterDoc): SocialCard[] {
       label: "Classes",
       html: card(
         BRAND.gold,
-        `<div style="font-family:${SERIF};font-size:72px;line-height:1.15;font-weight:bold;color:${BRAND.white}">${esc(classCta.title)}</div>
-         <div style="font-family:${SANS};font-size:34px;line-height:1.5;color:#FFF3E4;margin-top:40px">${esc(classCta.body)}</div>
+        `<div style="font-family:${SERIF};font-size:72px;line-height:1.15;font-weight:bold;color:${BRAND.ink}">${esc(classCta.title)}</div>
+         <div style="font-family:${SANS};font-size:34px;line-height:1.5;color:${BRAND.ink};margin-top:40px">${esc(classCta.body)}</div>
          ${pill(classCta.buttonLabel + " → benrose.org", BRAND.plum)}`,
-        true,
+        "onGold",
       ),
     });
   }
