@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth/session";
+import { redirect } from "next/navigation";
+import { tryGetCurrentUser } from "@/lib/auth/session";
+import { isStaffAreaUnprotected } from "@/lib/auth/staff-session";
+import { StaffSignOut } from "@/components/auth/staff-signout";
 import { Badge } from "@/components/ui/badge";
 import { Logo } from "@/components/ui/logo";
 import { SkipLink } from "@/components/ui/skip-link";
@@ -14,7 +17,11 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getCurrentUser();
+  // No staff session on a gated deployment -> sign in first.
+  const user = await tryGetCurrentUser();
+  if (!user) redirect("/staff/signin");
+  const unprotected = isStaffAreaUnprotected();
+
   const roleLabel =
     user.role === "golden-agent"
       ? "Golden Group Agent"
@@ -36,6 +43,7 @@ export default async function DashboardLayout({
                 {roleLabel}
               </Badge>
               <span className="hidden truncate text-muted-foreground sm:inline">{user.email}</span>
+              <StaffSignOut />
             </div>
           </div>
           {/* Nav scrolls horizontally on small screens instead of overflowing. */}
@@ -52,6 +60,13 @@ export default async function DashboardLayout({
           </nav>
         </div>
       </header>
+      {unprotected && (
+        <div className="border-b border-brand-gold/40 bg-brand-gold/10 px-4 py-2 text-center text-xs text-brand-goldink sm:px-6">
+          <strong>This staff area is open to anyone with the link.</strong> Set a{" "}
+          <code className="rounded bg-white/70 px-1">STAFF_PASSCODE</code> environment variable to
+          require sign-in.
+        </div>
+      )}
       <main id="main-content" className="mx-auto max-w-7xl px-4 py-6 sm:px-6">{children}</main>
     </div>
   );

@@ -11,6 +11,7 @@ import {
 } from "./schema";
 import { seedParticipants } from "./seed";
 import { refreshDerivedFields, withDerivedFields } from "./derive";
+import { mergeRecords, recalledRecords, rememberRecord } from "./session-records";
 import { autoCreateReferral } from "@/lib/referrals/from-participant";
 
 /**
@@ -54,7 +55,8 @@ export async function listParticipants(user: AuthUser): Promise<Participant[]> {
     if (error) throw error;
     return (data ?? []).map((row) => participantSchema.parse(row));
   }
-  return scopeForUser(user, memory).sort((a, b) =>
+  const merged = mergeRecords(memory, await recalledRecords());
+  return scopeForUser(user, merged).sort((a, b) =>
     b.lastUpdated.localeCompare(a.lastUpdated),
   );
 }
@@ -75,7 +77,10 @@ export async function getParticipant(
     const p = participantSchema.parse(data);
     return isGoldenSide(user) || p.org === user.org ? p : null;
   }
-  const found = memory.find((p) => p.id === id) ?? null;
+  const found =
+    memory.find((p) => p.id === id) ??
+    (await recalledRecords()).find((p) => p.id === id) ??
+    null;
   if (!found) return null;
   return isGoldenSide(user) || found.org === user.org ? found : null;
 }
@@ -113,6 +118,7 @@ export async function createParticipant(
     return participantSchema.parse(data);
   }
   memory.unshift(participant);
+  await rememberRecord(participant);
   return participant;
 }
 
@@ -150,8 +156,12 @@ export async function updateParticipant(
     if (error) throw error;
     return participantSchema.parse(data);
   }
+  // The record may only exist in this browser's session records (no database),
+  // in which case there's nothing in `memory` to overwrite — guard the index.
   const idx = memory.findIndex((p) => p.id === id);
-  memory[idx] = next;
+  if (idx >= 0) memory[idx] = next;
+  else memory.unshift(next);
+  await rememberRecord(next);
   return next;
 }
 
@@ -181,6 +191,7 @@ export async function enrollLearner(input: CreateParticipantInput): Promise<Part
     return participantSchema.parse(data);
   }
   memory.unshift(participant);
+  await rememberRecord(participant);
   return participant;
 }
 
@@ -195,8 +206,11 @@ async function findLearnerBy(field: "id" | "email" | "authUserId", value: string
     if (error) throw error;
     return data ? participantSchema.parse(data) : null;
   }
-  const found = memory.find((p) => p[field] === value) ?? null;
-  return found;
+  return (
+    memory.find((p) => p[field] === value) ??
+    (await recalledRecords()).find((p) => p[field] === value) ??
+    null
+  );
 }
 
 export const findLearnerById = (id: string) => findLearnerBy("id", id);
@@ -237,6 +251,7 @@ export async function patchLearner(
   }
   const idx = memory.findIndex((p) => p.id === id);
   if (idx >= 0) memory[idx] = next;
+  await rememberRecord(next);
   return next;
 }
 

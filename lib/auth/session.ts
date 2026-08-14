@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { ROLES, type AuthUser, type Role } from "./roles";
+import { isStaffPasscodeEnabled, readStaffSession } from "./staff-session";
 
 /**
  * Resolve the current user.
@@ -58,7 +59,25 @@ export async function getCurrentUser(): Promise<AuthUser> {
     };
   }
 
-  // ---- Dev fallback ----
+  // ---- No Supabase: passcode session, or the open dev user ----
+  const staff = await readStaffSession();
+  if (staff) {
+    return {
+      id: "staff-session",
+      email: staff.name ? `${staff.name.toLowerCase().replace(/\s+/g, ".")}@benjaminrose.local` : "staff@benjaminrose.local",
+      role: staff.role,
+      org: staff.role === "benjamin-rose" ? staff.org ?? "benjamin-rose" : undefined,
+      name: staff.name ?? undefined,
+    };
+  }
+
+  // A configured passcode means the staff area is gated: no session, no access.
+  // The layout redirects to /staff/signin.
+  if (isStaffPasscodeEnabled()) {
+    throw new Error("Not authenticated");
+  }
+
+  // ---- Dev fallback (no Supabase, no passcode configured) ----
   const cookieStore = await cookies();
   const role = normalizeRole(cookieStore.get("dev_role")?.value);
   const org =
