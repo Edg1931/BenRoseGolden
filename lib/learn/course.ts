@@ -109,3 +109,15 @@ export const DAY_TITLES: Record<string, Localized> = {
     ar: "اليوم الرابع - أساسيات تأمين المنزل وصيانته",
   },
 };
+
+/**
+ * Which CRM curriculum modules each class day covers. Passing a day's test
+ * marks these complete on the learner's record, which is what the HUD
+ * pre-purchase certificate check (and program matching) reads.
+ */
+export const DAY_MODULE_IDS: Record<string, string[]> = {
+  "day-1": ["budgeting", "credit-basics"],
+  "day-2": ["mortgages"],
+  "day-3": ["shopping", "closing"],
+  "day-4": [],
+};

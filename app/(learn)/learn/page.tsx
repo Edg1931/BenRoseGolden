@@ -72,6 +72,12 @@ export default async function LearnHome() {
             🎉 You finished — find your assistance →
           </Link>
         )}
+        <Link
+          href="/learn/profile"
+          className="rounded-md border border-brand-rose px-5 py-3 text-sm font-semibold text-brand-rose hover:bg-brand-blush"
+        >
+          Your profile &amp; certificate
+        </Link>
         <span className="text-sm text-muted-foreground">
           {Object.keys(serverPassed).length} / {COURSE_DAYS.length} classes passed
         </span>

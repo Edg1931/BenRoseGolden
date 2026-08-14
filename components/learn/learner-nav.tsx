@@ -28,6 +28,7 @@ export function LearnerNav({ firstName }: { firstName?: string | null }) {
   return (
     <div className="flex items-center gap-4 text-sm">
       <Link href="/learn" className="text-muted-foreground hover:text-foreground">All classes</Link>
+      <Link href="/learn/profile" className="text-muted-foreground hover:text-foreground">My profile</Link>
       <span className="hidden text-muted-foreground sm:inline">Hi, {firstName}</span>
       <button onClick={signOut} disabled={busy} className="text-muted-foreground hover:text-foreground disabled:opacity-50">
         Sign out

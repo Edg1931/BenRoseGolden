@@ -1,3 +1,4 @@
+import { demoLearners } from "@/lib/learn/demo";
 import type { Participant } from "./schema";
 
 /** Fictional sample participants so the CRM renders before Supabase is wired. */
@@ -333,4 +334,7 @@ export const seedParticipants: Participant[] = [
     dateAdded: "2026-06-18",
     lastUpdated: "2026-06-18",
   },
+  // Sample learners used by the /demo walkthrough, so the same person can be
+  // shown from both sides — their own profile and their counselor's view.
+  ...demoLearners,
 ];

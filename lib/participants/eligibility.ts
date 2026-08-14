@@ -24,6 +24,26 @@ export function matchedPrograms(p: Participant, programs: Program[]): MatchResul
   return matchPrograms(programs, toBuyerProfile(p));
 }
 
+/**
+ * What finishing the course would open up: programs that require homebuyer
+ * education and are otherwise a match, but are still locked because the
+ * certificate isn't earned yet. Returns [] once they've graduated.
+ *
+ * This is the concrete answer to "why should I finish these classes?" — it puts
+ * named programs and dollar amounts behind the last two hours of work.
+ */
+export function programsPendingCertificate(
+  p: Participant,
+  programs: Program[],
+): MatchResult[] {
+  if (hasCompletedPrePurchase(p)) return [];
+  const withCertificate = matchPrograms(programs, {
+    ...toBuyerProfile(p),
+    completedHomebuyerEd: true,
+  });
+  return withCertificate.filter((m) => m.unlockedByCertificate);
+}
+
 /** True once the participant has completed all pre-purchase education modules. */
 export function hasCompletedPrePurchase(p: Participant): boolean {
   const prePurchase = MODULES.filter((m) => m.phase === "pre-purchase").map((m) => m.id);

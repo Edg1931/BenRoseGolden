@@ -15,6 +15,8 @@ import {
   patchLearner,
 } from "@/lib/participants/repository";
 import { participantSchema, type Participant } from "@/lib/participants/schema";
+import { DAY_MODULE_IDS } from "./course";
+import { DEMO_LEARNER_IDS, isDemoLearnerId, type DemoPersona } from "./demo";
 
 /**
  * Learner accounts: the public homebuyer classes are gated behind a profile, so
@@ -243,13 +245,6 @@ export async function updateLearnerProfile(
 }
 
 /** Curriculum modules each course day maps to (mirrors quiz.ts DAY_MODULES). */
-const DAY_MODULE_IDS: Record<string, string[]> = {
-  "day-1": ["budgeting", "credit-basics"],
-  "day-2": ["mortgages"],
-  "day-3": ["shopping", "closing"],
-  "day-4": [],
-};
-
 /**
  * Record a passed day test on the learner's CRM record: marks the day's modules
  * completed (with the score), advances a brand-new lead to "in-progress", and
@@ -297,4 +292,18 @@ export async function recordDayPass(
   const next = applyPatch(learner, patch);
   await setSession(next);
   return next;
+}
+
+/**
+ * Sign in as one of the fabricated demo learners, so the client experience can
+ * be shown live without filling in a sign-up form. Refuses any id that is not
+ * on the demo allowlist — this door can never open a real learner's account.
+ */
+export async function startDemoSession(persona: DemoPersona): Promise<Participant | null> {
+  const id = DEMO_LEARNER_IDS[persona];
+  if (!id || !isDemoLearnerId(id)) return null;
+  const learner = await findLearnerById(id);
+  if (!learner || !isDemoLearnerId(learner.id)) return null;
+  await setSession(learner);
+  return learner;
 }

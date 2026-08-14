@@ -47,6 +47,10 @@ export async function updateSession(request: NextRequest): Promise<NextResponse>
     path === "/welcome" ||
     path.startsWith("/learn") ||
     path.startsWith("/assistance") ||
+    // The presentation walkthrough and its sample-learner door are public; the
+    // staff links it points at still require a staff sign-in.
+    path === "/demo" ||
+    path.startsWith("/api/demo") ||
     path.startsWith("/api/learn") ||
     path.startsWith("/api/cron") ||
     path.startsWith("/api/newsletter") ||
