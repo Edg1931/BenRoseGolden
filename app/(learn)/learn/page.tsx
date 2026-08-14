@@ -5,6 +5,7 @@ import { LearnerProfilePanel } from "@/components/learn/learner-profile-panel";
 import { getCurrentLearner } from "@/lib/learn/accounts";
 import { tryGetCurrentUser } from "@/lib/auth/session";
 import { buildTailoring } from "@/lib/learn/tailoring";
+import { languageSupportNotice } from "@/lib/learn/language-support";
 import { COURSE_DAYS } from "@/lib/learn/course";
 import { matchedPrograms } from "@/lib/participants/eligibility";
 import { loadAllPrograms } from "@/lib/programs/sources";
@@ -28,6 +29,7 @@ export default async function LearnHome() {
   }
 
   const tailoring = buildTailoring(learner);
+  const langNotice = languageSupportNotice(learner.preferredLanguage);
   const programs = await loadAllPrograms();
   const matches = matchedPrograms(learner, programs);
 
@@ -82,6 +84,13 @@ export default async function LearnHome() {
           {Object.keys(serverPassed).length} / {COURSE_DAYS.length} classes passed
         </span>
       </div>
+
+      {langNotice && (
+        <div className="mt-6 rounded-xl border border-brand-rose/30 bg-brand-blush/60 p-5">
+          <h2 className="font-semibold text-brand-plum">{langNotice.heading}</h2>
+          <p className="mt-1 text-sm text-foreground/90">{langNotice.body}</p>
+        </div>
+      )}
 
       {/* Personalized tips from their profile */}
       {tailoring.tips.length > 0 && (

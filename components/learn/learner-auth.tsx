@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { LANGUAGES, LANGUAGE_LABELS, type LanguageCode } from "@/lib/participants/curriculum";
+import { isCourseLanguage, languageSupportNotice } from "@/lib/learn/language-support";
 import { CREDIT_BANDS, CREDIT_BAND_LABELS } from "@/lib/participants/schema";
 import { useLang } from "@/components/i18n/lang-provider";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
@@ -25,6 +26,7 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [preferredLanguage, setPreferredLanguage] = useState<LanguageCode>("en");
+  const langNotice = languageSupportNotice(preferredLanguage);
   const [langTouched, setLangTouched] = useState(false);
 
   // Default the profile language to the funnel language they chose (until they
@@ -132,8 +134,24 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
                     value={preferredLanguage}
                     onChange={(e) => { setLangTouched(true); setPreferredLanguage(e.target.value as LanguageCode); }}
                   >
-                    {LANGUAGES.map((l) => <option key={l} value={l}>{LANGUAGE_LABELS[l]}</option>)}
+                    {/* Group the list so nobody picks a language expecting
+                        translated lessons that don't exist yet. */}
+                    <optgroup label="Classes available online">
+                      {LANGUAGES.filter(isCourseLanguage).map((l) => (
+                        <option key={l} value={l}>{LANGUAGE_LABELS[l]}</option>
+                      ))}
+                    </optgroup>
+                    <optgroup label="Interpreter & printed materials">
+                      {LANGUAGES.filter((l) => !isCourseLanguage(l)).map((l) => (
+                        <option key={l} value={l}>{LANGUAGE_LABELS[l]}</option>
+                      ))}
+                    </optgroup>
                   </select>
+                  {langNotice && (
+                    <span className="mt-1 block rounded-md bg-brand-blush px-2.5 py-2 text-xs text-brand-plum">
+                      {langNotice.body}
+                    </span>
+                  )}
                 </label>
               </div>
 

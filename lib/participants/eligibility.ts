@@ -1,5 +1,6 @@
 import { CREDIT_BAND_ESTIMATE, type Participant } from "./schema";
-import { MODULES, PHASES, type Track } from "./curriculum";
+import { LANGUAGE_LABELS, MODULES, PHASES, type Track } from "./curriculum";
+import { courseLanguageList, isCourseLanguage } from "@/lib/learn/language-support";
 import { matchPrograms, type BuyerProfile, type MatchResult } from "@/lib/programs/matching";
 import { occupationForMatching } from "@/lib/programs/occupations";
 import type { Program } from "@/lib/programs/schema";
@@ -145,8 +146,18 @@ export function recommendations(p: Participant, programs: Program[]): Recommenda
     });
   }
 
-  // Content delivery in their preferred form.
-  if (p.preferredFormats.length > 0 || p.preferredLanguage !== "en") {
+  // Language we record but don't teach online yet — the online course won't
+  // reach this person on its own, so it needs a human arrangement.
+  if (!isCourseLanguage(p.preferredLanguage)) {
+    recs.push({
+      kind: "content",
+      title: `Arrange ${LANGUAGE_LABELS[p.preferredLanguage]}-language support`,
+      detail:
+        `The online classes are only in ${courseLanguageList()}. Book an interpreter, send printed ` +
+        `materials, or invite them to an in-person class — otherwise the course can't reach them.`,
+      priority: "high",
+    });
+  } else if (p.preferredFormats.length > 0 || p.preferredLanguage !== "en") {
     recs.push({
       kind: "content",
       title: "Send content in their preferred format/language",

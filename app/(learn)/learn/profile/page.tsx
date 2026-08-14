@@ -7,6 +7,7 @@ import { matchedPrograms, programsPendingCertificate } from "@/lib/participants/
 import { loadAllPrograms } from "@/lib/programs/sources";
 import { CREDIT_BAND_LABELS } from "@/lib/participants/schema";
 import { TRACK_LABELS } from "@/lib/participants/curriculum";
+import { languageSupportNotice } from "@/lib/learn/language-support";
 import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,7 @@ export default async function LearnerProfilePage() {
   const matches = matchedPrograms(learner, programs);
   const pending = programsPendingCertificate(learner, programs);
 
+  const langNotice = languageSupportNotice(learner.preferredLanguage);
   const fullName = [learner.firstName, learner.lastName].filter(Boolean).join(" ");
   const hours = Math.round((t.minutesCompleted / 60) * 10) / 10;
 
@@ -42,6 +44,13 @@ export default async function LearnerProfilePage() {
         {learner.email && <>{learner.email} · </>}Joined {formatDate(learner.dateAdded)} ·{" "}
         {hours} of 8 education hours complete
       </p>
+
+      {langNotice && (
+        <div className="mt-6 rounded-xl border border-brand-rose/30 bg-brand-blush/60 p-5">
+          <h2 className="font-semibold text-brand-plum">{langNotice.heading}</h2>
+          <p className="mt-1 text-sm text-foreground/90">{langNotice.body}</p>
+        </div>
+      )}
 
       {/* Progress banner */}
       <div className="mt-6 rounded-xl border border-border bg-white p-5">
