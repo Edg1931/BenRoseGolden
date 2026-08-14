@@ -54,6 +54,9 @@ export const campaignSchema = z.object({
   status: z.enum(CAMPAIGN_STATUSES).default("draft"),
   /** Provenance: which model drafted it, if AI-assisted. */
   draftedBy: z.string().optional(),
+  /** Automation dedupe key, e.g. "2026-09:credit-repair" — one issue per
+   *  segment per month, no matter how often the cron fires. */
+  autoKey: z.string().optional(),
   /** Set when the newsletter was actually emailed. */
   sentAt: z.string().optional(),
   /** How many recipients it reached on send. */

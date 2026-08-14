@@ -6,6 +6,9 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ContentLibrary } from "@/components/content/content-library";
 import { MODULE_DAY } from "@/lib/learn/quiz";
+import { NEWSLETTER_SEGMENTS, autoKeyFor, autopilotMode, monthTitle } from "@/lib/content/automation";
+import { AutomationRunButton } from "@/components/content/automation-panel";
+import { isEmailConfigured } from "@/lib/email/mailer";
 import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -17,6 +20,14 @@ export default async function ContentPage() {
   const campaigns = (await listCampaigns()).map((c) => {
     const resolved = resolveAudience(c.audience, participants);
     return { ...c, reach: resolved.total, emailable: resolved.emailable };
+  });
+
+  const now = new Date();
+  const mode = autopilotMode();
+  const segments = NEWSLETTER_SEGMENTS.map((seg) => {
+    const resolved = resolveAudience(seg.audience, participants);
+    const issue = campaigns.find((c) => c.autoKey === autoKeyFor(now, seg));
+    return { seg, emailable: resolved.emailable, total: resolved.total, issue };
   });
 
   return (
@@ -32,6 +43,55 @@ export default async function ContentPage() {
           ✨ Compose with AI
         </Link>
       </div>
+
+      {/* Monthly automation */}
+      <section className="space-y-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          Monthly newsletter automation
+        </h2>
+        <Card className="grid gap-5 p-5 lg:grid-cols-[1fr_18rem]">
+          <div>
+            <p className="text-sm text-foreground/90">
+              On the <strong>1st of every month</strong>, each audience segment gets its own designed
+              issue — segment-matched articles, live assistance data, and current featured partners.
+              Clients are bunched by their <strong>needs tags</strong> (set at sign-up, intake, or on
+              their profile).{" "}
+              {mode === "send" ? (
+                <span className="font-medium text-emerald-700">
+                  Autopilot: issues send automatically{isEmailConfigured() ? "" : " once RESEND_API_KEY is set"}.
+                </span>
+              ) : (
+                <span className="font-medium text-brand-goldink">
+                  Review mode: issues arrive as “ready” for one-click send (set NEWSLETTER_AUTOPILOT=send for full autopilot).
+                </span>
+              )}
+            </p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {segments.map(({ seg, emailable, total, issue }) => (
+                <div key={seg.track} className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm">
+                  <span>
+                    {seg.emoji} <span className="font-medium">{seg.label}</span>
+                    <span className="ml-1.5 text-xs text-muted-foreground">{total} tagged · {emailable} emailable</span>
+                  </span>
+                  {issue ? (
+                    <Link href={`/content/campaigns/${issue.id}`} className="text-xs font-medium text-brand-rose hover:underline">
+                      {issue.status === "sent" ? "✅ sent" : "📝 ready"} →
+                    </Link>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">due {monthTitle(now)}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <AutomationRunButton />
+            <p className="text-xs text-muted-foreground">
+              Safe to press any time — a month&apos;s issue is never generated or sent twice.
+            </p>
+          </div>
+        </Card>
+      </section>
 
       {/* Campaigns */}
       <section className="space-y-3">
