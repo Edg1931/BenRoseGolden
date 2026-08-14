@@ -6,6 +6,7 @@ import { getCurrentLearner } from "@/lib/learn/accounts";
 import { tryGetCurrentUser } from "@/lib/auth/session";
 import { buildTailoring } from "@/lib/learn/tailoring";
 import { languageSupportNotice } from "@/lib/learn/language-support";
+import { upcomingSessions } from "@/lib/learn/schedule";
 import { COURSE_DAYS } from "@/lib/learn/course";
 import { matchedPrograms } from "@/lib/participants/eligibility";
 import { loadAllPrograms } from "@/lib/programs/sources";
@@ -30,6 +31,7 @@ export default async function LearnHome() {
 
   const tailoring = buildTailoring(learner);
   const langNotice = languageSupportNotice(learner.preferredLanguage);
+  const liveSessions = upcomingSessions(new Date(), 2);
   const programs = await loadAllPrograms();
   const matches = matchedPrograms(learner, programs);
 
@@ -143,6 +145,43 @@ export default async function LearnHome() {
               Explore assistance programs →
             </Link>
           </div>
+
+          {/* The same course, live — in person or online */}
+          {liveSessions.length > 0 && (
+            <div className="rounded-xl border border-border bg-white p-5">
+              <h2 className="font-semibold text-brand-plum">Prefer a classroom?</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                The same HUD-approved class is taught live — free, in person or online. Your
+                certificate counts either way.
+              </p>
+              <ul className="mt-3 space-y-2">
+                {liveSessions.map((sess) => (
+                  <li key={sess.date + sess.format} className="rounded-md border border-border px-3 py-2 text-sm">
+                    <div className="font-medium text-foreground">
+                      {new Date(`${sess.date}T12:00:00Z`).toLocaleDateString("en-US", {
+                        weekday: "short",
+                        month: "short",
+                        day: "numeric",
+                        timeZone: "UTC",
+                      })}{" "}
+                      · {sess.time}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {sess.format === "in-person" ? `📍 ${sess.location ?? "In person"}` : "💻 Virtual"} · Free
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={liveSessions[0].registerUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="mt-3 inline-block text-sm font-medium text-brand-rose hover:underline"
+              >
+                Register on benrose.org →
+              </a>
+            </div>
+          )}
 
           <LearnerProfilePanel learner={learner} startOpen={tailoring.needsProfile} />
         </div>

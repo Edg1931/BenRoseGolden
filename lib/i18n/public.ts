@@ -162,6 +162,22 @@ export const PUB: Record<string, L> = {
   a11yTitle: { en: "Learn the way that works for you", es: "Aprende de la manera que mejor te funcione", ar: "تعلّم بالطريقة التي تناسبك" },
   a11yBody: { en: "Everyone deserves housing information they can actually use. We deliver every module in multiple languages and formats — so you can listen, watch, read, or attend in person and pass each step with confidence.", es: "Todos merecen información de vivienda que realmente puedan usar. Entregamos cada módulo en varios idiomas y formatos, para que puedas escuchar, ver, leer o asistir en persona y avanzar con confianza.", ar: "يستحق الجميع معلومات سكنية يمكنهم استخدامها فعلاً. نقدّم كل وحدة بعدة لغات وصيغ - لتستمع أو تشاهد أو تقرأ أو تحضر شخصياً وتتخطّى كل خطوة بثقة." },
   formatsLabel: { en: "Formats", es: "Formatos", ar: "الصيغ" },
+  liveTitle: {
+    en: "Prefer a classroom? Join a live class",
+    es: "¿Prefieres un salón de clases? Asiste a una clase en vivo",
+    ar: "تفضّل الصف الدراسي؟ انضم إلى درس مباشر",
+  },
+  liveBody: {
+    en: "The same free, HUD-approved homebuyer education is taught live — in person at Benjamin Rose or online. Take it whichever way fits your life; the certificate is the same.",
+    es: "La misma educación gratuita para compradores, aprobada por HUD, se imparte en vivo: en persona en Benjamin Rose o en línea. Tómala como mejor se adapte a tu vida; el certificado es el mismo.",
+    ar: "التعليم المجاني نفسه لمشتري المنازل والمعتمد من HUD يُقدَّم مباشرة - حضورياً في Benjamin Rose أو عبر الإنترنت. خذه بالطريقة التي تناسب حياتك؛ الشهادة هي نفسها.",
+  },
+  liveInPerson: { en: "In person", es: "En persona", ar: "حضورياً" },
+  liveVirtual: { en: "Virtual", es: "Virtual", ar: "عن بُعد" },
+  liveFree: { en: "Free", es: "Gratis", ar: "مجاني" },
+  liveRegister: { en: "Register on benrose.org →", es: "Regístrate en benrose.org →", ar: "سجّل عبر benrose.org →" },
+  liveSeeAll: { en: "See all dates & register", es: "Ver todas las fechas y registrarse", ar: "اطّلع على كل المواعيد وسجّل" },
+  liveClassTitle: { en: "Homebuyer Education", es: "Educación para Compradores", ar: "تعليم مشتري المنازل" },
   a11yCardTitle: { en: "Every class includes", es: "Cada clase incluye", ar: "كل درس يشمل" },
   a11yCard1: {
     en: "Lessons you can read or listen to, at your own pace",

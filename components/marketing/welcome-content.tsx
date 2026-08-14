@@ -6,18 +6,36 @@ import { useLang } from "@/components/i18n/lang-provider";
 import { t } from "@/lib/i18n/public";
 
 /** Translated homepage body. Numbers come from the program dataset (server). */
+export interface LiveSession {
+  date: string;
+  time: string;
+  format: "in-person" | "virtual";
+  location?: string;
+  registerUrl: string;
+}
+
 export function WelcomeContent({
   programCount,
   maxAssistance,
   edRequired,
+  sessions = [],
 }: {
   programCount: number;
   maxAssistance: number;
   edRequired: number;
+  sessions?: LiveSession[];
 }) {
   const { lang } = useLang();
   const locale = lang === "es" ? "es-US" : lang === "ar" ? "ar" : "en-US";
   const money = new Intl.NumberFormat(locale, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+  const sessionDate = (iso: string) => {
+    const d = new Date(`${iso}T12:00:00Z`);
+    return {
+      weekday: new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" }).format(d),
+      day: new Intl.DateTimeFormat(locale, { day: "numeric", timeZone: "UTC" }).format(d),
+      month: new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }).format(d),
+    };
+  };
 
   const stats = [
     { value: `${programCount}+`, label: t(lang, "statPrograms") },
@@ -113,6 +131,59 @@ export function WelcomeContent({
           </Link>
         </div>
       </section>
+
+      {/* Live classes — in person or virtual */}
+      {sessions.length > 0 && (
+        <section className="bg-brand-blush/40">
+          <div className="mx-auto max-w-6xl px-6 py-16">
+            <h2 className="text-center font-serif text-3xl font-bold text-brand-plum">{t(lang, "liveTitle")}</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-center text-muted-foreground">{t(lang, "liveBody")}</p>
+            <div className="mx-auto mt-8 grid max-w-3xl gap-4">
+              {sessions.map((sess) => {
+                const d = sessionDate(sess.date);
+                return (
+                  <a
+                    key={sess.date + sess.format}
+                    href={sess.registerUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="flex items-center gap-5 rounded-xl border border-border bg-white p-5 shadow-sm transition hover:border-brand-rose hover:shadow-md"
+                  >
+                    <div className="w-14 shrink-0 text-center">
+                      <div className="text-xs font-semibold uppercase text-muted-foreground">{d.weekday}</div>
+                      <div className="font-serif text-3xl font-bold leading-none text-brand-plum">{d.day}</div>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="font-serif text-xl font-bold text-brand-rose">{t(lang, "liveClassTitle")}</h3>
+                        <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${sess.format === "in-person" ? "bg-brand-gold/15 text-brand-goldink" : "bg-brand-blush text-brand-roseink"}`}>
+                          {sess.format === "in-person" ? `📍 ${t(lang, "liveInPerson")}` : `💻 ${t(lang, "liveVirtual")}`}
+                        </span>
+                        <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">{t(lang, "liveFree")}</span>
+                      </div>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {d.month} · {sess.time}
+                        {sess.location ? ` · ${sess.location}` : ""}
+                      </p>
+                    </div>
+                    <span className="hidden shrink-0 text-sm font-semibold text-brand-rose sm:block">{t(lang, "liveRegister")}</span>
+                  </a>
+                );
+              })}
+            </div>
+            <div className="mt-6 text-center">
+              <a
+                href={sessions[0]?.registerUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-sm font-medium text-brand-rose hover:underline"
+              >
+                {t(lang, "liveSeeAll")}
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Benefits */}
       <section className="bg-white">

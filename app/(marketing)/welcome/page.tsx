@@ -1,6 +1,7 @@
 import seed from "@/data/programs.seed.json";
 import { loadAllPrograms } from "@/lib/programs/sources";
 import { WelcomeContent } from "@/components/marketing/welcome-content";
+import { upcomingSessions } from "@/lib/learn/schedule";
 
 export const metadata = {
   title: "Benjamin Rose Housing — Free help to buy, keep, and afford your home",
@@ -47,6 +48,7 @@ export default async function WelcomePage() {
       programCount={programCount}
       maxAssistance={maxAssistance}
       edRequired={edRequired}
+      sessions={upcomingSessions(new Date())}
     />
   );
 }
