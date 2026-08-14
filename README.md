@@ -96,9 +96,15 @@ that uses Claude with web search to find current Ohio DPA/grant programs.
   vulnerable buyers, so the agent returns *candidates*. Each is diffed against
   the current database (New / Changed / Unchanged) and approved per-item before
   anything is saved.
-- `lib/programs/refresh/agent.ts` — Claude (Opus 4.8) + `web_search`; the model
-  returns a structured list via a `submit_programs` tool, validated with Zod.
+- `lib/programs/refresh/agent.ts` — Claude Opus 5 (`claude-opus-5`, effort
+  `xhigh`) + `web_search` and `web_fetch`: the model finds programs, reads each
+  one's official page, and returns a structured list via a `submit_programs`
+  tool, validated with Zod. Cited domains are classified deterministically and
+  non-official sources carry a visible reviewer warning. If Opus 5's safety
+  classifiers decline a run, the API retries it on Opus 4.8 server-side.
   Set `ANTHROPIC_API_KEY` to enable; the button is disabled without it.
+  `REFRESH_EFFORT` (low–max) is an ops knob — drop to `high` if runs hit the
+  serverless duration limit.
 - `POST /api/programs/refresh` runs the agent and returns diffed candidates.
   `POST /api/programs/apply` persists approved ones (Supabase `programs` table
   when configured, else returns JSON to commit into the seed file).

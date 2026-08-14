@@ -108,7 +108,7 @@ export function RefreshPanel() {
         <div>
           <h2 className="font-semibold">Keep programs up to date with AI</h2>
           <p className="text-sm text-muted-foreground">
-            Claude searches the web for current Ohio DPA &amp; grant programs.
+            Claude searches the web, reads each program's official page, and reports back with confidence labels.
             Results are <strong>candidates for your review</strong> — nothing is
             saved until you approve it.
           </p>
