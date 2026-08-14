@@ -5,6 +5,7 @@ import {
   monthKey,
   monthTitle,
   pendingSegments,
+  selectSegments,
 } from "./automation";
 import { TRACKS } from "@/lib/participants/curriculum";
 
@@ -49,5 +50,12 @@ describe("monthly newsletter automation", () => {
     expect(pendingSegments(SEPT, [])).toHaveLength(4);
     const all = NEWSLETTER_SEGMENTS.map((s) => ({ autoKey: autoKeyFor(SEPT, s) }));
     expect(pendingSegments(SEPT, all)).toHaveLength(0);
+  });
+
+  it("filters a run to the requested segments", () => {
+    expect(selectSegments()).toHaveLength(4);
+    expect(selectSegments([])).toHaveLength(4);
+    expect(selectSegments(["credit-repair"]).map((s) => s.track)).toEqual(["credit-repair"]);
+    expect(selectSegments(["credit-repair", "first-time-buyer"])).toHaveLength(2);
   });
 });

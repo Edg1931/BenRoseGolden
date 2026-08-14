@@ -95,6 +95,26 @@ export function pendingSegments(
 
 export type AutopilotMode = "draft" | "send";
 
+export interface RunOptions {
+  date?: Date;
+  mode?: AutopilotMode;
+  /** Limit the run to these segments (used by the per-segment interactive UI). */
+  tracks?: Track[];
+  /**
+   * "ai" researches fresh articles via web search (the scheduled cron, which
+   * has a long budget and no browser waiting). "curated" uses the trusted
+   * per-topic library instantly — the interactive button uses this so each
+   * request stays comfortably inside serverless time limits.
+   */
+  articleMode?: "ai" | "curated";
+}
+
+/** The segments a run covers, honoring the optional track filter. */
+export function selectSegments(tracks?: Track[]): NewsletterSegment[] {
+  if (!tracks?.length) return NEWSLETTER_SEGMENTS;
+  return NEWSLETTER_SEGMENTS.filter((s) => tracks.includes(s.track));
+}
+
 export function autopilotMode(): AutopilotMode {
   return process.env.NEWSLETTER_AUTOPILOT === "send" ? "send" : "draft";
 }
@@ -122,13 +142,13 @@ export interface AutomationRunResult {
  */
 export async function runMonthlyNewsletters(
   user: AuthUser,
-  opts: { date?: Date; mode?: AutopilotMode } = {},
+  opts: RunOptions = {},
 ): Promise<AutomationRunResult> {
   // Server-only imports live here so the segment metadata above stays
   // importable from client components.
   const { listCampaigns, createCampaign, resolveAudience } = await import("./store");
   const { draftCampaign, toSponsorProfile } = await import("./agent");
-  const { findArticles } = await import("./articles");
+  const { findArticles, curatedArticles } = await import("./articles");
   const { listLenders } = await import("@/lib/lenders/repository");
   const { listParticipants } = await import("@/lib/participants/repository");
   const { dispatchNewsletter } = await import("./dispatch");
@@ -140,7 +160,7 @@ export async function runMonthlyNewsletters(
   const todo = pendingSegments(date, existing);
   const results: SegmentRunResult[] = [];
 
-  for (const s of NEWSLETTER_SEGMENTS) {
+  for (const s of selectSegments(opts.tracks)) {
     const key = autoKeyFor(date, s);
     if (!todo.includes(s)) {
       results.push({ segment: s.label, autoKey: key, status: "skipped-existing" });
@@ -150,7 +170,9 @@ export async function runMonthlyNewsletters(
     try {
       // Segment-matched reading + the current featured/advertising partners.
       const [articles, lenders, participants] = await Promise.all([
-        findArticles(s.topics).catch(() => ({ articles: [], source: "curated" as const })),
+        opts.articleMode === "curated"
+          ? Promise.resolve({ articles: curatedArticles(s.topics), source: "curated" as const })
+          : findArticles(s.topics).catch(() => ({ articles: [], source: "curated" as const })),
         listLenders().catch(() => []),
         listParticipants(user).catch(() => []),
       ]);

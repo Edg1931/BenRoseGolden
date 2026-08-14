@@ -85,7 +85,7 @@ export default async function ContentPage() {
             </div>
           </div>
           <div className="space-y-2">
-            <AutomationRunButton />
+            <AutomationRunButton segments={NEWSLETTER_SEGMENTS.map((s) => ({ track: s.track, label: s.label, emoji: s.emoji }))} />
             <p className="text-xs text-muted-foreground">
               Safe to press any time — a month&apos;s issue is never generated or sent twice.
             </p>
