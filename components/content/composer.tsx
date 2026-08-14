@@ -19,9 +19,23 @@ import {
   type ParticipantStage,
 } from "@/lib/participants/schema";
 import { CAMPAIGN_TYPES, type CampaignType } from "@/lib/content/schema";
+import type { NewsletterDoc } from "@/lib/content/newsletter";
 import type { FeedItem } from "@/lib/content/feed";
 
-export function Composer({ sources = [] }: { sources?: FeedItem[] }) {
+export interface SponsorOption {
+  id: string;
+  name: string;
+  tierLabel: string;
+  featured: boolean;
+}
+
+export function Composer({
+  sources = [],
+  sponsors = [],
+}: {
+  sources?: FeedItem[];
+  sponsors?: SponsorOption[];
+}) {
   const router = useRouter();
   const [type, setType] = useState<CampaignType>("newsletter");
   const [topic, setTopic] = useState("");
@@ -34,6 +48,9 @@ export function Composer({ sources = [] }: { sources?: FeedItem[] }) {
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [source, setSource] = useState<"ai" | "template" | null>(null);
+  const [design, setDesign] = useState<NewsletterDoc | null>(null);
+  const [html, setHtml] = useState<string | null>(null);
+  const [sponsorIds, setSponsorIds] = useState<string[]>([]);
   const [drafting, setDrafting] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -71,6 +88,7 @@ export function Composer({ sources = [] }: { sources?: FeedItem[] }) {
           highlights: highlights.split("\n").map((h) => h.trim()).filter(Boolean),
           instructions: instructions || undefined,
           sources: pickedSources.length ? pickedSources : undefined,
+          sponsorIds: sponsorIds.length ? sponsorIds : undefined,
         }),
       });
       const data = await res.json();
@@ -78,6 +96,8 @@ export function Composer({ sources = [] }: { sources?: FeedItem[] }) {
       setBody(data.bodyMarkdown);
       if (data.subject) setSubject(data.subject);
       setSource(data.source);
+      setDesign(data.design ?? null);
+      setHtml(data.html ?? null);
     } catch (e) {
       setMsg(e instanceof Error ? e.message : "Draft failed");
     } finally {
@@ -100,6 +120,7 @@ export function Composer({ sources = [] }: { sources?: FeedItem[] }) {
           audience: { stages, tracks, language },
           language,
           bodyMarkdown: body,
+          design: design ?? undefined,
           status,
         }),
       });
@@ -171,6 +192,39 @@ export function Composer({ sources = [] }: { sources?: FeedItem[] }) {
           </button>
         </Card>
 
+        {type === "newsletter" && sponsors.length > 0 && (
+          <Card className="space-y-3 p-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold">🤝 Promote partners</h3>
+              {sponsorIds.length > 0 && <Badge variant="gold">{sponsorIds.length} in this issue</Badge>}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Each selected partner gets a clearly-labeled spotlight with their real offers from the
+              lender directory — names and amounts are never invented. A partner disclosure is added
+              to the footer automatically.
+            </p>
+            <ul className="space-y-1.5">
+              {sponsors.map((sp) => {
+                const on = sponsorIds.includes(sp.id);
+                return (
+                  <li key={sp.id}>
+                    <label className={`flex cursor-pointer items-center gap-2 rounded-md border p-2 text-sm ${on ? "border-brand-gold bg-brand-gold/5" : "border-border hover:bg-muted/50"}`}>
+                      <input
+                        type="checkbox"
+                        checked={on}
+                        onChange={() => toggle(sponsorIds, sp.id, setSponsorIds)}
+                        className="accent-brand-gold"
+                      />
+                      <span className="min-w-0 flex-1 font-medium">{sp.name}</span>
+                      <Badge variant={sp.featured ? "gold" : "muted"}>{sp.tierLabel}</Badge>
+                    </label>
+                  </li>
+                );
+              })}
+            </ul>
+          </Card>
+        )}
+
         {sources.length > 0 && (
           <Card className="space-y-3 p-4">
             <div className="flex items-center justify-between">
@@ -226,7 +280,13 @@ export function Composer({ sources = [] }: { sources?: FeedItem[] }) {
           {type === "newsletter" && (
             <input className={input} value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Email subject line" />
           )}
-          <textarea className={`${input} font-mono`} rows={12} value={body} onChange={(e) => setBody(e.target.value)} placeholder="Your content appears here — edit freely. Markdown supported." />
+          <textarea className={`${input} font-mono`} rows={design ? 8 : 12} value={body} onChange={(e) => setBody(e.target.value)} placeholder="Your content appears here — edit freely. Markdown supported." />
+          {design && (
+            <p className="text-xs text-muted-foreground">
+              This issue is a designed email (preview below). The text here is the plain-text
+              version sent alongside it — regenerate to change the design.
+            </p>
+          )}
           {msg && <p className="text-sm text-amber-700">{msg}</p>}
           <div className="flex gap-2">
             <button onClick={() => save("ready")} disabled={saving} className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-white disabled:opacity-60">
@@ -238,12 +298,27 @@ export function Composer({ sources = [] }: { sources?: FeedItem[] }) {
           </div>
         </Card>
 
-        {body && (
+        {html ? (
+          <Card className="overflow-hidden p-0">
+            <div className="flex items-center justify-between border-b border-border px-4 py-2">
+              <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Email preview — exactly what clients receive
+              </span>
+              <Badge variant="rose">designed</Badge>
+            </div>
+            <iframe
+              title="Newsletter preview"
+              srcDoc={html}
+              sandbox=""
+              className="h-[640px] w-full border-0 bg-white"
+            />
+          </Card>
+        ) : body ? (
           <Card className="p-5">
             <div className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">Preview</div>
             <Markdown source={body} />
           </Card>
-        )}
+        ) : null}
       </div>
     </div>
   );

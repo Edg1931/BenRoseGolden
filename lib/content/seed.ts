@@ -1,4 +1,85 @@
 import type { Campaign, ContentItem } from "./schema";
+import type { NewsletterDoc } from "./newsletter";
+
+/**
+ * The seeded welcome issue as a DESIGNED newsletter, so the campaign page and
+ * demo show the branded email — hero, stat graphic, program card, class CTA,
+ * and a labeled partner spotlight — without needing an AI key.
+ */
+const welcomeDesign: NewsletterDoc = {
+  subject: "Your path to a stable home starts here",
+  preheader: "Free classes, real down-payment help, and a team that speaks your language.",
+  sections: [
+    {
+      kind: "hero",
+      kicker: "Welcome to Benjamin Rose Housing",
+      headline: "You're closer to your own keys than you think",
+      intro:
+        "Whether you're buying your first home, rebuilding credit, or protecting the home you have — you don't have to figure it out alone. Here's how we help, free.",
+    },
+    {
+      kind: "stat",
+      value: "$0",
+      label: "What our classes, counseling, and certificate cost you",
+      caption: "Free, HUD-approved, and yours to keep.",
+    },
+    {
+      kind: "article",
+      emoji: "🏠",
+      title: "The one document that unlocks the money",
+      paragraphs: [
+        "Most Ohio down-payment-assistance programs share one requirement: a certificate from a HUD-approved homebuyer education course. Finish our four free classes and that certificate is yours — and with it, programs offering thousands toward your down payment and closing costs.",
+        "The classes are online, self-paced, and in your language. Most people finish in about eight hours.",
+      ],
+      cta: { label: "Start Day 1 free", url: "/learn/start" },
+    },
+    {
+      kind: "checklist",
+      title: "Do these 5 things this month",
+      items: [
+        "Pull your free credit report at annualcreditreport.com and check for errors",
+        "Start a house fund — even $25 a paycheck builds the habit",
+        "Finish Day 1: Money Management & Understanding Credit",
+        "Add your income and county to your profile for assistance matching",
+        "Ask your counselor which programs your certificate will unlock",
+      ],
+    },
+    {
+      kind: "program",
+      name: "OHFA Your Choice! Down Payment Assistance",
+      provider: "Ohio Housing Finance Agency",
+      amount: "2.5% or 5% of purchase price",
+      blurb:
+        "One of the programs your class certificate unlocks. Your counselor can check your eligibility in minutes.",
+      url: "/assistance",
+    },
+    {
+      kind: "classCta",
+      title: "Four free classes. One certificate. Real money.",
+      body: "Finish our HUD-approved course — about 8 hours, online, at your pace — and earn the certificate that assistance programs across Ohio ask for.",
+      buttonLabel: "Take the free classes",
+      url: "/learn/start",
+    },
+    {
+      kind: "sponsor",
+      institutionName: "Third Federal Savings & Loan",
+      contactName: "Dana Whitfield",
+      tierLabel: "Featured partner",
+      blurb:
+        "A Golden Group partner lender helping our graduates put their certificates to work.",
+      offers: [
+        { name: "Home Today Program", amount: "Below-market fixed rate" },
+        { name: "Down-Payment Assistance Grant", amount: "Up to $10,000" },
+      ],
+      website: "https://www.thirdfederal.com",
+    },
+    {
+      kind: "quote",
+      text: "I thought owning a home was for other people. The classes broke it into steps, and the steps were doable.",
+      attribution: "A recent Benjamin Rose graduate",
+    },
+  ],
+};
 
 /** Sample multi-format / multi-language learning assets tied to modules. */
 export const seedContent: ContentItem[] = [
@@ -26,6 +107,7 @@ export const seedCampaigns: Campaign[] = [
     audience: { stages: ["lead", "enrolled"] },
     language: "en",
     bodyMarkdown: "# Welcome!\n\nThank you for your interest in Benjamin Rose's housing programs. Each month we'll share tips, class schedules, and the assistance you may qualify for.\n\n- Free HUD-approved homebuyer education\n- Foreclosure-prevention counseling\n- Credit-building coaching\n\nReply anytime — we're here to help.",
+    design: welcomeDesign,
     status: "ready",
     createdAt: "2026-05-01",
     updatedAt: "2026-05-01",

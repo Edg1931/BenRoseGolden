@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { newsletterDocSchema } from "./newsletter";
 import { CONTENT_FORMATS, LANGUAGES, TRACKS } from "@/lib/participants/curriculum";
 import { PARTICIPANT_STAGES } from "@/lib/participants/schema";
 
@@ -48,6 +49,8 @@ export const campaignSchema = z.object({
   audience: audienceSchema.default({}),
   language: z.enum(LANGUAGES).default("en"),
   bodyMarkdown: z.string().default(""),
+  /** Designed newsletter document — when present, it is what renders & sends. */
+  design: newsletterDocSchema.optional(),
   status: z.enum(CAMPAIGN_STATUSES).default("draft"),
   /** Provenance: which model drafted it, if AI-assisted. */
   draftedBy: z.string().optional(),

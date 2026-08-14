@@ -5,6 +5,7 @@ import { getCampaign, resolveAudience, updateCampaign } from "@/lib/content/stor
 import { recordSends } from "@/lib/content/sends";
 import { listParticipants, updateParticipant } from "@/lib/participants/repository";
 import { isEmailConfigured, markdownToBasicHtml, sendEmail } from "@/lib/email/mailer";
+import { renderNewsletterHtml, renderNewsletterText } from "@/lib/content/newsletter";
 import type { Communication, Participant } from "@/lib/participants/schema";
 
 /**
@@ -57,7 +58,14 @@ export async function POST(
     }
 
     const subject = campaign.subject ?? campaign.title;
-    const html = markdownToBasicHtml(campaign.bodyMarkdown);
+    // Designed newsletters send the branded email; legacy campaigns fall back
+    // to basic markdown HTML. Both carry a plain-text alternative.
+    const html = campaign.design
+      ? renderNewsletterHtml(campaign.design, { siteUrl: process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL })
+      : markdownToBasicHtml(campaign.bodyMarkdown);
+    const text = campaign.design
+      ? renderNewsletterText(campaign.design)
+      : campaign.bodyMarkdown;
     const sentDate = new Date().toISOString().slice(0, 10);
 
     const logEntries: Parameters<typeof recordSends>[0] = [];
@@ -65,7 +73,7 @@ export async function POST(
 
     for (const p of recipients) {
       try {
-        await sendEmail({ to: p.email!, subject, text: campaign.bodyMarkdown, html });
+        await sendEmail({ to: p.email!, subject, text, html });
         logEntries.push({ campaignId: campaign.id, participantId: p.id, email: p.email!, status: "sent" });
         emailedParticipants.push(p);
       } catch (e) {

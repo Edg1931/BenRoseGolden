@@ -7,6 +7,7 @@ import { LANGUAGE_LABELS } from "@/lib/participants/curriculum";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Markdown } from "@/components/content/markdown";
+import { renderNewsletterHtml } from "@/lib/content/newsletter";
 import { SendCampaign } from "@/components/content/send-campaign";
 import { formatDate } from "@/lib/utils";
 
@@ -36,12 +37,26 @@ export default async function CampaignDetailPage({ params }: { params: Promise<{
 
       <div className="grid gap-5 lg:grid-cols-3">
         {/* The actual rendered newsletter/flyer */}
-        <Card className="lg:col-span-2 p-6">
-          <div className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Preview</div>
-          <div className="rounded-lg border border-border bg-white p-6">
-            <Markdown source={campaign.bodyMarkdown || "_No content yet._"} />
-          </div>
-        </Card>
+        {campaign.design ? (
+          <Card className="overflow-hidden p-0 lg:col-span-2">
+            <div className="border-b border-border px-4 py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Email preview — exactly what clients receive
+            </div>
+            <iframe
+              title="Newsletter preview"
+              srcDoc={renderNewsletterHtml(campaign.design)}
+              sandbox=""
+              className="h-[760px] w-full border-0 bg-white"
+            />
+          </Card>
+        ) : (
+          <Card className="lg:col-span-2 p-6">
+            <div className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Preview</div>
+            <div className="rounded-lg border border-border bg-white p-6">
+              <Markdown source={campaign.bodyMarkdown || "_No content yet._"} />
+            </div>
+          </Card>
+        )}
 
         <div className="space-y-4">
           <Card className="space-y-2 p-4">
