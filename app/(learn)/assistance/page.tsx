@@ -1,4 +1,5 @@
 import { AssistanceFinder } from "@/components/learn/assistance-finder";
+import { AmiVintageNote } from "@/components/programs/ami-vintage-note";
 import { AssistanceIntro } from "@/components/learn/assistance-intro";
 import { LangProvider } from "@/components/i18n/lang-provider";
 import { amiSupportedCounties } from "@/lib/programs/ami";
@@ -28,6 +29,9 @@ export default async function AssistancePage() {
           newestVerified={freshness.newestVerified ? formatDate(freshness.newestVerified) : undefined}
         />
         <AssistanceFinder counties={counties} />
+        <div className="mt-6">
+          <AmiVintageNote />
+        </div>
       </LangProvider>
     </main>
   );

@@ -70,7 +70,7 @@ export default async function PartnershipPage() {
             const isBR = step.owner === "benjamin-rose";
             return (
               <div key={step.key} className="flex items-center gap-3">
-                <div className="w-48 shrink-0 text-sm">{step.label}</div>
+                <div className="w-24 shrink-0 text-xs sm:w-48 sm:text-sm">{step.label}</div>
                 <div className="flex-1">
                   {/* Full-opacity fills: the tinted versions put the count label
                       below the AA contrast threshold. Gold carries dark text. */}
@@ -78,7 +78,7 @@ export default async function PartnershipPage() {
                     <span className={`text-sm font-semibold ${isBR ? "text-white" : "text-foreground"}`}>{step.count}</span>
                   </div>
                 </div>
-                <div className="w-28 shrink-0 text-right text-xs text-muted-foreground">
+                <div className="w-16 shrink-0 text-right text-[11px] text-muted-foreground sm:w-28 sm:text-xs">
                   {step.fromPrev != null && <span title="conversion from previous step">{formatPct(step.fromPrev)} of prev</span>}
                 </div>
               </div>
@@ -121,7 +121,7 @@ export default async function PartnershipPage() {
             <div className="space-y-2">
               {obstacles.map((o) => (
                 <div key={o.key} className="flex items-center gap-3">
-                  <div className="w-52 shrink-0 text-sm">{o.label}</div>
+                  <div className="w-28 shrink-0 text-xs sm:w-52 sm:text-sm">{o.label}</div>
                   <div className="flex-1">
                     <div className="h-6 rounded bg-brand-plum/70" style={{ width: `${Math.round((o.count / maxObstacle) * 100)}%`, minWidth: "1.5rem" }} />
                   </div>
@@ -183,7 +183,10 @@ export default async function PartnershipPage() {
 function GivebackTable({ title, firstCol, groups, showCommission }: { title: string; firstCol: string; groups: GivebackGroup[]; showCommission?: boolean }) {
   const totalBr = groups.reduce((s, g) => s + g.brContribution, 0);
   return (
-    <Card className="p-5">
+    // min-w-0: grid items default to min-width:auto, which would size this card
+    // to the table's min-content width and push the whole page sideways on a
+    // phone instead of letting the inner overflow-x-auto scroll.
+    <Card className="min-w-0 p-5">
       <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{title}</h2>
       {groups.length === 0 ? (
         <p className="text-sm text-muted-foreground">No closed deals yet.</p>

@@ -65,6 +65,8 @@ export const PUB: Record<string, L> = {
   // ── Marketing header / footer ─────────────────────────────────────────────
   navResources: { en: "Resources", es: "Recursos", ar: "موارد" },
   navTakeClasses: { en: "Take the classes", es: "Tomar las clases", ar: "ابدأ الدروس" },
+  // Short form so the header fits a 360px phone without overflowing the page.
+  navClassesShort: { en: "Classes", es: "Clases", ar: "الدروس" },
   navStaff: { en: "Staff sign in →", es: "Acceso del personal →", ar: "دخول الموظفين →" },
   footerBlurb: {
     en: "A nonprofit helping Ohioans reach and keep stable housing — serving the community since 1908.",

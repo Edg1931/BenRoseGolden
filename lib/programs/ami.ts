@@ -14,6 +14,28 @@
 
 const AMI_DATA_YEAR = "FY2024 (approximate — verify at huduser.gov)";
 
+/** The federal fiscal year the stored AMI figures come from. */
+export const AMI_FISCAL_YEAR = 2024;
+export const AMI_SOURCE_URL = "https://www.huduser.gov/portal/datasets/il.html";
+
+/**
+ * HUD republishes income limits every year. Ours are a point-in-time snapshot,
+ * so anything more than a year behind the current fiscal year should be treated
+ * as an estimate and re-checked before it decides a family's eligibility.
+ *
+ * `now` is injected so this is testable and never depends on a hidden clock.
+ */
+export function amiDataAge(now: Date): { yearsBehind: number; stale: boolean; label: string } {
+  // The federal fiscal year starts in October.
+  const fy = now.getUTCFullYear() + (now.getUTCMonth() >= 9 ? 1 : 0);
+  const yearsBehind = Math.max(0, fy - AMI_FISCAL_YEAR);
+  return {
+    yearsBehind,
+    stale: yearsBehind >= 1,
+    label: `HUD FY${AMI_FISCAL_YEAR} income limits`,
+  };
+}
+
 /** HUD family-size adjustment factors relative to a 4-person household. */
 const SIZE_FACTOR: Record<number, number> = {
   1: 0.7,

@@ -8,6 +8,7 @@ import { isGoldenSide } from "@/lib/auth/roles";
 import { RefreshPanel } from "@/components/programs/refresh-panel";
 import { AssistanceFinder } from "@/components/learn/assistance-finder";
 import { amiSupportedCounties } from "@/lib/programs/ami";
+import { AmiVintageNote } from "@/components/programs/ami-vintage-note";
 import { datasetFreshness, isStale, STALE_AFTER_DAYS } from "@/lib/programs/freshness";
 import { latestPendingRun } from "@/lib/programs/refresh/store";
 import { formatDate } from "@/lib/utils";
@@ -52,6 +53,8 @@ export default async function DpaFinderPage() {
           <span className="text-xs text-muted-foreground">Run “Refresh with AI” below to review &amp; approve.</span>
         </Card>
       )}
+
+      <AmiVintageNote />
 
       {/* Run a client's scenario with the same questionnaire clients use */}
       <details className="rounded-lg border border-border bg-background shadow-sm print:rounded-none print:border-0 print:shadow-none">
