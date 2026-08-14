@@ -95,6 +95,22 @@ export const sponsorSectionSchema = z.object({
   website: z.string().optional(),
 });
 
+/** Curated outside reading — real articles a human or the finder selected. */
+export const readsSectionSchema = z.object({
+  kind: z.literal("reads"),
+  title: z.string(),
+  items: z
+    .array(
+      z.object({
+        title: z.string(),
+        source: z.string(),
+        url: z.string(),
+        note: z.string().optional(),
+      }),
+    )
+    .min(1),
+});
+
 export const quoteSectionSchema = z.object({
   kind: z.literal("quote"),
   text: z.string(),
@@ -109,6 +125,7 @@ export const newsletterSectionSchema = z.discriminatedUnion("kind", [
   programSectionSchema,
   classCtaSectionSchema,
   sponsorSectionSchema,
+  readsSectionSchema,
   quoteSectionSchema,
 ]);
 export type NewsletterSection = z.infer<typeof newsletterSectionSchema>;
@@ -229,6 +246,22 @@ function renderSection(s: NewsletterSection): string {
         "10px 32px",
       );
 
+    case "reads":
+      return pad(
+        `<h2 style="margin:0 0 14px;font-family:${SERIF};font-size:20px;color:${BRAND.plum}">${esc(s.title)}</h2>
+         ${s.items
+           .map(
+             (item) =>
+               `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px"><tr>
+                  <td style="border:1px solid ${BRAND.line};border-radius:8px;padding:12px 14px">
+                    <p style="margin:0 0 3px"><a href="${esc(item.url)}" style="font-family:${FONT};font-size:15px;font-weight:700;color:${BRAND.rose};text-decoration:none">${esc(item.title)} →</a></p>
+                    <p style="margin:0;font-family:${FONT};font-size:12px;color:${BRAND.inkSoft}"><span style="display:inline-block;background:${BRAND.blush};color:${BRAND.plum};font-weight:700;border-radius:99px;padding:1px 8px;margin-right:6px">${esc(item.source)}</span>${item.note ? esc(item.note) : ""}</p>
+                  </td>
+                </tr></table>`,
+           )
+           .join("")}`,
+      );
+
     case "quote":
       return pad(
         `<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
@@ -323,7 +356,23 @@ export function renderNewsletterText(doc: NewsletterDoc): string {
         lines.push("", `${s.tierLabel.toUpperCase()}: ${s.institutionName}`, s.blurb);
         for (const o of s.offers) lines.push(`  🏷 ${o.name}${o.amount ? ` — ${o.amount}` : ""}`);
         break;
-      case "quote":
+      case "reads":
+      return pad(
+        `<h2 style="margin:0 0 14px;font-family:${SERIF};font-size:20px;color:${BRAND.plum}">${esc(s.title)}</h2>
+         ${s.items
+           .map(
+             (item) =>
+               `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px"><tr>
+                  <td style="border:1px solid ${BRAND.line};border-radius:8px;padding:12px 14px">
+                    <p style="margin:0 0 3px"><a href="${esc(item.url)}" style="font-family:${FONT};font-size:15px;font-weight:700;color:${BRAND.rose};text-decoration:none">${esc(item.title)} →</a></p>
+                    <p style="margin:0;font-family:${FONT};font-size:12px;color:${BRAND.inkSoft}"><span style="display:inline-block;background:${BRAND.blush};color:${BRAND.plum};font-weight:700;border-radius:99px;padding:1px 8px;margin-right:6px">${esc(item.source)}</span>${item.note ? esc(item.note) : ""}</p>
+                  </td>
+                </tr></table>`,
+           )
+           .join("")}`,
+      );
+
+    case "quote":
         lines.push("", `“${s.text}” — ${s.attribution}`);
         break;
     }

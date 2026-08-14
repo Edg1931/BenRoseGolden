@@ -8,6 +8,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Markdown } from "@/components/content/markdown";
 import { renderNewsletterHtml } from "@/lib/content/newsletter";
+import { deriveSocialCards } from "@/lib/content/social";
+import { SocialKit } from "@/components/content/social-kit";
 import { SendCampaign } from "@/components/content/send-campaign";
 import { formatDate } from "@/lib/utils";
 
@@ -21,6 +23,7 @@ export default async function CampaignDetailPage({ params }: { params: Promise<{
 
   const participants = await listParticipants(user);
   const audience = resolveAudience(campaign.audience, participants);
+  const socialCards = campaign.design ? deriveSocialCards(campaign.design) : [];
 
   return (
     <div className="space-y-5">
@@ -92,6 +95,8 @@ export default async function CampaignDetailPage({ params }: { params: Promise<{
           </Link>
         </div>
       </div>
+
+      {socialCards.length > 0 && <SocialKit cards={socialCards} campaignTitle={campaign.title} />}
     </div>
   );
 }

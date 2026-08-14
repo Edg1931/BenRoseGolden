@@ -146,6 +146,7 @@ You compose a DESIGNED issue by calling submit_newsletter with structured sectio
 - When the brief includes assistance programs, include one "program" section using a program's REAL name/provider/amount from the brief. Point its url at /assistance.
 - Always include a "classCta" pointing at /learn/start inviting them to the free classes (mention the certificate unlocking down-payment assistance).
 - For each partner in the brief, include one "sponsor" section: write a warm 1-2 sentence blurb; copy institutionName, contactName, tierLabel, website, and offers VERBATIM from the brief — never invent or alter an offer or amount.
+- When the brief lists RECENT ARTICLES, include one "reads" section (title like "Worth your time this month") listing 3–5 of them — copy each title/source/url VERBATIM from the brief and add a one-line note on why it's worth reading. Never list an article that is not in the brief.
 - Optionally end with a "quote" (an encouraging, realistic composite — attribute it like "A recent Benjamin Rose graduate", never a named real person).
 
 Hard rules: every number and program fact must come from the brief — never invent amounts, rates, or eligibility. Links must be site-relative (/learn/start, /assistance) or partner websites from the brief. Write the subject line to be opened (concrete benefit, no clickbait, no ALL CAPS), plus a preheader that adds new information.`;
@@ -163,7 +164,7 @@ const newsletterTool: Anthropic.Beta.BetaTool = {
         items: {
           type: "object",
           description:
-            "One section. kind ∈ hero|article|stat|checklist|program|classCta|sponsor|quote; include the fields for that kind: hero{kicker?,headline,intro}, article{emoji?,title,paragraphs[],cta{label,url}?}, stat{value,label,caption?}, checklist{title,items[]}, program{name,provider,amount,blurb,url?}, classCta{title,body,buttonLabel,url}, sponsor{institutionName,contactName?,tierLabel,blurb,offers[{name,amount?}],website?}, quote{text,attribution}.",
+            "One section. kind ∈ hero|article|stat|checklist|program|classCta|sponsor|quote; include the fields for that kind: hero{kicker?,headline,intro}, article{emoji?,title,paragraphs[],cta{label,url}?}, stat{value,label,caption?}, checklist{title,items[]}, program{name,provider,amount,blurb,url?}, classCta{title,body,buttonLabel,url}, sponsor{institutionName,contactName?,tierLabel,blurb,offers[{name,amount?}],website?}, reads{title,items[{title,source,url,note?}]}, quote{text,attribution}.",
           properties: { kind: { type: "string" } },
           required: ["kind"],
           additionalProperties: true,
@@ -209,7 +210,7 @@ async function aiNewsletter(
           .join("\n")
       : "",
     req.sources?.length
-      ? `\nRECENT ARTICLES (link inline where a topic fits, as an article cta):\n` +
+      ? `\nRECENT ARTICLES (use in a "reads" section, and/or link inline where a topic fits):\n` +
         req.sources.map((s) => `  - ${s.title} (${s.url})${s.excerpt ? ` — ${s.excerpt}` : ""}`).join("\n")
       : "",
     `\nCompose the issue now and call submit_newsletter once.`,
@@ -448,6 +449,19 @@ function assembleNewsletter(req: DraftRequest, brief: SiteBrief): NewsletterDoc 
       }.`,
       offers: s.offers.slice(0, 3).map((o) => ({ name: o.name, amount: o.amount })),
       website: s.website,
+    });
+  }
+
+  if (req.sources?.length) {
+    sections.push({
+      kind: "reads",
+      title: "Worth your time this month",
+      items: req.sources.slice(0, 5).map((src) => ({
+        title: src.title,
+        source: src.source,
+        url: src.url,
+        note: src.excerpt,
+      })),
     });
   }
 

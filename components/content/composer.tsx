@@ -20,6 +20,11 @@ import {
 } from "@/lib/participants/schema";
 import { CAMPAIGN_TYPES, type CampaignType } from "@/lib/content/schema";
 import type { NewsletterDoc } from "@/lib/content/newsletter";
+import {
+  ARTICLE_TOPICS,
+  ARTICLE_TOPIC_LABELS,
+  type ArticleTopic,
+} from "@/lib/content/article-topics";
 import type { FeedItem } from "@/lib/content/feed";
 
 export interface SponsorOption {
@@ -51,6 +56,10 @@ export function Composer({
   const [design, setDesign] = useState<NewsletterDoc | null>(null);
   const [html, setHtml] = useState<string | null>(null);
   const [sponsorIds, setSponsorIds] = useState<string[]>([]);
+  const [topics, setTopics] = useState<ArticleTopic[]>([]);
+  const [found, setFound] = useState<FeedItem[]>([]);
+  const [finding, setFinding] = useState(false);
+  const [findNote, setFindNote] = useState<string | null>(null);
   const [drafting, setDrafting] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -59,7 +68,39 @@ export function Composer({
     set(list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
   }
 
-  const pickedSources = sources.filter((s) => picked.includes(s.url));
+  const allSources = [
+    ...found,
+    ...sources.filter((s) => !found.some((f) => f.url === s.url)),
+  ];
+  const pickedSources = allSources.filter((s) => picked.includes(s.url));
+
+  async function findFresh() {
+    setFinding(true);
+    setFindNote(null);
+    try {
+      const res = await fetch("/api/content/articles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topics }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Article search failed");
+      setFound(data.articles ?? []);
+      // Pre-check fresh finds so one click carries them into the draft.
+      setPicked((prev) => [
+        ...new Set([...prev, ...(data.articles ?? []).map((a: FeedItem) => a.url)]),
+      ]);
+      setFindNote(
+        data.source === "ai"
+          ? `Found ${data.articles.length} current articles with AI web search.`
+          : `Loaded ${data.articles.length} trusted resources (set ANTHROPIC_API_KEY for live search).`,
+      );
+    } catch (e) {
+      setFindNote(e instanceof Error ? e.message : "Article search failed");
+    } finally {
+      setFinding(false);
+    }
+  }
 
   /** Append the chosen Benjamin Rose links to the draft as a Markdown section. */
   function insertLinks() {
@@ -225,18 +266,37 @@ export function Composer({
           </Card>
         )}
 
-        {sources.length > 0 && (
+        {(sources.length > 0 || true) && (
           <Card className="space-y-3 p-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold">📰 Pull from Benjamin Rose</h3>
+              <h3 className="text-sm font-semibold">📰 Articles &amp; reading</h3>
               {picked.length > 0 && <Badge variant="muted">{picked.length} selected</Badge>}
             </div>
             <p className="text-xs text-muted-foreground">
-              Pick recent articles and resources to feature. Selected items are woven into the AI
-              draft, or insert them as links with one click.
+              Selected items become a “Worth your time” section in the issue (and the AI can link
+              them inline). Find fresh articles by topic, or use the trusted library below.
             </p>
+            <div className="flex flex-wrap gap-1">
+              {ARTICLE_TOPICS.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => toggle(topics, t, setTopics)}
+                  className={`rounded-full px-2 py-1 text-xs ring-1 ${topics.includes(t) ? "bg-brand-rose/10 text-brand-rose ring-brand-rose/30" : "ring-border text-muted-foreground"}`}
+                >
+                  {ARTICLE_TOPIC_LABELS[t]}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={findFresh}
+              disabled={finding}
+              className="w-full rounded-md border border-brand-rose px-4 py-2 text-sm font-medium text-brand-rose hover:bg-brand-blush disabled:opacity-60"
+            >
+              {finding ? "Searching…" : "🔎 Find fresh articles"}
+            </button>
+            {findNote && <p className="text-xs text-muted-foreground">{findNote}</p>}
             <ul className="space-y-2">
-              {sources.map((s) => {
+              {allSources.map((s) => {
                 const on = picked.includes(s.url);
                 return (
                   <li key={s.url}>
