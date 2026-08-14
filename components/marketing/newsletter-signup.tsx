@@ -15,7 +15,6 @@ export function NewsletterSignup() {
   const [email, setEmail] = useState("");
   const [language, setLanguage] = useState<LanguageCode>("en");
   const [interest, setInterest] = useState("general");
-  const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -30,29 +29,24 @@ export function NewsletterSignup() {
         body: JSON.stringify({ firstName, email, language, interest }),
       });
       if (!res.ok) throw new Error((await res.json()).error ?? "Something went wrong");
-      setDone(true);
+      // Signing up is the start of their profile, not the end of a mailing-list
+      // form — carry what they just told us into account creation, where the
+      // only thing left to add is a password. (Stay `busy` through navigation.)
+      const params = new URLSearchParams({ from: "welcome", firstName, email });
+      if (language) params.set("language", language);
+      if (interest && interest !== "general") params.set("track", interest);
+      window.location.assign(`/learn/start?${params.toString()}`);
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Something went wrong");
-    } finally {
       setBusy(false);
     }
-  }
-
-  if (done) {
-    return (
-      <div className="rounded-xl bg-white/10 p-6 text-center backdrop-blur">
-        <div className="text-3xl">🎉</div>
-        <p className="mt-2 font-semibold">You're on the list, {firstName}!</p>
-        <p className="text-sm text-white/80">We'll send housing tips, class schedules, and assistance you may qualify for.</p>
-      </div>
-    );
   }
 
   const field = "w-full rounded-md border border-white/30 bg-white/10 px-3 py-2 text-sm text-white placeholder-white/60 focus:border-white focus:outline-none";
 
   return (
     <form onSubmit={submit} className="space-y-3 rounded-xl bg-white/10 p-6 backdrop-blur">
-      <p className="font-semibold">Get free housing help in your inbox</p>
+      <p className="font-semibold">Sign up once — free classes, your certificate, and housing help in your inbox</p>
       <label className="block">
         <span className="sr-only">First name</span>
         <input className={field} placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
@@ -75,7 +69,7 @@ export function NewsletterSignup() {
       </label>
       {err && <p className="text-sm text-amber-200">{err}</p>}
       <button disabled={busy} className="w-full rounded-md bg-brand-gold px-4 py-2.5 font-semibold text-foreground disabled:opacity-60">
-        {busy ? "Signing up…" : "Sign me up — it's free"}
+        {busy ? "Setting up your classes…" : "Sign me up — it's free"}
       </button>
       <p className="text-center text-xs text-white/80">Benjamin Rose is a nonprofit. No spam, ever.</p>
     </form>

@@ -21,6 +21,13 @@ export const PUB: Record<string, L> = {
     es: "Inicia sesión para continuar tus clases donde las dejaste.",
     ar: "سجّل الدخول لمتابعة دروسك من حيث توقّفت.",
   },
+  // Shown when the welcome-page sign-up hands someone here with their details
+  // already filled in — one password away from their classes.
+  almostThere: {
+    en: "You're on the list! One more step: choose a password and you'll land in your classes — with your progress, certificate, and assistance matches tracked.",
+    es: "¡Ya estás en la lista! Un paso más: elige una contraseña y entrarás a tus clases, con tu progreso, certificado y ayudas registrados.",
+    ar: "أنت على القائمة! خطوة واحدة بعد: اختر كلمة مرور وستدخل إلى دروسك — مع متابعة تقدّمك وشهادتك والمساعدات المتاحة لك.",
+  },
   firstName: { en: "First name", es: "Nombre", ar: "الاسم الأول" },
   lastName: { en: "Last name", es: "Apellido", ar: "اسم العائلة" },
   email: { en: "Email", es: "Correo electrónico", ar: "البريد الإلكتروني" },

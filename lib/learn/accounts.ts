@@ -144,6 +144,10 @@ export async function signUpLearner(input: LearnerSignupInput): Promise<Particip
     tracks: input.tracks ?? [],
   };
 
+  // The welcome-page "Sign me up" box captures a CRM lead with this email
+  // BEFORE the person reaches account creation. A lead with no credentials is
+  // not an account — adopt it (attach the login, enrich the profile) rather
+  // than telling the person who just signed up that they already exist.
   if (isSupabaseConfigured()) {
     const supabase = await getSupabaseServerClient();
     const { data, error } = await supabase!.auth.signUp({
@@ -151,16 +155,21 @@ export async function signUpLearner(input: LearnerSignupInput): Promise<Particip
       password: input.password,
     });
     if (error) throw new LearnerAuthError(error.message);
-    const learner = await enrollLearner({ ...profile, authUserId: data.user?.id });
+    const lead = await findLearnerByEmail(email);
+    const learner =
+      lead && !lead.authUserId
+        ? await patchLearner(lead.id, { ...profile, authUserId: data.user?.id })
+        : await enrollLearner({ ...profile, authUserId: data.user?.id });
     await setSession(learner);
     return learner;
   }
 
   // Dev / in-memory
-  if (credentials.has(email) || (await findLearnerByEmail(email))) {
+  if (credentials.has(email)) {
     throw new LearnerAuthError("An account with this email already exists. Try signing in.");
   }
-  const learner = await enrollLearner(profile);
+  const lead = await findLearnerByEmail(email);
+  const learner = lead ? await patchLearner(lead.id, profile) : await enrollLearner(profile);
   credentials.set(email, { participantId: learner.id, hash: hashPassword(input.password) });
   await setSession(learner);
   return learner;

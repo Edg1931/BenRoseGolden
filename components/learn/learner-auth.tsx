@@ -2,12 +2,20 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { LANGUAGES, LANGUAGE_LABELS, type LanguageCode } from "@/lib/participants/curriculum";
+import { LANGUAGES, LANGUAGE_LABELS, type LanguageCode, type Track } from "@/lib/participants/curriculum";
 import { isCourseLanguage, languageSupportNotice } from "@/lib/learn/language-support";
 import { CREDIT_BANDS, CREDIT_BAND_LABELS } from "@/lib/participants/schema";
 import { useLang } from "@/components/i18n/lang-provider";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { t } from "@/lib/i18n/public";
+
+/** Details carried over from the welcome-page sign-up box. */
+export interface SignupPrefill {
+  firstName?: string;
+  email?: string;
+  preferredLanguage?: LanguageCode;
+  track?: Track;
+}
 
 /**
  * Learner sign-up / sign-in. Creating a profile is how someone enters the
@@ -15,19 +23,34 @@ import { t } from "@/lib/i18n/public";
  * that drives assistance matching are all tracked. Trilingual (EN/ES/AR) with a
  * language switcher, so the front door speaks the visitor's language. Financial
  * fields are optional so we capture data without losing anyone.
+ *
+ * With `prefill` (arriving from the welcome-page "Sign me up"), their details
+ * are already filled in: the form opens on the password field, says so, and
+ * their stated interest is saved as a track on the profile.
  */
-export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signin"; next?: string }) {
+export function LearnerAuth({
+  mode,
+  next = "/learn",
+  prefill,
+}: {
+  mode: "signup" | "signin";
+  next?: string;
+  prefill?: SignupPrefill;
+}) {
   const { lang } = useLang();
   const isSignup = mode === "signup";
 
-  const [firstName, setFirstName] = useState("");
+  const [firstName, setFirstName] = useState(prefill?.firstName ?? "");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(prefill?.email ?? "");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [preferredLanguage, setPreferredLanguage] = useState<LanguageCode>("en");
+  const [preferredLanguage, setPreferredLanguage] = useState<LanguageCode>(
+    prefill?.preferredLanguage ?? "en",
+  );
   const langNotice = languageSupportNotice(preferredLanguage);
-  const [langTouched, setLangTouched] = useState(false);
+  // A prefilled language is an explicit choice — don't let the funnel override it.
+  const [langTouched, setLangTouched] = useState(Boolean(prefill?.preferredLanguage));
 
   // Default the profile language to the funnel language they chose (until they
   // explicitly pick a different one).
@@ -35,7 +58,8 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
     if (!langTouched) setPreferredLanguage(lang as LanguageCode);
   }, [lang, langTouched]);
 
-  const [showMatch, setShowMatch] = useState(false);
+  // They came to enter income & see what they qualify for — open that section.
+  const [showMatch, setShowMatch] = useState(Boolean(prefill));
   const [city, setCity] = useState("");
   const [county, setCounty] = useState("");
   const [householdSize, setHouseholdSize] = useState("");
@@ -56,6 +80,7 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
         ? {
             firstName, lastName, email, password, phone, preferredLanguage,
             city, county, householdSize, annualIncome, creditBand, firstTimeBuyer,
+            tracks: prefill?.track ? [prefill.track] : [],
           }
         : { email, password };
       const res = await fetch(url, {
@@ -89,6 +114,12 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
           {isSignup ? t(lang, "authSignupSub") : t(lang, "authSigninSub")}
         </p>
 
+        {isSignup && prefill && (
+          <p className="mt-3 rounded-md border border-brand-gold/40 bg-brand-gold/10 px-3 py-2 text-sm text-brand-plum">
+            🎉 {t(lang, "almostThere")}
+          </p>
+        )}
+
         <form onSubmit={submit} className="mt-5 space-y-4">
           {isSignup && (
             <div className="grid gap-3 sm:grid-cols-2">
@@ -116,6 +147,7 @@ export function LearnerAuth({ mode, next = "/learn" }: { mode: "signup" | "signi
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={isSignup ? 8 : undefined}
+              autoFocus={isSignup && Boolean(prefill?.email)}
             />
             {isSignup && <span className="mt-1 block text-xs text-muted-foreground">{t(lang, "passwordHint")}</span>}
           </label>
