@@ -20,9 +20,9 @@ export function WelcomeContent({
   const money = new Intl.NumberFormat(locale, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
   const stats = [
-    { value: `${programCount}`, label: t(lang, "statPrograms") },
+    { value: `${programCount}+`, label: t(lang, "statPrograms") },
     { value: money.format(maxAssistance), label: t(lang, "statHelp") },
-    { value: `${edRequired} / ${programCount}`, label: t(lang, "statEdRequired") },
+    { value: `${edRequired}`, label: t(lang, "statEdRequired") },
     { value: "1908", label: t(lang, "stat1908") },
   ];
   const steps = [
@@ -165,12 +165,12 @@ export function WelcomeContent({
               </div>
             </div>
             <div className="rounded-2xl bg-gradient-to-br from-brand-blush to-brand-gold/10 p-8">
-              <h3 className="font-serif text-xl font-bold text-brand-plum">{t(lang, "a11yTitle")}</h3>
+              <h3 className="font-serif text-xl font-bold text-brand-plum">{t(lang, "a11yCardTitle")}</h3>
               <ul className="mt-4 space-y-3 text-sm text-brand-plum/90">
-                <li className="flex gap-2"><span aria-hidden>🌐</span><span>{t(lang, "heroChip1")}</span></li>
-                <li className="flex gap-2"><span aria-hidden>⏱️</span><span>{t(lang, "step1Title")}</span></li>
-                <li className="flex gap-2"><span aria-hidden>🤖</span><span>{t(lang, "benefit3Title")}</span></li>
-                <li className="flex gap-2"><span aria-hidden>🎓</span><span>{t(lang, "step2Title")}</span></li>
+                <li className="flex gap-2"><span aria-hidden>🎧</span><span>{t(lang, "a11yCard1")}</span></li>
+                <li className="flex gap-2"><span aria-hidden>💬</span><span>{t(lang, "a11yCard2")}</span></li>
+                <li className="flex gap-2"><span aria-hidden>📝</span><span>{t(lang, "a11yCard3")}</span></li>
+                <li className="flex gap-2"><span aria-hidden>🎓</span><span>{t(lang, "a11yCard4")}</span></li>
               </ul>
             </div>
           </div>

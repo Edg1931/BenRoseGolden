@@ -111,10 +111,26 @@ export const PUB: Record<string, L> = {
   heroChip2: { en: "✓ Unlock down-payment help", es: "✓ Desbloquea ayuda inicial", ar: "✓ افتح المساعدة في الدفعة" },
   heroChip3: { en: "✓ One-on-one counseling", es: "✓ Asesoría personalizada", ar: "✓ استشارة فردية" },
 
-  statPrograms: { en: "Ohio assistance programs we track for you", es: "Programas de ayuda de Ohio que seguimos para ti", ar: "برامج مساعدة في أوهايو نتابعها لك" },
-  statHelp: { en: "in down-payment help available", es: "en ayuda para el pago inicial disponible", ar: "متاحة كمساعدة في الدفعة الأولى" },
-  statEdRequired: { en: "programs require homebuyer education — our classes are the key", es: "programas requieren educación para compradores: nuestras clases son la clave", ar: "برامج تتطلب تعليم مشتري المنازل - دروسنا هي المفتاح" },
-  stat1908: { en: "serving the community ever since", es: "sirviendo a la comunidad desde entonces", ar: "نخدم المجتمع منذ ذلك الحين" },
+  statPrograms: {
+    en: "Ohio assistance programs tracked and verified — and growing",
+    es: "programas de ayuda de Ohio verificados y en seguimiento — y creciendo",
+    ar: "برنامج مساعدة في أوهايو نتابعه ونتحقق منه - والعدد في ازدياد",
+  },
+  statHelp: {
+    en: "in down-payment help from a single program alone",
+    es: "en ayuda para el pago inicial de un solo programa",
+    ar: "كمساعدة في الدفعة الأولى من برنامج واحد فقط",
+  },
+  statEdRequired: {
+    en: "programs open up with the certificate our free classes give you",
+    es: "programas se abren con el certificado que te dan nuestras clases gratis",
+    ar: "برنامجاً يُفتح بالشهادة التي تمنحك إياها دروسنا المجانية",
+  },
+  stat1908: {
+    en: "the year Benjamin Rose was founded — serving Cleveland families ever since",
+    es: "el año en que se fundó Benjamin Rose — sirviendo a las familias de Cleveland desde entonces",
+    ar: "عام تأسيس Benjamin Rose - نخدم عائلات كليفلاند منذ ذلك الحين",
+  },
 
   stepsTitle: { en: "Your path to the front door", es: "Tu camino hacia la puerta de tu casa", ar: "طريقك إلى باب منزلك" },
   step1Title: { en: "Take the free classes", es: "Toma las clases gratis", ar: "خذ الدروس المجانية" },
@@ -146,6 +162,27 @@ export const PUB: Record<string, L> = {
   a11yTitle: { en: "Learn the way that works for you", es: "Aprende de la manera que mejor te funcione", ar: "تعلّم بالطريقة التي تناسبك" },
   a11yBody: { en: "Everyone deserves housing information they can actually use. We deliver every module in multiple languages and formats — so you can listen, watch, read, or attend in person and pass each step with confidence.", es: "Todos merecen información de vivienda que realmente puedan usar. Entregamos cada módulo en varios idiomas y formatos, para que puedas escuchar, ver, leer o asistir en persona y avanzar con confianza.", ar: "يستحق الجميع معلومات سكنية يمكنهم استخدامها فعلاً. نقدّم كل وحدة بعدة لغات وصيغ - لتستمع أو تشاهد أو تقرأ أو تحضر شخصياً وتتخطّى كل خطوة بثقة." },
   formatsLabel: { en: "Formats", es: "Formatos", ar: "الصيغ" },
+  a11yCardTitle: { en: "Every class includes", es: "Cada clase incluye", ar: "كل درس يشمل" },
+  a11yCard1: {
+    en: "Lessons you can read or listen to, at your own pace",
+    es: "Lecciones para leer o escuchar, a tu propio ritmo",
+    ar: "دروس يمكنك قراءتها أو الاستماع إليها وفق وتيرتك",
+  },
+  a11yCard2: {
+    en: "A coach that answers your questions in plain language",
+    es: "Un coach que responde tus preguntas en lenguaje sencillo",
+    ar: "مدرّب يجيب عن أسئلتك بلغة بسيطة",
+  },
+  a11yCard3: {
+    en: "A practice test before anything counts",
+    es: "Una prueba de práctica antes de que algo cuente",
+    ar: "اختبار تجريبي قبل أن يُحتسب أي شيء",
+  },
+  a11yCard4: {
+    en: "A certificate that assistance programs recognize",
+    es: "Un certificado que los programas de ayuda reconocen",
+    ar: "شهادة تعترف بها برامج المساعدة",
+  },
   languagesLabel: { en: "Languages", es: "Idiomas", ar: "اللغات" },
 
   ctaTitle: { en: "Ready to take the first step?", es: "¿Listo para dar el primer paso?", ar: "مستعد لاتخاذ الخطوة الأولى؟" },
