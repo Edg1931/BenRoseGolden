@@ -9,6 +9,7 @@ import { useLang } from "@/components/i18n/lang-provider";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { t, fillPub } from "@/lib/i18n/public";
 import type { LearnLang } from "@/lib/learn/content";
+import { OCCUPATION_OPTIONS } from "@/lib/programs/occupations";
 
 interface MatchRow {
   id: string;
@@ -46,7 +47,6 @@ const CREDIT_BANDS: { key: "fCreditUnsure" | "fCreditRebuild" | "fCreditFair" | 
   { key: "fCreditStrong", value: 720 },
 ];
 
-const OCCUPATIONS = ["", "Teacher / educator", "Police officer", "Firefighter / EMT", "Healthcare worker", "Veteran / active military", "Other"];
 
 /**
  * Public, self-serve down-payment-assistance finder: a short questionnaire,
@@ -208,7 +208,7 @@ export function AssistanceFinder({ counties, staff = false }: { counties: string
           <label className="block">
             <span className="text-sm font-medium">{t(lang, "fOccQ")}</span>
             <select value={answers.occupation} onChange={(e) => set("occupation", e.target.value)} className="mt-1 w-full rounded-md border border-input bg-white px-3 py-2.5 text-sm">
-              {OCCUPATIONS.map((o) => (
+              {OCCUPATION_OPTIONS.map((o) => (
                 <option key={o} value={o}>{o || t(lang, "fOccNone")}</option>
               ))}
             </select>

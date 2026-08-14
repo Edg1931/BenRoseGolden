@@ -21,12 +21,20 @@ export default async function ContactsPage() {
             Benjamin Rose program participants — progress, eligibility, and communications.
           </p>
         </div>
-        <Link
-          href="/contacts/import"
-          className="rounded-md bg-foreground px-3 py-2 text-sm font-medium text-white"
-        >
-          Mass import
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href="/contacts/new"
+            className="rounded-md bg-brand-rose px-3 py-2 text-sm font-medium text-white"
+          >
+            + Add client
+          </Link>
+          <Link
+            href="/contacts/import"
+            className="rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-muted"
+          >
+            Mass import
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">

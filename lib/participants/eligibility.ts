@@ -1,16 +1,8 @@
-import type { Participant } from "./schema";
+import { CREDIT_BAND_ESTIMATE, type Participant } from "./schema";
 import { MODULES, PHASES, type Track } from "./curriculum";
 import { matchPrograms, type BuyerProfile, type MatchResult } from "@/lib/programs/matching";
+import { occupationForMatching } from "@/lib/programs/occupations";
 import type { Program } from "@/lib/programs/schema";
-
-const CREDIT_BAND_ESTIMATE: Record<string, number> = {
-  unknown: 0,
-  "below-580": 560,
-  "580-639": 610,
-  "640-699": 670,
-  "700-749": 725,
-  "750-plus": 770,
-};
 
 /** Translate a participant into the DPA matching engine's buyer profile. */
 export function toBuyerProfile(p: Participant): BuyerProfile {
@@ -20,7 +12,7 @@ export function toBuyerProfile(p: Participant): BuyerProfile {
     firstTimeBuyer: p.household.firstTimeBuyer ?? p.tracks.includes("first-time-buyer"),
     householdSize: p.household.size ?? 1,
     householdIncome: p.household.annualIncome ?? 0,
-    occupation: undefined,
+    occupation: occupationForMatching(p.household.occupation, p.household.veteran),
     estimatedCredit: CREDIT_BAND_ESTIMATE[p.household.creditBand] || 0,
     completedHomebuyerEd: hasCompletedPrePurchase(p),
     targetPurchasePrice: p.household.targetPurchasePrice,

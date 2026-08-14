@@ -146,6 +146,14 @@ export default async function ProfilePage({
             <Row label="% of AMI" value={p.household.amiPercent ? `${p.household.amiPercent}%` : "—"} />
             <Row label="Credit" value={CREDIT_BAND_LABELS[p.household.creditBand]} />
             <Row label="First-time buyer" value={p.household.firstTimeBuyer == null ? "—" : p.household.firstTimeBuyer ? "Yes" : "No"} />
+            {p.household.occupation && <Row label="Occupation" value={p.household.occupation} />}
+            {p.household.veteran && <Row label="Veteran" value="Yes" />}
+            {p.household.savingsAvailable != null && (
+              <Row label="Savings" value={`$${p.household.savingsAvailable.toLocaleString()}`} />
+            )}
+            {p.household.monthlyDebt != null && (
+              <Row label="Monthly debt" value={`$${p.household.monthlyDebt.toLocaleString()}`} />
+            )}
             {p.tracks.length > 0 && (
               <div className="pt-1">
                 <div className="text-xs text-muted-foreground">Needs</div>

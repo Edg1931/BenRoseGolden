@@ -10,6 +10,7 @@ import {
   type UpdateParticipantInput,
 } from "./schema";
 import { seedParticipants } from "./seed";
+import { refreshDerivedFields, withDerivedFields } from "./derive";
 import { autoCreateReferral } from "@/lib/referrals/from-participant";
 
 /**
@@ -82,13 +83,15 @@ export async function getParticipant(
 function buildParticipant(input: CreateParticipantInput): Participant {
   const parsed = createParticipantSchema.parse(input);
   const now = new Date().toISOString();
-  return participantSchema.parse({
-    ...parsed,
-    id: randomUUID(),
-    dateAdded: parsed.dateAdded ?? now,
-    stageSince: parsed.stageSince ?? parsed.dateAdded ?? now,
-    lastUpdated: now,
-  });
+  return withDerivedFields(
+    participantSchema.parse({
+      ...parsed,
+      id: randomUUID(),
+      dateAdded: parsed.dateAdded ?? now,
+      stageSince: parsed.stageSince ?? parsed.dateAdded ?? now,
+      lastUpdated: now,
+    }),
+  );
 }
 
 export async function createParticipant(
@@ -133,6 +136,7 @@ export async function updateParticipant(
     stageSince: stageChanged ? now : existing.stageSince ?? existing.dateAdded,
     lastUpdated: now,
   });
+  next = refreshDerivedFields(next, patch.household != null && patch.household.amiPercent == null);
   next = await withAutoReferral(next, now);
 
   const supabase = await getSupabaseServerClient();
@@ -218,6 +222,7 @@ export async function patchLearner(
     stageSince: existing.stageSince ?? existing.dateAdded,
     lastUpdated: now,
   });
+  next = refreshDerivedFields(next, patch.household != null && patch.household.amiPercent == null);
   next = await withAutoReferral(next, now);
   const supabase = await getSupabaseServerClient();
   if (supabase) {

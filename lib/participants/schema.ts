@@ -41,6 +41,19 @@ export const CREDIT_BAND_LABELS: Record<CreditBand, string> = {
   "750-plus": "750+",
 };
 
+/**
+ * Mid-point score used when a program publishes a numeric credit minimum but we
+ * only hold a band. Deliberately conservative: the band's midpoint, not its top.
+ */
+export const CREDIT_BAND_ESTIMATE: Record<CreditBand, number> = {
+  unknown: 0,
+  "below-580": 560,
+  "580-639": 610,
+  "640-699": 670,
+  "700-749": 725,
+  "750-plus": 770,
+};
+
 export const MODULE_STATUS = ["not-started", "in-progress", "completed"] as const;
 export type ModuleStatus = (typeof MODULE_STATUS)[number];
 
@@ -86,10 +99,19 @@ export const addressSchema = z.object({
 export const householdSchema = z.object({
   size: z.number().int().min(1).max(20).optional(),
   annualIncome: z.number().nonnegative().optional(),
+  /** Derived from county + size + income when not supplied (see ./derive). */
   amiPercent: z.number().min(0).max(300).optional(),
   creditBand: z.enum(CREDIT_BANDS).default("unknown"),
   firstTimeBuyer: z.boolean().optional(),
   targetPurchasePrice: z.number().nonnegative().optional(),
+  /** Drives occupation-restricted programs (teacher/first-responder carve-outs). */
+  occupation: z.string().max(80).optional(),
+  /** Tracked separately from occupation so veteran-only programs match too. */
+  veteran: z.boolean().optional(),
+  /** Cash the household has toward down payment + closing, for gap analysis. */
+  savingsAvailable: z.number().nonnegative().optional(),
+  /** Total monthly debt payments — needed to sanity-check what they can carry. */
+  monthlyDebt: z.number().nonnegative().optional(),
 });
 export type Household = z.infer<typeof householdSchema>;
 

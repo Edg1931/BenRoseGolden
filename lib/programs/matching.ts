@@ -1,6 +1,7 @@
 import type { Program } from "./schema";
 import { ASSISTANCE_TYPE_LABELS } from "./schema";
 import { amiIncomeLimit, parseAmiPercent } from "./ami";
+import { occupationMatches } from "./occupations";
 
 /** Title-case a county name for display in reasons/caveats. */
 function titleCase(s: string): string {
@@ -162,13 +163,7 @@ export function evaluateProgram(
   // Occupation restriction.
   const restriction = occupationRestriction(program);
   if (restriction) {
-    const occ = buyer.occupation?.toLowerCase().trim();
-    const matched =
-      !!occ &&
-      restriction.some((r) => {
-        const t = r.toLowerCase();
-        return t.includes(occ) || occ.includes(t.split(/[ ,;]/)[0]);
-      });
+    const matched = occupationMatches(buyer.occupation, restriction);
     if (matched) {
       reasons.push(`your occupation (${buyer.occupation}) qualifies`);
       score += 2;

@@ -100,6 +100,25 @@ export function amiIncomeLimit(
   return Math.round(cap / 50) * 50;
 }
 
+/**
+ * The inverse of {@link amiIncomeLimit}: where a household's income falls as a
+ * percent of area median, given their county and size. Returns null when the
+ * county isn't in the table. Used to fill in a participant's `% of AMI` so staff
+ * never have to compute it by hand and program matching has it on file.
+ */
+export function amiPercentForIncome(
+  county: string,
+  householdSize: number,
+  annualIncome: number,
+): number | null {
+  const mfi = COUNTY_MFI_4PERSON[normalizeCounty(county)];
+  if (mfi == null) return null;
+  const size = Math.max(1, Math.round(householdSize) || 1);
+  const median = mfi * sizeFactor(size);
+  if (median <= 0) return null;
+  return Math.round((annualIncome / median) * 100);
+}
+
 /** Extract an AMI percent from a textual income limit like "80% AMI". */
 export function parseAmiPercent(incomeLimit: unknown): number | null {
   if (typeof incomeLimit !== "string") return null;

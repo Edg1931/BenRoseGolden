@@ -22,6 +22,7 @@ import {
   type Communication,
   type Participant,
 } from "@/lib/participants/schema";
+import { OCCUPATION_OPTIONS } from "@/lib/programs/occupations";
 import type { RankedContent } from "@/lib/content/delivery";
 
 async function patch(id: string, body: unknown) {
@@ -187,6 +188,10 @@ function EditForm({ p, onClose }: { p: Participant; onClose: () => void }) {
   const [creditBand, setCreditBand] = useState(p.household.creditBand);
   const [fthb, setFthb] = useState<string>(p.household.firstTimeBuyer == null ? "" : String(p.household.firstTimeBuyer));
   const [price, setPrice] = useState(p.household.targetPurchasePrice?.toString() ?? "");
+  const [savings, setSavings] = useState(p.household.savingsAvailable?.toString() ?? "");
+  const [monthlyDebt, setMonthlyDebt] = useState(p.household.monthlyDebt?.toString() ?? "");
+  const [occupation, setOccupation] = useState(p.household.occupation ?? "");
+  const [veteran, setVeteran] = useState(p.household.veteran ?? false);
   const [tags, setTags] = useState(p.tags.join(", "));
   const [notes, setNotes] = useState(p.notes ?? "");
 
@@ -217,6 +222,10 @@ function EditForm({ p, onClose }: { p: Participant; onClose: () => void }) {
           creditBand,
           firstTimeBuyer: fthb === "" ? undefined : fthb === "true",
           targetPurchasePrice: num(price),
+          savingsAvailable: num(savings),
+          monthlyDebt: num(monthlyDebt),
+          occupation: occupation || undefined,
+          veteran: veteran || undefined,
         },
         tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
         notes: notes || undefined,
@@ -254,7 +263,7 @@ function EditForm({ p, onClose }: { p: Participant; onClose: () => void }) {
         <div><div className={label}>ZIP</div><input className={input} value={zip} onChange={(e) => setZip(e.target.value)} /></div>
         <div><div className={label}>Household size</div><input className={input} value={size} onChange={(e) => setSize(e.target.value)} /></div>
         <div><div className={label}>Annual income</div><input className={input} value={income} onChange={(e) => setIncome(e.target.value)} /></div>
-        <div><div className={label}>% of AMI</div><input className={input} value={ami} onChange={(e) => setAmi(e.target.value)} /></div>
+        <div><div className={label}>% of AMI <span className="font-normal">(blank = auto)</span></div><input className={input} placeholder="auto" value={ami} onChange={(e) => setAmi(e.target.value)} /></div>
         <div><div className={label}>Credit band</div>
           <select className={input} value={creditBand} onChange={(e) => setCreditBand(e.target.value as typeof creditBand)}>
             {CREDIT_BANDS.map((c) => <option key={c} value={c}>{CREDIT_BAND_LABELS[c]}</option>)}
@@ -266,6 +275,17 @@ function EditForm({ p, onClose }: { p: Participant; onClose: () => void }) {
           </select>
         </div>
         <div><div className={label}>Target price</div><input className={input} value={price} onChange={(e) => setPrice(e.target.value)} /></div>
+        <div><div className={label}>Savings available</div><input className={input} value={savings} onChange={(e) => setSavings(e.target.value)} /></div>
+        <div><div className={label}>Monthly debt</div><input className={input} value={monthlyDebt} onChange={(e) => setMonthlyDebt(e.target.value)} /></div>
+        <div><div className={label}>Occupation</div>
+          <select className={input} value={occupation} onChange={(e) => setOccupation(e.target.value)}>
+            {OCCUPATION_OPTIONS.map((o) => <option key={o} value={o}>{o || "—"}</option>)}
+          </select>
+        </div>
+        <label className="flex items-end gap-2 pb-1.5 text-sm">
+          <input type="checkbox" checked={veteran} onChange={(e) => setVeteran(e.target.checked)} />
+          Veteran / military
+        </label>
       </div>
 
       <div>
